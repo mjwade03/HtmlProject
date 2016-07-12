@@ -11,7 +11,7 @@ var alreadyGotAirPollutantJson = false;
 var alreadyGotAirPollutantSiteJson = false;
 var AirPollutantArray;
 var AirPollutantSiteArray;
-
+var geocoder = null;
 
 function load() {
 
@@ -43,6 +43,7 @@ function load() {
                 getAddress();
             }
         });
+        geocoder = new GClientGeocoder();
     }
 }
 
@@ -547,5 +548,41 @@ function GetWeatherDataByCountyName(countyName) {
             GetWeatherData(jsonCity.results.table[i].city.id);
             break;
         }
+    }
+}
+//輸入地址取得位置，顯示地圖與資訊
+function ShowAddress(){
+    var address = document.getElementById('inAddr').value;
+    if (geocoder) {
+    geocoder.getLatLng(
+        address,
+        function(point) {
+            if (!point) {
+                alert(address + " not found");
+            } else {
+                myMap = new GMap2(document.getElementById("my_map"));
+                myMap.setCenter(point, 15);
+                myMap.addControl(new GLargeMapControl());
+                document.getElementById('inLatLng').value = point.toString();
+                //設定標註座標
+                var currentLng = point.lng();
+                var currentLat = point.lat();
+                getWeatherStatus(currentLng, currentLat);
+                myMarker = new GMarker(point);
+                myMap.addOverlay(myMarker);
+                
+                GEvent.addListener(myMap, "click", function (overlay, point) {
+                    if (point) {
+                        //設定標註座標
+                        var currentLng = point.lng();
+                        var currentLat = point.lat();
+                        myMarker.setLatLng(point);
+                        document.getElementById('inLatLng').value = point.toString();
+                        getWeatherStatus(currentLng, currentLat);
+                    }
+                });
+                }
+            }
+        );
     }
 }
