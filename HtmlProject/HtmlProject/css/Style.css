@@ -1,3 +1,8 @@
-﻿body
-{
+﻿table.dataTable,
+table.dataTable tr,
+table.dataTable td {
+  border: 1px solid black;
+  text-align: center;
+  border-collapse: collapse;
 }
+
