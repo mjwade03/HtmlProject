@@ -15,12 +15,10 @@ var geocoder = null;
 
 function load() {
 
-    GetWeatherData("KaohsiungCityList");
     loadUVJsonpData();
     loadUVSitenData();
     loadAirPollutantJsonData();
     loadAirPollutantSiteJsonData();
-
 
 
     if (GBrowserIsCompatible()) {
@@ -29,7 +27,7 @@ function load() {
         myMap.setCenter(myLatLng, 15);
         myMap.addControl(new GLargeMapControl());
         document.getElementById('inLatLng').value = myLatLng.toString();
-
+        
         myMarker = new GMarker(myLatLng);
         myMap.addOverlay(myMarker);
         GEvent.addListener(myMap, "click", function (overlay, point) {
@@ -49,6 +47,7 @@ function load() {
 
 function getWeatherStatus(currentLng, currentLat)
 {
+    
     if (UVArray.length == 0 || UVSiteArray.length == 0 || AirPollutantArray.length == 0 || AirPollutantSiteArray.length == 0) {
         alert("Weather data not ready");
     }
@@ -60,11 +59,18 @@ function getWeatherStatus(currentLng, currentLat)
         var minUVSiteDistance = 999999999;
         for (var i = 0; i < UVSiteArray.length; i++)
         {
+           
             var distance = Math.abs(UVSiteArray[i].TWD97Lon - currentLng) + Math.abs(UVSiteArray[i].TWD97Lat - currentLat);
             if (distance < minUVSiteDistance)
             {
                 minUVSiteDistance = distance;
                 targetUVSiteName = UVSiteArray[i].SiteName;
+            }
+        }
+        for (var i = 0; i < UVArray.length; i++) {
+            if (UVArray[i].SiteName == targetUVSiteName) {
+                setCurrentUVInfoTable(UVArray[i]);
+                break;
             }
         }
 
@@ -77,8 +83,12 @@ function getWeatherStatus(currentLng, currentLat)
                 targetAirPollutantSiteName = AirPollutantSiteArray[i].SiteName;
             }
         }
-
-        alert(targetUVSiteName + " and " + targetAirPollutantSiteName);
+        for (var i = 0; i < AirPollutantArray.length; i++) {
+            if (AirPollutantArray[i].SiteName == targetAirPollutantSiteName) {
+                setCurrentAirPollutantInfoTable(AirPollutantArray[i]);
+                break;
+            }
+        }
     }
 }
 
@@ -110,7 +120,6 @@ function loadJsonpData(targetUrl) {
                     updateAirPollutantData();
                     break;
             }
-
         }
     });
 }
@@ -158,19 +167,8 @@ function updateUVData() {
             select.appendChild(option);
 
         }
-        setCurrentUVInfoTable(UVArray[0]);
-        //var num = document.getElementById("uvTable").rows.length;
-        //alert(UVArray.length + ", " + UVSiteArray.length + ", " + num);
-        //if (num > 1)
-        //{
-        //    for(var i=1; i<num; i++)
-        //    {
-        //        alert("Delete row: " + i);
-        //        document.geElementById("uvTable").deleteRow(1);
-        //    }
-        //}
-        //alert("Delete finish");
-
+       // setCurrentUVInfoTable(UVArray[0]);
+        getWeatherStatus(121.51715755462646 * 1, 25.04763902653048 * 1);
         alreadyGotUVJson = false;
         alreadyGotUVSiteJson = false;
     }
@@ -219,7 +217,6 @@ function onSelectUVSiteChange() {
             setCurrentUVInfoTable(UVArray[i]);
             break;
         }
-
     }
 }
 
@@ -289,21 +286,9 @@ function updateAirPollutantData() {
             select.appendChild(option);
 
         }
-
-        setCurrentAirPollutantInfoTable(AirPollutantArray[0]);
-
-        //var num = document.getElementById("uvTable").rows.length;
-        //alert(UVArray.length + ", " + UVSiteArray.length + ", " + num);
-        //if (num > 1)
-        //{
-        //    for(var i=1; i<num; i++)
-        //    {
-        //        alert("Delete row: " + i);
-        //        document.geElementById("uvTable").deleteRow(1);
-        //    }
-        //}
-        //alert("Delete finish");
-
+        getWeatherStatus(121.51715755462646 * 1, 25.04763902653048 * 1);
+       // setCurrentAirPollutantInfoTable(AirPollutantArray[0]);
+        
         alreadyGotAirPollutantJson = false;
         alreadyGotAirPollutantSiteJson = false;
     }
@@ -346,11 +331,9 @@ function onSelectAirPollutantSiteChange() {
     var select;
     for (var i = 0; i < AirPollutantArray.length; i++) {
         if (AirPollutantArray[i].SiteName == siteName) {
-            setCurrentAirPollutantInfoTable(AirPollutantArray[i]);
-            
+            setCurrentAirPollutantInfoTable(AirPollutantArray[i]);            
             break;
         }
-
     }
 }
 
@@ -507,7 +490,6 @@ var jsonCity = {
 
 /*透過YQL取得氣象資料*/
 function GetWeatherData(cityId) {
-
     var BasicQueryUrl = 'http://query.yahooapis.com/v1/public/yql?'
     var query = 'q=' +
         encodeURIComponent('select * from html where ' +
@@ -522,6 +504,7 @@ function GetWeatherData(cityId) {
         $.each(data.query.results.tr.td, function (i, val) {
             if (val.a.content != undefined) {
                 var name = '';
+                //alert(val.a.content);
                 switch (i) {
                     case 0:
                         name = "縣市";
@@ -550,6 +533,7 @@ function GetWeatherDataByCountyName(countyName) {
         }
     }
 }
+
 //輸入地址取得位置，顯示地圖與資訊
 function ShowAddress(){
     var address = document.getElementById('inAddr').value;
