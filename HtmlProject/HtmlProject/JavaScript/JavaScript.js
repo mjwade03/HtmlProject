@@ -13,14 +13,15 @@ var AirPollutantArray;
 var AirPollutantSiteArray;
 var geocoder = null;
 
+var myMap;
+var myMarker;
+
 function load() {
 
-    GetWeatherData("KaohsiungCityList");
     loadUVJsonpData();
     loadUVSitenData();
     loadAirPollutantJsonData();
     loadAirPollutantSiteJsonData();
-
 
 
     if (GBrowserIsCompatible()) {
@@ -28,7 +29,8 @@ function load() {
         var myLatLng = new GLatLng(25.04763902653048, 121.51715755462646);
         myMap.setCenter(myLatLng, 15);
         myMap.addControl(new GLargeMapControl());
-        document.getElementById('inLatLng').value = myLatLng.toString();
+        //document.getElementById('inLatLng').value = myLatLng.toString();
+        document.getElementById('inLatLng').innerHTML = "經緯度: " + myLatLng.toString();
 
         myMarker = new GMarker(myLatLng);
         myMap.addOverlay(myMarker);
@@ -38,33 +40,39 @@ function load() {
                 var currentLng = point.lng();
                 var currentLat = point.lat();
                 myMarker.setLatLng(point);
-                document.getElementById('inLatLng').value = point.toString();
+                //document.getElementById('inLatLng').value = point.toString();
+                document.getElementById('inLatLng').innerHTML = "經緯度: " + point.toString();
                 getWeatherStatus(currentLng, currentLat);
-                getAddress();
+
             }
         });
         geocoder = new GClientGeocoder();
     }
 }
 
-function getWeatherStatus(currentLng, currentLat)
-{
+function getWeatherStatus(currentLng, currentLat) {
+    getAddress(currentLng, currentLat);
     if (UVArray.length == 0 || UVSiteArray.length == 0 || AirPollutantArray.length == 0 || AirPollutantSiteArray.length == 0) {
         alert("Weather data not ready");
     }
-    else
-    {
+    else {
         var targetUVSiteName;
         var targetAirPollutantSiteName;
         // Find the nearst UV site
         var minUVSiteDistance = 999999999;
-        for (var i = 0; i < UVSiteArray.length; i++)
-        {
+        for (var i = 0; i < UVSiteArray.length; i++) {
+
             var distance = Math.abs(UVSiteArray[i].TWD97Lon - currentLng) + Math.abs(UVSiteArray[i].TWD97Lat - currentLat);
-            if (distance < minUVSiteDistance)
-            {
+            if (distance < minUVSiteDistance) {
                 minUVSiteDistance = distance;
                 targetUVSiteName = UVSiteArray[i].SiteName;
+            }
+        }
+        for (var i = 0; i < UVArray.length; i++) {
+            if (UVArray[i].SiteName == targetUVSiteName) {
+                setCurrentUVInfoTable(UVArray[i]);
+                GetWeatherDataByCountyName(UVArray[i]);
+                break;
             }
         }
 
@@ -77,9 +85,31 @@ function getWeatherStatus(currentLng, currentLat)
                 targetAirPollutantSiteName = AirPollutantSiteArray[i].SiteName;
             }
         }
-
-        alert(targetUVSiteName + " and " + targetAirPollutantSiteName);
+        for (var i = 0; i < AirPollutantArray.length; i++) {
+            if (AirPollutantArray[i].SiteName == targetAirPollutantSiteName) {
+                setCurrentAirPollutantInfoTable(AirPollutantArray[i]);
+                GetWeatherDataByCountyName(AirPollutantArray[i].County);
+                break;
+            }
+        }
     }
+}
+
+function getAddress(currentLng, currentLat) {
+
+    var arrLatLng = eval('[' + currentLat + ',' + currentLng + ']');
+    var myLatLng = new GLatLng(arrLatLng[0], arrLatLng[1]);
+
+    var myGeocoder = new GClientGeocoder();
+    myGeocoder.getLocations(myLatLng, function (addresses) {
+        if (addresses.Status.code != 200) {
+            alert("此座標沒有找到對應的地址 " + myLatLng.toUrlValue());
+        } else {
+            var result = addresses.Placemark[0];
+            myMarker.openInfoWindowHtml(result.address);
+            document.getElementById('currentAddress').innerHTML = result.address;
+        }
+    });
 }
 
 function loadJsonpData(targetUrl) {
@@ -110,7 +140,6 @@ function loadJsonpData(targetUrl) {
                     updateAirPollutantData();
                     break;
             }
-
         }
     });
 }
@@ -158,19 +187,8 @@ function updateUVData() {
             select.appendChild(option);
 
         }
-        setCurrentUVInfoTable(UVArray[0]);
-        //var num = document.getElementById("uvTable").rows.length;
-        //alert(UVArray.length + ", " + UVSiteArray.length + ", " + num);
-        //if (num > 1)
-        //{
-        //    for(var i=1; i<num; i++)
-        //    {
-        //        alert("Delete row: " + i);
-        //        document.geElementById("uvTable").deleteRow(1);
-        //    }
-        //}
-        //alert("Delete finish");
-
+        // setCurrentUVInfoTable(UVArray[0]);
+        getWeatherStatus(121.51715755462646 * 1, 25.04763902653048 * 1);
         alreadyGotUVJson = false;
         alreadyGotUVSiteJson = false;
     }
@@ -186,19 +204,21 @@ function addNewUVData(site, uvi, publisher, place, longitudeWGS84, latitudeWGS84
     Td.innerHTML = site;
 
     Td = Tr.insertCell(Tr.cells.length);
+    Td.innerHTML = place;
+
+    Td = Tr.insertCell(Tr.cells.length);
     Td.innerHTML = uvi;
 
     Td = Tr.insertCell(Tr.cells.length);
     Td.innerHTML = publisher;
 
-    Td = Tr.insertCell(Tr.cells.length);
-    Td.innerHTML = place;
 
-    Td = Tr.insertCell(Tr.cells.length);
-    Td.innerHTML = longitudeWGS84;
 
-    Td = Tr.insertCell(Tr.cells.length);
-    Td.innerHTML = latitudeWGS84;
+    //Td = Tr.insertCell(Tr.cells.length);
+    //Td.innerHTML = longitudeWGS84;
+
+    //Td = Tr.insertCell(Tr.cells.length);
+    //Td.innerHTML = latitudeWGS84;
 
     Td = Tr.insertCell(Tr.cells.length);
     Td.innerHTML = longitudeTWD97;
@@ -217,9 +237,9 @@ function onSelectUVSiteChange() {
     for (var i = 0; i < UVArray.length; i++) {
         if (UVArray[i].SiteName == siteName) {
             setCurrentUVInfoTable(UVArray[i]);
+            GetWeatherDataByCountyName(UVArray[i]);
             break;
         }
-
     }
 }
 
@@ -244,7 +264,8 @@ function setCurrentUVInfoTable(currentObject) {
     document.getElementById("currentUVLevel").innerHTML = getUVLevel(currentObject.UVI);
     document.getElementById("currentUVSiteCounty").innerHTML = currentObject.County ? currentObject.County : "N/A";
     document.getElementById("currentUVPublishTime").innerHTML = currentObject.PublishTime ? currentObject.PublishTime : "N/A";
-    GetWeatherDataByCountyName(currentObject.County);
+    document.getElementById("weatherUVLevel").innerHTML = "紫外線等級:" + getUVLevel(currentObject.UVI);
+    //GetWeatherDataByCountyName(currentObject.County);
 }
 
 function loadAirPollutantJsonData() {
@@ -289,20 +310,8 @@ function updateAirPollutantData() {
             select.appendChild(option);
 
         }
-
-        setCurrentAirPollutantInfoTable(AirPollutantArray[0]);
-
-        //var num = document.getElementById("uvTable").rows.length;
-        //alert(UVArray.length + ", " + UVSiteArray.length + ", " + num);
-        //if (num > 1)
-        //{
-        //    for(var i=1; i<num; i++)
-        //    {
-        //        alert("Delete row: " + i);
-        //        document.geElementById("uvTable").deleteRow(1);
-        //    }
-        //}
-        //alert("Delete finish");
+        getWeatherStatus(121.51715755462646 * 1, 25.04763902653048 * 1);
+        // setCurrentAirPollutantInfoTable(AirPollutantArray[0]);
 
         alreadyGotAirPollutantJson = false;
         alreadyGotAirPollutantSiteJson = false;
@@ -347,10 +356,9 @@ function onSelectAirPollutantSiteChange() {
     for (var i = 0; i < AirPollutantArray.length; i++) {
         if (AirPollutantArray[i].SiteName == siteName) {
             setCurrentAirPollutantInfoTable(AirPollutantArray[i]);
-            
+            GetWeatherDataByCountyName(AirPollutantArray[i].County);
             break;
         }
-
     }
 }
 
@@ -361,8 +369,8 @@ function setCurrentAirPollutantInfoTable(currentObject) {
     document.getElementById("currentAirPollutantStatus").innerHTML = currentObject.Status ? currentObject.Status : "N/A";
     document.getElementById("currentAirPollutantCounty").innerHTML = currentObject.County ? currentObject.County : "N/A";
     document.getElementById("currentAirPollutantPublishTime").innerHTML = currentObject.PublishTime ? currentObject.PublishTime : "N/A";
-
-    GetWeatherDataByCountyName(currentObject.County);
+    document.getElementById("weatherAirStatus").innerHTML = currentObject.Status ? "空氣品質: " + currentObject.Status : "空氣品質: N/A";
+    //GetWeatherDataByCountyName(currentObject.County);
 }
 
 
@@ -507,8 +515,7 @@ var jsonCity = {
 
 /*透過YQL取得氣象資料*/
 function GetWeatherData(cityId) {
-
-    var BasicQueryUrl = 'http://query.yahooapis.com/v1/public/yql?'
+    var BasicQueryUrl = 'https://query.yahooapis.com/v1/public/yql?'
     var query = 'q=' +
         encodeURIComponent('select * from html where ' +
         '  url = "http://www.cwb.gov.tw/V7/forecast/f_index.htm" and ' +
@@ -522,6 +529,7 @@ function GetWeatherData(cityId) {
         $.each(data.query.results.tr.td, function (i, val) {
             if (val.a.content != undefined) {
                 var name = '';
+                //alert(val.a.content);
                 switch (i) {
                     case 0:
                         name = "縣市";
@@ -543,46 +551,217 @@ function GetWeatherData(cityId) {
 }
 
 function GetWeatherDataByCountyName(countyName) {
-    for (var i = 0; i < jsonCity.results.table.length; i++) {
-        if (countyName == jsonCity.results.table[i].city.name) {
-            GetWeatherData(jsonCity.results.table[i].city.id);
+    //for (var i = 0; i < jsonCity.results.table.length; i++) {
+    //    if (countyName == jsonCity.results.table[i].city.name) {
+    //        //GetWeatherData(jsonCity.results.table[i].city.id);
+    //        GetWeatherData(jsonCity.results.table[i].city.id);
+    //        break;
+    //    }
+    //}
+
+    for (var i = 0; i < jsonCity2.results.table.length; i++) {
+        if (countyName == jsonCity2.results.table[i].city.name) {
+            //GetWeatherData(jsonCity.results.table[i].city.id);
+            GetWeatherData2(jsonCity2.results.table[i].city.id);
             break;
         }
     }
 }
+
 //輸入地址取得位置，顯示地圖與資訊
-function ShowAddress(){
+function ShowAddress() {
     var address = document.getElementById('inAddr').value;
     if (geocoder) {
-    geocoder.getLatLng(
-        address,
-        function(point) {
-            if (!point) {
-                alert(address + " not found");
-            } else {
-                myMap = new GMap2(document.getElementById("my_map"));
-                myMap.setCenter(point, 15);
-                myMap.addControl(new GLargeMapControl());
-                document.getElementById('inLatLng').value = point.toString();
-                //設定標註座標
-                var currentLng = point.lng();
-                var currentLat = point.lat();
-                getWeatherStatus(currentLng, currentLat);
-                myMarker = new GMarker(point);
-                myMap.addOverlay(myMarker);
-                
-                GEvent.addListener(myMap, "click", function (overlay, point) {
-                    if (point) {
-                        //設定標註座標
-                        var currentLng = point.lng();
-                        var currentLat = point.lat();
-                        myMarker.setLatLng(point);
-                        document.getElementById('inLatLng').value = point.toString();
-                        getWeatherStatus(currentLng, currentLat);
-                    }
-                });
+        geocoder.getLatLng(
+            address,
+            function (point) {
+                if (!point) {
+                    alert(address + " not found");
+                } else {
+                    myMap = new GMap2(document.getElementById("my_map"));
+                    myMap.setCenter(point, 15);
+                    myMap.addControl(new GLargeMapControl());
+                    // document.getElementById('inLatLng').value = point.toString();
+                    document.getElementById('inLatLng').innerHTML = "Current LatLng: " + point.toString();
+                    //設定標註座標
+                    var currentLng = point.lng();
+                    var currentLat = point.lat();
+                    getWeatherStatus(currentLng, currentLat);
+                    myMarker = new GMarker(point);
+                    myMap.addOverlay(myMarker);
+
+                    GEvent.addListener(myMap, "click", function (overlay, point) {
+                        if (point) {
+                            //設定標註座標
+                            var currentLng = point.lng();
+                            var currentLat = point.lat();
+                            myMarker.setLatLng(point);
+                            //document.getElementById('inLatLng').value = point.toString();
+                            document.getElementById('inLatLng').innerHTML = "Current LatLng: " + point.toString();
+                            getWeatherStatus(currentLng, currentLat);
+                        }
+                    });
                 }
             }
-        );
+            );
     }
 }
+
+var jsonCity2 = {
+    "results": {
+        "table": [
+        {
+            "city": {
+                "id": "Keelung_City",
+                "name": "基隆市"
+            }
+        },
+        {
+            "city": {
+                "id": "Taipei_City",
+                "name": "臺北市"
+            }
+        },
+        {
+            "city": {
+                "id": "New_Taipei_City",
+                "name": "新北市"
+            }
+        },
+        {
+            "city": {
+                "id": "Taoyuan_City",
+                "name": "桃園縣"
+            }
+        },
+        {
+            "city": {
+                "id": "Hsinchu_City",
+                "name": "新竹市"
+            }
+        },
+        {
+            "city": {
+                "id": "Hsinchu_County",
+                "name": "新竹縣"
+            }
+        },
+        {
+            "city": {
+                "id": "Miaoli_County",
+                "name": "苗栗縣"
+            }
+        },
+        {
+            "city": {
+                "id": "Taichung_City",
+                "name": "臺中市"
+            }
+        },
+        {
+            "city": {
+                "id": "Changhua_County",
+                "name": "彰化縣"
+            }
+        },
+        {
+            "city": {
+                "id": "Nantou_County",
+                "name": "南投縣"
+            }
+        },
+        {
+            "city": {
+                "id": "Yunlin_County",
+                "name": "雲林縣"
+            }
+        },
+        {
+            "city": {
+                "id": "Chiayi_City",
+                "name": "嘉義市"
+            }
+        },
+        {
+            "city": {
+                "id": "Chiayi_County",
+                "name": "嘉義縣"
+            }
+        },
+        {
+            "city": {
+                "id": "Yilan_County",
+                "name": "宜蘭縣"
+            }
+        },
+        {
+            "city": {
+                "id": "Hualien_County",
+                "name": "花蓮縣"
+            }
+        },
+        {
+            "city": {
+                "id": "Taitung_County",
+                "name": "臺東縣"
+            }
+        },
+        {
+            "city": {
+                "id": "Tainan_City",
+                "name": "臺南市"
+            }
+        },
+        {
+            "city": {
+                "id": "Kaohsiung_City",
+                "name": "高雄市"
+            }
+        },
+        {
+            "city": {
+                "id": "Pingtung_County",
+                "name": "屏東縣"
+            }
+        },
+        {
+            "city": {
+                "id": "Lienchiang_County",
+                "name": "連江縣"
+            }
+        },
+        {
+            "city": {
+                "id": "Kinmen_County",
+                "name": "金門縣"
+            }
+        },
+        {
+            "city": {
+                "id": "Penghu_County",
+                "name": "澎湖縣"
+            }
+        }
+        ]
+    }
+};
+
+var alreadyQueryWeatherData = false;
+function GetWeatherData2(cityId) {
+    //select * from html  where url='http://www.cwb.gov.tw/V7/forecast/taiwan/Keelung_City.htm' and xpath='//tbody//tr'
+    var BasicQueryUrl = 'https://query.yahooapis.com/v1/public/yql?'
+    var query = 'q=' +
+        encodeURIComponent('select * from html where ' +
+        '  url = "http://www.cwb.gov.tw/V7/forecast/taiwan/' + cityId + '.htm"' + ' and ' +
+        'xpath=' + "'" + '//tbody//tr' + "'") + '&format=json';
+
+    $.getJSON(BasicQueryUrl + query, function (data) {
+        document.getElementById("weatherValidity").innerHTML = data.query.results.tr[0].th.content;
+        document.getElementById("weatherTemperature").innerHTML = "溫度: " + data.query.results.tr[0].td[0];
+        document.getElementById("weatherRainPercentage").innerHTML = "降雨機率: " + data.query.results.tr[0].td[3];
+
+    });
+
+
+}
+

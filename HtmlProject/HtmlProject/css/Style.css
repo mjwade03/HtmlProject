@@ -1,8 +1,35 @@
 ﻿table.dataTable,
 table.dataTable tr,
 table.dataTable td {
-  border: 1px solid black;
-  text-align: center;
-  border-collapse: collapse;
+    color: red;
+    font-weight: bold;
+    font-size:18px;
+    font-family:Microsoft JhengHei;
+    border: 1px solid black;
+    text-align: center;
+    border-collapse: collapse;
 }
 
+table.weatherStatusTable,
+table.weatherStatusTable tr,
+table.weatherStatusTable td {
+    color: red;
+    font-weight: bold;
+    font-size:18px;
+    font-family:Microsoft JhengHei;
+    text-align: center;
+    border-collapse: collapse;
+}
+
+#MainBody{
+    background-image:url(http://uploadfile.bizhizu.cn/2014/0611/20140611041440816.jpg);
+    background-repeat:no-repeat;
+    background-size:cover;
+}
+
+#InformationForm{
+    color: red;
+    font-weight: bold;
+    font-size:18px;
+    font-family:Microsoft JhengHei;
+}
