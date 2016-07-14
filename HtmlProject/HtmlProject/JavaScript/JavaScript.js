@@ -144,12 +144,45 @@ function loadJsonpData(targetUrl) {
     });
 }
 
+function loadJsonpData2(targetUrl) {
+    var BasicQueryUrl = 'https://query.yahooapis.com/v1/public/yql?'
+    var query = 'q=' +
+        encodeURIComponent('select * from html where ' +
+        '  url = "' + targetUrl + '"') + '&format=json';
+    $.getJSON(BasicQueryUrl + query, function (data) {
+        var jsonString = data.query.results.body.toString();
+        var obj = JSON.parse(jsonString);
+        switch (targetUrl) {
+            case queryUVJsonUrl:
+                UVArray = obj;
+                alreadyGotUVJson = true;
+                updateUVData();
+                break;
+            case queryUVSiteJsonUrl:
+                UVSiteArray = obj;
+                alreadyGotUVSiteJson = true;
+                updateUVData();
+                break;
+            case queryAirPollutantJsonUrl:
+                AirPollutantArray = obj;
+                alreadyGotAirPollutantJson = true;
+                updateAirPollutantData();
+                break;
+            case queryAirPollutantSiteJsonUrl:
+                AirPollutantSiteArray = obj;
+                alreadyGotAirPollutantSiteJson = true;
+                updateAirPollutantData();
+                break;
+        }
+    });
+}
+
 function loadUVJsonpData() {
-    loadJsonpData(queryUVJsonUrl);
+    loadJsonpData2(queryUVJsonUrl);
 }
 
 function loadUVSitenData() {
-    loadJsonpData(queryUVSiteJsonUrl);
+    loadJsonpData2(queryUVSiteJsonUrl);
 }
 
 function updateUVData() {
@@ -269,11 +302,11 @@ function setCurrentUVInfoTable(currentObject) {
 }
 
 function loadAirPollutantJsonData() {
-    loadJsonpData(queryAirPollutantJsonUrl);
+    loadJsonpData2(queryAirPollutantJsonUrl);
 }
 
 function loadAirPollutantSiteJsonData() {
-    loadJsonpData(queryAirPollutantSiteJsonUrl);
+    loadJsonpData2(queryAirPollutantSiteJsonUrl);
 }
 
 function updateAirPollutantData() {
