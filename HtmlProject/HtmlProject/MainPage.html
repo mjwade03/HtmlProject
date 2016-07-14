@@ -16,124 +16,172 @@
     <script type="text/javascript" src="JavaScript/JavaScript.js"></script>
     <link rel="stylesheet" href="css/Style.css" type="text/css">
 </head>
-<body onload="load()">
-    Current Address:<input id="currentAddress" name="inLatLng" type="text" size="40" value="" /><p>
-    Current LatLng︰<input id="inLatLng" name="inLatLng" type="text" size="40" value=""/><p>
-        <!--天氣預報的部分-->
-    <p id="weatherCounty">test1</p>
-    <p id="weatherTemperature">test2</p>
-    <p id="weatherRainPercentage">test3</p>
-    <!--紫外線的部分-->
-    紫外線測站:
-    <select id="UVSiteSelect" onchange="onSelectUVSiteChange()"></select>
-    <br />
-    <br />
-    空氣汙染測站:
-    <select id="airPollutantSiteSelect" onchange="onSelectAirPollutantSiteChange()"></select>
-    <br />
-    <br />
-    輸入地址：<input id="inAddr" name="inAddr" type="text" size="40" value="台北市新生北路二段39號" />
-    <button type="button" onclick="ShowAddress()">GO!</button>
-    <br/>
-    <br/>
-    <table>
-        <tr>
-            <td>
-                <div id="my_map" style="width: 500px; height: 500px"></div>
-            </td>
-            <td valign="top">
-                <table>
-                    <tr>
-                        <td>紫外線數值: </td>
-                        <td id="currentUVValue">10</td>
-                    </tr>
-                    <tr>
-                        <td>紫外線等級: </td>
-                        <td id="currentUVLevel">危險</td>
-                    </tr>
-                    <tr>
-                        <td>測站名稱: </td>
-                        <td id="currentUVSiteName">鞍部</td>
-                    </tr>
-                    <tr>
-                        <td>測站所在縣市: </td>
-                        <td id="currentUVSiteCounty">台北市</td>
-                    </tr>
-                    <tr>
-                        <td>發布時間: </td>
-                        <td id="currentUVPublishTime">2016-07-06 14:00</td>
-                    </tr>
-                </table>
+<body id="MainBody" onload="load()">
+    <form id="InformationForm">
+        以地址搜尋地點：<input id="inAddr" name="inAddr" type="text" size="40" value="100台灣台北市中正區北平西路3號臺北車站" style="font-size:18px;font-family:Microsoft JhengHei;"/>
+        <button type="button" onclick="ShowAddress()"  style="font-size:18px;font-family:Microsoft JhengHei;">GO!</button>
+        <table id="WeatherStatusTable" class="weatherStatusTable">
+            <tr>
+                <td valign="top">
+                    <p id="currentAddress" name="currentAddress" size="40">100台灣台北市中正區北平西路3號臺北車站</p>
+                </td>
+            <tr>
+                <td valign="top">
+                    <p id="inLatLng" name="inLatLng" size="40" />
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">
+                    <p id="weatherValidity">今日白天</p>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">
+                    <p id="weatherTemperature">溫度: </p>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">
+                    <p id="weatherRainPercentage">降雨機率:</p>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">
+                    <p id="weatherUVLevel">紫外線等級:</p>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top">
+                    <p id="weatherAirStatus">空氣品質:</p>
+                </td>
+            </tr>
+        </table>
 
-            <td valign="top">
-                <table>
-                    <tr>
-                        <td>空氣汙染指標: </td>
-                        <td id="currentAirPollutantValue">10</td>
-                    </tr>
-                    <tr>
-                        <td>空氣汙染狀態: </td>
-                        <td id="currentAirPollutantStatus">10</td>
-                    </tr>
-                    <tr>
-                        <td>指標汙染物: </td>
-                        <td id="currentAirPollutantMajorPollutant">危險</td>
-                    </tr>
-                    <tr>
-                        <td>測站名稱: </td>
-                        <td id="currentAirPollutantSiteName">鞍部</td>
-                    </tr>
-                    <tr>
-                        <td>測站所在縣市: </td>
-                        <td id="currentAirPollutantCounty">台北市</td>
-                    </tr>
-                    <tr>
-                        <td>發布時間: </td>
-                        <td id="currentAirPollutantPublishTime">2016-07-06 14:00</td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-    </table>
-    <br />
-    <table style="width:100%" id="uvTable" class="dataTable">
-        <tr bgcolor="#E6E6FA">
-            <td>測站名稱</td>
-            <td>紫外線指數</td>
-            <td>發布機關</td>
-            <td>縣市</td>
-            <td>經度(WGS84)</td>
-            <td>緯度(WGS84)</td>
-            <td>經度(TWD97)</td>
-            <td>緯度(TWD97)</td>
-            <td>發布時間</td>
-        </tr>
-    </table>
-    <!--空氣汙染的部分-->
+    </form>
 
-    <table style="width:100%" id="airPollutantTable" class="dataTable">
-        <tr bgcolor="#E6E6FA">
-            <td>測站名稱</td>
-            <td>縣市</td>
-            <td>空氣污染指標</td>
-            <td>狀態</td>
-            <td>指標污染物</td>
-            <!--<td>二氧化硫濃度</td>
-            <td>一氧化碳濃度</td>
-            <td>臭氧濃度</td>
-            <td>懸浮微粒濃度</td>
-            <td>細懸浮微粒濃度</td>
-            <td>二氧化氮濃度</td>
-            <td>風速</td>
-            <td>風向</td>
-            <td>細懸浮微粒指標</td>
-            <td>氮氧化物</td>
-            <td>一氧化氮</td>-->
-            <td>經度(TWD97)</td>
-            <td>緯度(TWD97)</td>
-            <td>發布時間</td>
-        </tr>
-    </table>
+    
+    
+               <!--Current Address:<p id="currentAddress" name="currentAddress" size="40" value="" />
+            <br/>
+            <p id="inLatLng" name="inLatLng" size="40" value="" />
+            <p id="weatherValidity">預報有效時間: </p>
+            <p id="weatherCounty">縣市:</p>-->
+            <!--<p id="weatherTemperature">溫度: </p>
+            <p id="weatherRainPercentage">降雨機率:</p>-->
+            <!--紫外線的部分-->
+            紫外線測站:
+            <select id="UVSiteSelect" onchange="onSelectUVSiteChange()"></select>
+            <br />
+            <br />
+            空氣汙染測站:
+            <select id="airPollutantSiteSelect" onchange="onSelectAirPollutantSiteChange()"></select>
+
+        <br />
+        <br />
+        <table class="dataTable">
+            <tr>
+                <td>
+                    <div id="my_map" style="width: 500px; height: 500px"></div>
+                </td>
+                <td valign="top">
+                    <table>
+                        <tr>
+                            <td>紫外線數值: </td>
+                            <td id="currentUVValue">10</td>
+                        </tr>
+                        <tr>
+                            <td>紫外線等級: </td>
+                            <td id="currentUVLevel">危險</td>
+                        </tr>
+                        <tr>
+                            <td>測站名稱: </td>
+                            <td id="currentUVSiteName">鞍部</td>
+                        </tr>
+                        <tr>
+                            <td>測站所在縣市: </td>
+                            <td id="currentUVSiteCounty">台北市</td>
+                        </tr>
+                        <tr>
+                            <td>發布時間: </td>
+                            <td id="currentUVPublishTime">2016-07-06 14:00</td>
+                        </tr>
+                    </table>
+
+                <td valign="top">
+                    <table>
+                        <tr>
+                            <td>空氣汙染指標: </td>
+                            <td id="currentAirPollutantValue">10</td>
+                        </tr>
+                        <tr>
+                            <td>空氣品質: </td>
+                            <td id="currentAirPollutantStatus">10</td>
+                        </tr>
+                        <tr>
+                            <td>指標汙染物: </td>
+                            <td id="currentAirPollutantMajorPollutant">危險</td>
+                        </tr>
+                        <tr>
+                            <td>測站名稱: </td>
+                            <td id="currentAirPollutantSiteName">鞍部</td>
+                        </tr>
+                        <tr>
+                            <td>測站所在縣市: </td>
+                            <td id="currentAirPollutantCounty">台北市</td>
+                        </tr>
+                        <tr>
+                            <td>發布時間: </td>
+                            <td id="currentAirPollutantPublishTime">2016-07-06 14:00</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        <br />
+        <br />
+
+        <!--所有紫外線測站測得的資料-->
+        <table style="width:100%" id="uvTable" class="dataTable">
+            <tr bgcolor="#FFD78C">
+                <td>測站名稱</td>
+                <td>測站所在縣市</td>
+                <td>紫外線指數</td>
+                <td>發布機關</td>
+                <!--<td>經度(WGS84)</td>
+                <td>緯度(WGS84)</td>-->
+                <td>經度(TWD97)</td>
+                <td>緯度(TWD97)</td>
+                <td>發布時間</td>
+            </tr>
+        </table>
+
+        <br />
+        <br />
+
+        <!--所有空氣品質測站測得的部分-->
+        <table style="width:100%" id="airPollutantTable" class="dataTable">
+            <tr bgcolor="#E6E6FA">
+                <td>測站名稱</td>
+                <td>測站所在縣市</td>
+                <td>空氣污染指標</td>
+                <td>狀態</td>
+                <td>指標污染物</td>
+                <!--<td>二氧化硫濃度</td>
+                <td>一氧化碳濃度</td>
+                <td>臭氧濃度</td>
+                <td>懸浮微粒濃度</td>
+                <td>細懸浮微粒濃度</td>
+                <td>二氧化氮濃度</td>
+                <td>風速</td>
+                <td>風向</td>
+                <td>細懸浮微粒指標</td>
+                <td>氮氧化物</td>
+                <td>一氧化氮</td>-->
+                <td>經度(TWD97)</td>
+                <td>緯度(TWD97)</td>
+                <td>發布時間</td>
+            </tr>
+        </table>
 
 </body>
 </html>
