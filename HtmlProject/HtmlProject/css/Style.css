@@ -1,4 +1,24 @@
-﻿table.dataTable,
+﻿header, footer {
+    padding: 1em;
+    color: white;
+    clear: left;
+    text-align: center;
+}
+
+nav {
+    float: left;
+    margin: 0;
+    padding: 1em;
+}
+
+article {
+    margin-left: 170px;
+    border-left: 1px solid gray;
+    padding: 1em;
+    overflow: hidden;
+}
+
+table.dataTable,
 table.dataTable tr,
 table.dataTable td {
     color: red;
