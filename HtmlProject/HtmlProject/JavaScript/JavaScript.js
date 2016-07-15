@@ -52,7 +52,7 @@ function load() {
 
 function getWeatherStatus(currentLng, currentLat) {
     getAddress(currentLng, currentLat);
-    if (UVArray.length == 0 || UVSiteArray.length == 0 || AirPollutantArray.length == 0 || AirPollutantSiteArray.length == 0) {
+    if ((UVArray != null && UVArray.length == 0) || (UVSiteArray != null && UVSiteArray.length == 0) || (AirPollutantArray != null && AirPollutantArray.length == 0) || (AirPollutantSiteArray != null && AirPollutantSiteArray.length == 0)) {
         alert("Weather data not ready");
     }
     else {
@@ -78,18 +78,22 @@ function getWeatherStatus(currentLng, currentLat) {
 
         // Find the nearst air pollutant site
         var minAirPollutantSiteDistance = 999999999;
-        for (var i = 0; i < AirPollutantSiteArray.length; i++) {
-            var distance = Math.abs(AirPollutantSiteArray[i].TWD97Lon - currentLng) + Math.abs(AirPollutantSiteArray[i].TWD97Lat - currentLat);
-            if (distance < minAirPollutantSiteDistance) {
-                minAirPollutantSiteDistance = distance;
-                targetAirPollutantSiteName = AirPollutantSiteArray[i].SiteName;
+        if(AirPollutantSiteArray != null){
+            for (var i = 0; i < AirPollutantSiteArray.length; i++) {
+                var distance = Math.abs(AirPollutantSiteArray[i].TWD97Lon - currentLng) + Math.abs(AirPollutantSiteArray[i].TWD97Lat - currentLat);
+                if (distance < minAirPollutantSiteDistance) {
+                    minAirPollutantSiteDistance = distance;
+                    targetAirPollutantSiteName = AirPollutantSiteArray[i].SiteName;
+                }
             }
         }
-        for (var i = 0; i < AirPollutantArray.length; i++) {
-            if (AirPollutantArray[i].SiteName == targetAirPollutantSiteName) {
-                setCurrentAirPollutantInfoTable(AirPollutantArray[i]);
-                GetWeatherDataByCountyName(AirPollutantArray[i].County);
-                break;
+        if(AirPollutantArray != null){
+            for (var i = 0; i < AirPollutantArray.length; i++) {
+                if (AirPollutantArray[i].SiteName == targetAirPollutantSiteName) {
+                    setCurrentAirPollutantInfoTable(AirPollutantArray[i]);
+                    GetWeatherDataByCountyName(AirPollutantArray[i].County);
+                    break;
+                }
             }
         }
     }
