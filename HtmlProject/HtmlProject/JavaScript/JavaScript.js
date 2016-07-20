@@ -75,6 +75,21 @@ function getWeatherStatus(currentLng, currentLat) {
                 break;
             }
         }
+        
+        // Change the UV drop down list to this station
+        var sel = document.getElementById('UVSiteSelect');
+        var opts = sel.options;
+        
+        for (var index = 0; index < opts.length; index++) {
+            var opt = opts[index];
+
+            if (opt.value == targetUVSiteName) {
+                sel.selectedIndex = index;
+                break;
+            }
+        }
+
+
 
         // Find the nearst air pollutant site
         var minAirPollutantSiteDistance = 999999999;
@@ -94,6 +109,19 @@ function getWeatherStatus(currentLng, currentLat) {
                     GetWeatherDataByCountyName(AirPollutantArray[i].County);
                     break;
                 }
+            }
+        }
+
+        // Change the air pollutant drop down list to this station
+        sel = document.getElementById('airPollutantSiteSelect');
+        opts = sel.options;
+
+        for (var index = 0; index < opts.length; index++) {
+            var opt = opts[index];
+
+            if (opt.value == targetUVSiteName) {
+                sel.selectedIndex = index;
+                break;
             }
         }
     }
@@ -297,7 +325,7 @@ function getUVLevel(UVI) {
 
 function setCurrentUVInfoTable(currentObject) {
     document.getElementById("currentUVSiteName").innerHTML = currentObject.SiteName ? currentObject.SiteName : "N/A";
-    document.getElementById("currentUVValue").innerHTML = currentObject.UVI ? Math.round(UVArray[i].UVI) : "N/A";
+    document.getElementById("currentUVValue").innerHTML = currentObject.UVI ? Math.round(currentObject.UVI) : "N/A";
     document.getElementById("currentUVLevel").innerHTML = getUVLevel(currentObject.UVI);
     document.getElementById("currentUVSiteCounty").innerHTML = currentObject.County ? currentObject.County : "N/A";
     document.getElementById("currentUVPublishTime").innerHTML = currentObject.PublishTime ? currentObject.PublishTime : "N/A";
