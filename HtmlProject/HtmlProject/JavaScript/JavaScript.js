@@ -297,7 +297,7 @@ function getUVLevel(UVI) {
 
 function setCurrentUVInfoTable(currentObject) {
     document.getElementById("currentUVSiteName").innerHTML = currentObject.SiteName ? currentObject.SiteName : "N/A";
-    document.getElementById("currentUVValue").innerHTML = currentObject.UVI ? currentObject.UVI : "N/A";
+    document.getElementById("currentUVValue").innerHTML = currentObject.UVI ? Math.round(UVArray[i].UVI) : "N/A";
     document.getElementById("currentUVLevel").innerHTML = getUVLevel(currentObject.UVI);
     document.getElementById("currentUVSiteCounty").innerHTML = currentObject.County ? currentObject.County : "N/A";
     document.getElementById("currentUVPublishTime").innerHTML = currentObject.PublishTime ? currentObject.PublishTime : "N/A";
