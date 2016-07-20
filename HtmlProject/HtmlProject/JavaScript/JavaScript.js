@@ -257,11 +257,11 @@ function addNewUVData(site, uvi, publisher, place, longitudeWGS84, latitudeWGS84
     //Td = Tr.insertCell(Tr.cells.length);
     //Td.innerHTML = latitudeWGS84;
 
-    Td = Tr.insertCell(Tr.cells.length);
-    Td.innerHTML = longitudeTWD97;
+    //Td = Tr.insertCell(Tr.cells.length);
+    //Td.innerHTML = longitudeTWD97;
 
-    Td = Tr.insertCell(Tr.cells.length);
-    Td.innerHTML = latitudeTWD97;
+    //Td = Tr.insertCell(Tr.cells.length);
+    //Td.innerHTML = latitudeTWD97;
 
     Td = Tr.insertCell(Tr.cells.length);
     Td.innerHTML = time;
@@ -376,11 +376,11 @@ function addNewAirPollutantTableData(site, place, psi, status, majorPollutant, l
     Td = Tr.insertCell(Tr.cells.length);
     Td.innerHTML = majorPollutant;
 
-    Td = Tr.insertCell(Tr.cells.length);
-    Td.innerHTML = longitudeTWD97;
+    //Td = Tr.insertCell(Tr.cells.length);
+    //Td.innerHTML = longitudeTWD97;
 
-    Td = Tr.insertCell(Tr.cells.length);
-    Td.innerHTML = latitudeTWD97;
+    //Td = Tr.insertCell(Tr.cells.length);
+    //Td.innerHTML = latitudeTWD97;
 
     Td = Tr.insertCell(Tr.cells.length);
     Td.innerHTML = time;
