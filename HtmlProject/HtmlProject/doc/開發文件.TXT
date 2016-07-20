@@ -1,0 +1,8 @@
+第一階段
+1.畫面分成上中下三部分，上半部顯示地圖與天氣慨況，中部顯示選單與選單選出的資料，下半部顯示紫外線與空氣品質詳細列表。
+2.UI背景圖改成Local端顯示
+3.簡報檔(1.簡介2.開發流程3.使用技術HTML5,javascript,css,YQL,Jquery,GoogleMapAPI,問題)
+4.下一階段可考慮使用後端資料處理
+
+GoogleMap Key
+AIzaSyDS7IojxtL7VgMq4UuPVhT0MSQUFXpf1ik
