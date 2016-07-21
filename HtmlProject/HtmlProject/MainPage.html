@@ -16,61 +16,78 @@
     <script type="text/javascript" src="JavaScript/JavaScript.js"></script>
     <link rel="stylesheet" href="css/Style.css" type="text/css">
 </head>
-<header>
-   <h1>紫外線&氣象站</h1>
-</header>
+
 
 <body id="MainBody" onload="load()">
+    <header>
+        <h1>紫外線&氣象站</h1>
+    </header>
     <form id="InformationForm">
         <nav>
-            <td >
-                <div id="my_map" style="width: 500px; height: 500px"></div>
-            </td>
+            <div id="my_map" style="width: 500px; height: 500px"></div>
         </nav>
         <article>
         以地址搜尋地點：<input id="inAddr" name="inAddr" type="text" size="40" value="100台灣台北市中正區北平西路3號臺北車站" style="font-size:18px;font-family:Microsoft JhengHei;" />
-        <button type="button" onclick="ShowAddress()" style="font-size:18px;font-family:Microsoft JhengHei;">GO!</button>
-            <table id="WeatherStatusTable" class="weatherStatusTable">
+            <button type="button" onclick="ShowAddress()" style="font-size:18px;font-family:Microsoft JhengHei;">GO!</button>
+
+            <p valign="top" id="currentAddress" hidden>100台灣台北市中正區北平西路3號臺北車站</p>
+            <p valign="top" id="inLatLng" name="inLatLng" size="40" hidden></p>
+            <p valign="top" id="countyInformation" align="center">臺北市天氣狀況</p>
+            <table id="WeatherStatusTable" class="dataTable">
+                <tr>                    
+                    <th valign="top">預報有效期間</th>
+                    <th valign="top">天氣概況</th>
+                    <th valign="top">舒適度</th>
+                    <th valign="top">溫度</th>
+                    <th valign="top">降雨機率</th>
+                </tr>
                 <tr>
-                    <tr>
-                        <td valign="top">
-                            <p id="currentAddress" name="currentAddress" size="40">100台灣台北市中正區北平西路3號臺北車站</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td valign="top" id="inLatLng" name="inLatLng" size="40" hidden>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td valign="top" id="weatherValidity">今日白天</td>
-                    </tr>
-                    <tr>
-                        <td valign="top" id="weatherTemperature">溫度:
-                        </td>
-                    </tr>
-                    <tr>
-                        <td valign="top" id="weatherRainPercentage">降雨機率:
-                        </td>
-                    </tr>
-                    <tr>
-                        <td valign="top" id="weatherUVLevel">紫外線等級:
-                        </td>
-                    </tr>
-                    <tr>
-                        <td valign="top" id="weatherAirStatus">空氣品質:
-                        </td>
-                    </tr>
+                    <td valign="top" id="firstWeatherValidity">今日白天</td>
+                    <td valign="top" id="firstWeatherStatus">多雲時晴</td>                    
+                    <td valign="top" id="firstWeatherComfort">舒適</td>
+                    <td valign="top" id="firstWeatherTemperature">26 ~ 37</td>
+                    <td valign="top" id="firstWeatherRainPercentage">20%</td>
+                </tr>
+                <tr>
+                    <td valign="top" id="secondWeatherValidity">今晚至明晨</td>
+                    <td valign="top" id="secondWeatherStatus">多雲時晴</td>  
+                    <td valign="top" id="secondWeatherComfort">舒適</td>
+                    <td valign="top" id="secondWeatherTemperature">26 ~ 37</td>
+                    <td valign="top" id="secondWeatherRainPercentage">20%</td>
+                </tr>
+                <tr>
+                    <td valign="top" id="thirdWeatherValidity">明日白天</td>
+                    <td valign="top" id="thirdWeatherStatus">多雲時晴</td>  
+                    <td valign="top" id="thirdWeatherComfort">舒適</td>
+                    <td valign="top" id="thirdWeatherTemperature">26 ~ 37</td>
+                    <td valign="top" id="thirdWeatherRainPercentage">20%</td>
+                </tr>
+        
+            </table>
+
+            <p>即時資料:</p>
+            <table id="WeatherStatusTable" class="dataTable">
+                <tr>
+                    <td valign="top" id="weatherUVLevel">紫外線等級:</td>
+                </tr>
+                <tr>
+                    <td valign="top" id="weatherPM25Level">PM2.5等級:</td>
+                </tr>
+                <tr>
+                    <td valign="top" id="weatherAirStatus">空氣品質:</td>
                 </tr>
             </table>
             <br />
+
+            紫外線測站:
+            <select id="UVSiteSelect" onchange="onSelectUVSiteChange()"></select>
+            空氣汙染測站:
+            <select id="airPollutantSiteSelect" onchange="onSelectAirPollutantSiteChange()"></select>
+            <br />
+            <br />
         <table class="dataTable">
             <tr>
-                紫外線測站:
-                <select id="UVSiteSelect" onchange="onSelectUVSiteChange()"></select>
-                空氣汙染測站:
-                <select id="airPollutantSiteSelect" onchange="onSelectAirPollutantSiteChange()"></select>
-                <br />
-                <br />
+
                 <td valign="top">
                     <table>
                         <tr>
@@ -143,17 +160,17 @@
     <br />
 
     <!--所有紫外線測站測得的資料-->
-    <table style="width:100%" id="uvTable" class="dataTable">
+    <table style="width:100%" id="uvTable" class="dataTable" hidden>
         <tr bgcolor="#FFD78C">
-            <td>測站名稱</td>
-            <td>測站所在縣市</td>
-            <td>紫外線指數</td>
-            <td>發布機關</td>
+            <th>測站名稱</th>
+            <th>測站所在縣市</th>
+            <th>紫外線指數</th>
+            <th>發布機關</th>
             <!--<td>經度(WGS84)</td>
             <td>緯度(WGS84)</td>-->
             <!--<td>經度(TWD97)</td>
             <td>緯度(TWD97)</td>-->
-            <td>發布時間</td>
+            <th>發布時間</th>
         </tr>
     </table>
 
@@ -161,13 +178,13 @@
     <br />
 
     <!--所有空氣品質測站測得的部分-->
-    <table style="width:100%" id="airPollutantTable" class="dataTable">
+    <table style="width:100%" id="airPollutantTable" class="dataTable" hidden>
         <tr bgcolor="#E6E6FA">
-            <td>測站名稱</td>
-            <td>測站所在縣市</td>
-            <td>空氣污染指標</td>
-            <td>狀態</td>
-            <td>指標污染物</td>
+            <th>測站名稱</th>
+            <th>測站所在縣市</th>
+            <th>空氣污染指標</th>
+            <th>狀態</th>
+            <th>指標污染物</th>
             <!--<td>二氧化硫濃度</td>
             <td>一氧化碳濃度</td>
             <td>臭氧濃度</td>
@@ -181,7 +198,7 @@
             <td>一氧化氮</td>-->
             <!--<td>經度(TWD97)</td>
             <td>緯度(TWD97)</td>-->
-            <td>發布時間</td>
+            <th>發布時間</th>
         </tr>
     </table>
 

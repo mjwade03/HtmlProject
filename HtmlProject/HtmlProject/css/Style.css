@@ -18,7 +18,7 @@ article {
     overflow: hidden;
 }
 
-table.dataTable,
+/*table.dataTable,
 table.dataTable tr,
 table.dataTable td {
     color: red;
@@ -28,8 +28,25 @@ table.dataTable td {
     border: 1px solid black;
     text-align: center;
     border-collapse: collapse;
-}
 
+}*/
+
+
+table.dataTable td {
+    font-size:18px;
+    font-family:Microsoft JhengHei;
+	padding: 5px 5px 5px 0;
+	vertical-align: top;
+
+}
+table.dataTable th {
+    font-size:18px;
+    font-weight: bold;
+    font-family:Microsoft JhengHei;
+    border-bottom:1pt solid black;
+	padding-right: 10px;
+	text-align: left;
+}
 table.weatherStatusTable,
 table.weatherStatusTable tr,
 table.weatherStatusTable td {
