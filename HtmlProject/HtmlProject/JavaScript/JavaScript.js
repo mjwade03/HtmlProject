@@ -295,7 +295,7 @@ function loadJsonpData3(targetUrl)
 
 function loadUVJsonpData() {
     loadJsonpData2(queryUVJsonUrl);
-    loadJsonpData3(queryUVJsonUrl);
+    //loadJsonpData3(queryUVJsonUrl);
 }
 
 function loadUVSitenData() {
