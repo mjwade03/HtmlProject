@@ -18,36 +18,47 @@ var myMarker;
 
 function load() {
 
+
     loadUVJsonpData();
     loadUVSitenData();
     loadAirPollutantJsonData();
     loadAirPollutantSiteJsonData();
 
+    initMap();
+    getLocation();
+    // if (GBrowserIsCompatible()) {
+    //     myMap = new GMap2(document.getElementById("my_map"));
+    //     var myLatLng = new GLatLng(25.04763902653048, 121.51715755462646);
+    //     myMap.setCenter(myLatLng, 15);
+    //     myMap.addControl(new GLargeMapControl());
+    //     //document.getElementById('inLatLng').value = myLatLng.toString();
+    //     document.getElementById('inLatLng').innerHTML = "經緯度: " + myLatLng.toString();
 
-    if (GBrowserIsCompatible()) {
-        myMap = new GMap2(document.getElementById("my_map"));
-        var myLatLng = new GLatLng(25.04763902653048, 121.51715755462646);
-        myMap.setCenter(myLatLng, 15);
-        myMap.addControl(new GLargeMapControl());
-        //document.getElementById('inLatLng').value = myLatLng.toString();
-        document.getElementById('inLatLng').innerHTML = "經緯度: " + myLatLng.toString();
+    //     myMarker = new GMarker(myLatLng);
+    //     myMap.addOverlay(myMarker);
+    //     GEvent.addListener(myMap, "click", function (overlay, point) {
+    //         if (point) {
+    //             //設定標註座標
+    //             var currentLng = point.lng();
+    //             var currentLat = point.lat();
+    //             myMarker.setLatLng(point);
+    //             //document.getElementById('inLatLng').value = point.toString();
+    //             document.getElementById('inLatLng').innerHTML = "經緯度: " + point.toString();
+    //             getWeatherStatus(currentLng, currentLat);
 
-        myMarker = new GMarker(myLatLng);
-        myMap.addOverlay(myMarker);
-        GEvent.addListener(myMap, "click", function (overlay, point) {
-            if (point) {
-                //設定標註座標
-                var currentLng = point.lng();
-                var currentLat = point.lat();
-                myMarker.setLatLng(point);
-                //document.getElementById('inLatLng').value = point.toString();
-                document.getElementById('inLatLng').innerHTML = "經緯度: " + point.toString();
-                getWeatherStatus(currentLng, currentLat);
+    //         }
+    //     });
+    //     geocoder = new GClientGeocoder();
+    // }
+}
 
-            }
-        });
-        geocoder = new GClientGeocoder();
-    }
+function initMap() {
+    myMap = new google.maps.Map(document.getElementById('my_map'), {
+    center: {lat: 25.04763902653048, lng: 121.51715755462646},
+    zoom: 15
+  });
+    // myMap.addControl(new GLargeMapControl());
+    // document.getElementById('inLatLng').innerHTML = "經緯度: " + myMap.myOptions.Position.toString();
 }
 
 function getWeatherStatus(currentLng, currentLat) {
@@ -102,7 +113,7 @@ function getWeatherStatus(currentLng, currentLat) {
 function getAddress(currentLng, currentLat) {
 
     var arrLatLng = eval('[' + currentLat + ',' + currentLng + ']');
-    var myLatLng = new GLatLng(arrLatLng[0], arrLatLng[1]);
+    var myLatLng = new google.maps.LatLng(arrLatLng[0], arrLatLng[1]);
 
     var myGeocoder = new GClientGeocoder();
     myGeocoder.getLocations(myLatLng, function (addresses) {
@@ -114,6 +125,50 @@ function getAddress(currentLng, currentLat) {
             document.getElementById('currentAddress').innerHTML = result.address;
         }
     });
+}
+
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition, showError);
+    } else {
+        alert("您的瀏覽器不支援定位服務");
+    }
+}
+
+function showPosition(position) {
+    lat = position.coords.latitude;
+    lon = position.coords.longitude;
+    latlon = new google.maps.LatLng(lat, lon)
+    myMap = document.getElementById('my_map')
+    myMap.style.height = '500px';
+    myMap.style.width = '500px';
+
+    var myOptions = {
+    center:latlon,zoom:14,
+    mapTypeId:google.maps.MapTypeId.ROADMAP,
+    mapTypeControl:false,
+    navigationControlOptions:{style:google.maps.NavigationControlStyle.SMALL}
+    }
+    
+    myMap = new google.maps.Map(document.getElementById("my_map"), myOptions);
+    myMarker = new google.maps.Marker({position:latlon,map:myMap,title:"You are here!"});
+}
+
+function showError(error) {
+    switch(error.code) {
+        case error.PERMISSION_DENIED:
+            alert("User denied the request for Geolocation.");
+            break;
+        case error.POSITION_UNAVAILABLE:
+            alert("Location information is unavailable.");
+            break;
+        case error.TIMEOUT:
+            alert("The request to get user location timed out.");
+            break;
+        case error.UNKNOWN_ERROR:
+            alert("An unknown error occurred.");
+            break;
+    }
 }
 
 function loadJsonpData(targetUrl) {
