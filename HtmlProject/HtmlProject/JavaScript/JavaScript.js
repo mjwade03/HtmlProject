@@ -11,10 +11,13 @@ var alreadyGotAirPollutantJson = false;
 var alreadyGotAirPollutantSiteJson = false;
 var AirPollutantArray;
 var AirPollutantSiteArray;
-var geocoder = null;
 
+var weatherIconUrl = 'Image/WeatherIcon/';
+
+var geocoder = null;
 var myMap;
 var myMarker;
+
 
 function load() {
 
@@ -277,8 +280,22 @@ function loadJsonpData2(targetUrl) {
     });
 }
 
+
+function loadJsonpData3(targetUrl)
+{
+    alert("here");
+    $.getJSON(targetUrl + "&callback=?", function (data) {
+        alert(data);
+        $.each(data.services, function (index, service) {
+            alert("3");
+            //processService(service);
+        });
+    });
+}
+
 function loadUVJsonpData() {
     loadJsonpData2(queryUVJsonUrl);
+    loadJsonpData3(queryUVJsonUrl);
 }
 
 function loadUVSitenData() {
@@ -289,7 +306,7 @@ function updateUVData() {
     if (alreadyGotUVJson == true && alreadyGotUVSiteJson == true) {
         for (var i = 0; i < UVArray.length; i++) {
             var site = UVArray[i].SiteName ? UVArray[i].SiteName : "N/A";
-            var uvi = UVArray[i].UVI ? Math.round(UVArray[i].UVI) : "N/A";
+            var uvi = UVArray[i].UVI ? UVArray[i].UVI : "N/A";
             var publisher = UVArray[i].PublishAgency ? UVArray[i].PublishAgency : "N/A";
             var place = UVArray[i].County ? UVArray[i].County : "N/A";
             var longitudeWGS84 = UVArray[i].WGS84Lon ? UVArray[i].WGS84Lon : "N/A";
@@ -311,7 +328,7 @@ function updateUVData() {
                 latitudeTW97 = "N/A";
             }
 
-            addNewUVData(site, uvi, publisher, place, longitudeWGS84, latitudeWGS84, longitudeTWD97, latitudeTW97, time);
+            //addNewUVData(site, uvi, publisher, place, longitudeWGS84, latitudeWGS84, longitudeTWD97, latitudeTW97, time);
 
             var option = document.createElement("option");
             option.text = "測站: " + site + ", 位於: " + place;
@@ -403,15 +420,16 @@ function onSelectUVSiteChange() {
 }
 
 function getUVLevel(UVI) {
-    if (UVI >= 0 && UVI <= 2)
+    var roundUVI = Math.round(UVI);
+    if (roundUVI >= 0 && roundUVI <= 2)
         return "低量級";
-    else if (UVI >= 3 && UVI <= 5)
+    else if (roundUVI >= 3 && roundUVI <= 5)
         return "中量級";
-    else if (UVI >= 6 && UVI <= 7)
+    else if (roundUVI >= 6 && roundUVI <= 7)
         return "高量級";
-    else if (UVI >= 8 && UVI <= 10)
+    else if (roundUVI >= 8 && roundUVI <= 10)
         return "過量級";
-    else if (UVI >= 11)
+    else if (roundUVI >= 11)
         return "危險級";
     else
         return "N/A";
@@ -432,7 +450,7 @@ function getPM2_5Level(PM2_5)
 }
 function setCurrentUVInfoTable(currentObject) {
     document.getElementById("currentUVSiteName").innerHTML = currentObject.SiteName ? currentObject.SiteName : "N/A";
-    document.getElementById("currentUVValue").innerHTML = currentObject.UVI ? Math.round(currentObject.UVI) : "N/A";
+    document.getElementById("currentUVValue").innerHTML = currentObject.UVI ? currentObject.UVI : "N/A";
     document.getElementById("currentUVLevel").innerHTML = getUVLevel(currentObject.UVI);
     document.getElementById("currentUVSiteCounty").innerHTML = currentObject.County ? currentObject.County : "N/A";
     document.getElementById("currentUVPublishTime").innerHTML = currentObject.PublishTime ? currentObject.PublishTime : "N/A";
@@ -473,7 +491,7 @@ function updateAirPollutantData() {
                 latitudeTWD97 = "N/A";
             }
 
-            addNewAirPollutantTableData(site, place, psi, status, majorPollutant, longitudeTWD97, latitudeTWD97, time);
+           // addNewAirPollutantTableData(site, place, psi, status, majorPollutant, longitudeTWD97, latitudeTWD97, time);
 
             var option = document.createElement("option");
             option.text = "測站: " + site + ", 位於: " + place;
@@ -955,19 +973,30 @@ function GetWeatherData2(cityId) {
         //alert(data.query.results.tr.length);
         document.getElementById("firstWeatherValidity").innerHTML = data.query.results.tr[0].th.content;
         document.getElementById("firstWeatherTemperature").innerHTML = data.query.results.tr[0].td[0];
-        document.getElementById("firstWeatherStatus").innerHTML = data.query.results.tr[0].td[1].img.title;
+        /// document.getElementById("firstWeatherStatus").innerHTML = data.query.results.tr[0].td[1].img.title;
+        var imgSrc = (data.query.results.tr[0].td[1].img.src).split("/");
+        document.getElementById("firstWeatherStatus").src = weatherIconUrl + imgSrc[imgSrc.length - 2] + '/' + imgSrc[imgSrc.length - 1];
+        document.getElementById("firstWeatherStatus").title = data.query.results.tr[0].td[1].img.title;
         document.getElementById("firstWeatherComfort").innerHTML = data.query.results.tr[0].td[2];
         document.getElementById("firstWeatherRainPercentage").innerHTML = data.query.results.tr[0].td[3];
 
         document.getElementById("secondWeatherValidity").innerHTML = data.query.results.tr[1].th.content;
         document.getElementById("secondWeatherTemperature").innerHTML = data.query.results.tr[1].td[0];
-        document.getElementById("secondWeatherStatus").innerHTML = data.query.results.tr[1].td[1].img.title;
+        //document.getElementById("secondWeatherStatus").innerHTML = data.query.results.tr[1].td[1].img.title;
+        //document.getElementById("secondWeatherStatus").src = 'Image/WeatherIcon/day/01.gif';
+        imgSrc = (data.query.results.tr[1].td[1].img.src).split("/");
+        document.getElementById("secondWeatherStatus").src = weatherIconUrl + imgSrc[imgSrc.length - 2] + '/' + imgSrc[imgSrc.length - 1];
+        document.getElementById("secondWeatherStatus").title = data.query.results.tr[1].td[1].img.title;
         document.getElementById("secondWeatherComfort").innerHTML = data.query.results.tr[1].td[2];
         document.getElementById("secondWeatherRainPercentage").innerHTML = data.query.results.tr[1].td[3];
 
         document.getElementById("thirdWeatherValidity").innerHTML = data.query.results.tr[2].th.content;
         document.getElementById("thirdWeatherTemperature").innerHTML = data.query.results.tr[2].td[0];
-        document.getElementById("thirdWeatherStatus").innerHTML = data.query.results.tr[2].td[1].img.title;
+        //document.getElementById("thirdWeatherStatus").innerHTML = data.query.results.tr[2].td[1].img.title;
+        //document.getElementById("thirdWeatherStatus").src = 'Image/WeatherIcon/day/01.gif';
+        imgSrc = (data.query.results.tr[2].td[1].img.src).split("/");
+        document.getElementById("thirdWeatherStatus").src = weatherIconUrl + imgSrc[imgSrc.length - 2] + '/' + imgSrc[imgSrc.length - 1];
+        document.getElementById("thirdWeatherStatus").title = data.query.results.tr[2].td[1].img.title;
         document.getElementById("thirdWeatherComfort").innerHTML = data.query.results.tr[2].td[2];
         document.getElementById("thirdWeatherRainPercentage").innerHTML = data.query.results.tr[2].td[3];
 

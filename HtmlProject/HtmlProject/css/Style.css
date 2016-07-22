@@ -36,7 +36,9 @@ table.dataTable td {
     font-size:18px;
     font-family:Microsoft JhengHei;
 	padding: 5px 5px 5px 0;
-	vertical-align: top;
+    vertical-align:middle;
+    margin:auto;
+    text-align: left;
 
 }
 table.dataTable th {
@@ -44,7 +46,6 @@ table.dataTable th {
     font-weight: bold;
     font-family:Microsoft JhengHei;
     border-bottom:1pt solid black;
-	padding-right: 10px;
 	text-align: left;
 }
 table.weatherStatusTable,
@@ -72,3 +73,11 @@ table.weatherStatusTable td {
 }
 
 header.outset {border-style: outset;}
+
+img
+{
+
+  display:table-cell;
+  vertical-align:middle;
+  margin:auto;
+}
