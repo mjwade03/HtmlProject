@@ -18,6 +18,7 @@ var geocoder = null;
 var myMap;
 var myMarker;
 var popup;
+var mylatlng;
 
 
 function load() {
@@ -64,26 +65,24 @@ function initMap() {
     });
     popup = new google.maps.InfoWindow();
 
-    // myMarker = new google.maps.Marker(myMap.getPosition);
+    myMarker = new google.maps.Marker({position:myMap.getPosition,map:myMap,title:"You are here!"});
 
-    // myMap.addOverlay(myMarker);
-    // GEvent.addListener(myMap, "click", function (overlay, point) {
-    //     if (point) {
-    //         //設定標註座標
-    //         var currentLng = point.lng();
-    //         var currentLat = point.lat();
-    //         myMarker.setLatLng(point);
-    //         //document.getElementById('inLatLng').value = point.toString();
-    //         document.getElementById('inLatLng').innerHTML = "經緯度: " + point.toString();
-    //         getWeatherStatus(currentLng, currentLat);
-
-    //     }
-    // });
+    google.maps.event.addListener(myMap, "click", function (e) {
+            // alert(e.latLng);
+            mylatlng = e.latlng;
+            //設定標註座標
+            var currentLng = e.lng;
+            var currentLat = e.lat;
+            //document.getElementById('inLatLng').value = point.toString();
+            document.getElementById('inLatLng').innerHTML = "經緯度: " + e.latLng;
+            getAddress2(e.latLng);
+            getWeatherStatus(currentLng, currentLat);
+    });
 }
 
 function getWeatherStatus(currentLng, currentLat) {
     // getAddress(currentLng, currentLat);
-    getAddress2();
+    // getAddress2(currentLng, currentLat);
     if ((UVArray != null && UVArray.length == 0) || (UVSiteArray != null && UVSiteArray.length == 0) || (AirPollutantArray != null && AirPollutantArray.length == 0) || (AirPollutantSiteArray != null && AirPollutantSiteArray.length == 0)) {
        // alert("Weather data not ready");
     }
@@ -170,29 +169,30 @@ function getWeatherStatus(currentLng, currentLat) {
     }
 }
 
-function getAddress(currentLng, currentLat) {
+// function getAddress(currentLng, currentLat) {
 
-    var arrLatLng = eval('[' + currentLat + ',' + currentLng + ']');
-    var myLatLng = new google.maps.LatLng(arrLatLng[0], arrLatLng[1]);
+//     var arrLatLng = eval('[' + currentLat + ',' + currentLng + ']');
+//     var myLatLng = new google.maps.LatLng(arrLatLng[0], arrLatLng[1]);
 
-    var myGeocoder = new GClientGeocoder();
-    myGeocoder.getLocations(myLatLng, function (addresses) {
-        if (addresses.Status.code != 200) {
-            alert("此座標沒有找到對應的地址 " + myLatLng.toUrlValue());
-        } else {
-            var result = addresses.Placemark[0];
-            myMarker.openInfoWindowHtml(result.address);
-            document.getElementById('currentAddress').innerHTML = result.address;
-        }
-    });
-}
+//     var myGeocoder = new GClientGeocoder();
+//     myGeocoder.getLocations(myLatLng, function (addresses) {
+//         if (addresses.Status.code != 200) {
+//             alert("此座標沒有找到對應的地址 " + myLatLng.toUrlValue());
+//         } else {
+//             var result = addresses.Placemark[0];
+//             myMarker.openInfoWindowHtml(result.address);
+//             document.getElementById('currentAddress').innerHTML = result.address;
+//         }
+//     });
+// }
 
-function getAddress2(){
-    var markerPosition = myMarker.getPosition();
+function getAddress2(latLng){
+    // var markerPosition = new google.maps.LatLng(currentLng, currentLat);
+    // alert(latLng);
 
     // 將經緯度透過 Google map API 反查地址
     geocoder.geocode({
-        'latLng': markerPosition
+        'latLng': latLng
     }, function(results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
             if (results) {
@@ -206,15 +206,27 @@ function getAddress2(){
 
 // 設定 marker 的訊息泡泡
 function showAddressOfResult(result, marker) {
-    // alert(result.formatted_address);
+    alert(result.formatted_address);
 
     // myMap.setCenter(marker.getPosition());
     // myMarker.openInfoWindowHtml(result.formatted_address);
     // document.getElementById('currentAddress').innerHTML = result.formatted_address;
 
+    // var myOptions = {
+    // center:mylatlng,zoom:14,
+    // mapTypeId:google.maps.MapTypeId.ROADMAP,
+    // mapTypeControl:false,
+    // navigationControlOptions:{style:google.maps.NavigationControlStyle.SMALL}
+    // }
+    // myMap = new google.maps.Map(document.getElementById("my_map"), myOptions);
+    // myMarker = new google.maps.Marker({
+    //     position: mylatlng,
+    //     map: myMap,
+    //     title: result.formatted_address
+    // });
     var popupContent = '<b>地址: </b> ' + result.formatted_address;
     popup.setContent(popupContent);
-    popup.open(myMap, marker);
+    popup.open(myMap, myMarker);
 }
 
 //定位
@@ -243,8 +255,18 @@ function showPosition(position) {
     
     myMap = new google.maps.Map(document.getElementById("my_map"), myOptions);
     myMarker = new google.maps.Marker({position:latlon,map:myMap,title:"You are here!"});
-    google.maps.event.addListener()
-    getAddress2();
+    getWeatherStatus(lon, lat);
+    myMap.addListener("click", function (e) {
+        alert(e.latLng);
+        mylatlng = e.latlng;
+        //設定標註座標
+        var currentLng = e.lng;
+        var currentLat = e.lat;
+        //document.getElementById('inLatLng').value = point.toString();
+        document.getElementById('inLatLng').innerHTML = "經緯度: " + e.latLng;
+        getAddress2(e.latLng);
+        getWeatherStatus(currentLng, currentLat);
+    });
 }
 
 function showError(error) {
