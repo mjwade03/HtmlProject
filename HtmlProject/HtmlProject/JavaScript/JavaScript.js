@@ -64,7 +64,11 @@ function initMap() {
 function getWeatherStatus(currentLng, currentLat) {
     getAddress(currentLng, currentLat);
     if ((UVArray != null && UVArray.length == 0) || (UVSiteArray != null && UVSiteArray.length == 0) || (AirPollutantArray != null && AirPollutantArray.length == 0) || (AirPollutantSiteArray != null && AirPollutantSiteArray.length == 0)) {
-        alert("Weather data not ready");
+       // alert("Weather data not ready");
+    }
+    else if (UVArray == null || UVSiteArray == null || AirPollutantArray == null || AirPollutantSiteArray == null)
+    {
+       // alert("Weather data not ready");
     }
     else {
         var targetUVSiteName;
@@ -82,10 +86,26 @@ function getWeatherStatus(currentLng, currentLat) {
         for (var i = 0; i < UVArray.length; i++) {
             if (UVArray[i].SiteName == targetUVSiteName) {
                 setCurrentUVInfoTable(UVArray[i]);
-                GetWeatherDataByCountyName(UVArray[i]);
+                document.getElementById("weatherUVLevel").innerHTML = "紫外線等級:" + getUVLevel(UVArray[i].UVI);
+                GetWeatherDataByCountyName(UVArray[i].County);
                 break;
             }
         }
+        
+        // Change the UV drop down list to this station
+        var sel = document.getElementById('UVSiteSelect');
+        var opts = sel.options;
+        
+        for (var index = 0; index < opts.length; index++) {
+            var opt = opts[index];
+
+            if (opt.value == targetUVSiteName) {
+                sel.selectedIndex = index;
+                break;
+            }
+        }
+
+
 
         // Find the nearst air pollutant site
         var minAirPollutantSiteDistance = 999999999;
@@ -100,11 +120,30 @@ function getWeatherStatus(currentLng, currentLat) {
         }
         if(AirPollutantArray != null){
             for (var i = 0; i < AirPollutantArray.length; i++) {
+                ///alert("2: " + AirPollutantArray[i].PM25);
                 if (AirPollutantArray[i].SiteName == targetAirPollutantSiteName) {
                     setCurrentAirPollutantInfoTable(AirPollutantArray[i]);
+
+                  // alert( AirPollutantArray[i]["PM2.5"]);
+
+                    document.getElementById("weatherAirStatus").innerHTML = AirPollutantArray[i].Status ? "空氣品質: " + AirPollutantArray[i].Status : "空氣品質: N/A";
+                    document.getElementById("weatherPM25Level").innerHTML = AirPollutantArray[i]["PM2.5"] ? "PM2.5等級: " + getPM2_5Level(AirPollutantArray[i]["PM2.5"]) : "PM2.5等級: N/A";
                     GetWeatherDataByCountyName(AirPollutantArray[i].County);
                     break;
                 }
+            }
+        }
+
+        // Change the air pollutant drop down list to this station
+        sel = document.getElementById('airPollutantSiteSelect');
+        opts = sel.options;
+
+        for (var index = 0; index < opts.length; index++) {
+            var opt = opts[index];
+
+            if (opt.value == targetAirPollutantSiteName) {
+                sel.selectedIndex = index;
+                break;
             }
         }
     }
@@ -223,7 +262,9 @@ function loadJsonpData2(targetUrl) {
                 updateUVData();
                 break;
             case queryAirPollutantJsonUrl:
+                //alert("Here: " + obj[0].PM25);
                 AirPollutantArray = obj;
+                //alert("Here: " + AirPollutantArray[0].PM25);
                 alreadyGotAirPollutantJson = true;
                 updateAirPollutantData();
                 break;
@@ -329,7 +370,33 @@ function onSelectUVSiteChange() {
     for (var i = 0; i < UVArray.length; i++) {
         if (UVArray[i].SiteName == siteName) {
             setCurrentUVInfoTable(UVArray[i]);
-            GetWeatherDataByCountyName(UVArray[i]);
+            //GetWeatherDataByCountyName(UVArray[i].County);
+
+
+            var match = $.grep(UVSiteArray, function (item) {
+                return item.SiteName == UVArray[i].SiteName;
+            });
+
+            var longitudeTWD97;
+            var latitudeTW97
+            if (match) {
+                longitudeTWD97 = match[0].TWD97Lon ? match[0].TWD97Lon : "N/A";
+                latitudeTW97 = match[0].TWD97Lat ? match[0].TWD97Lat : "N/A";
+            }
+            else {
+                longitudeTWD97 = "N/A";
+                latitudeTW97 = "N/A";
+            }
+
+            var myLatLng = new GLatLng(latitudeTW97, longitudeTWD97);
+            myMap.setCenter(myLatLng, 15);
+            myMap.addControl(new GLargeMapControl());
+            myMarker = new GMarker(myLatLng);
+            myMap.addOverlay(myMarker);
+
+
+            getWeatherStatus(longitudeTWD97, latitudeTW97);
+
             break;
         }
     }
@@ -350,13 +417,26 @@ function getUVLevel(UVI) {
         return "N/A";
 }
 
+function getPM2_5Level(PM2_5)
+{
+    if (PM2_5 >= 0 && PM2_5 <= 35)
+        return "低";
+    else if (PM2_5 >= 36 && PM2_5 <= 53)
+        return "中";
+    else if (PM2_5 >= 54 && PM2_5 <= 70)
+        return "高";
+    else if (PM2_5 >= 71)
+        return "非常高";
+    else
+        return "N/A";
+}
 function setCurrentUVInfoTable(currentObject) {
     document.getElementById("currentUVSiteName").innerHTML = currentObject.SiteName ? currentObject.SiteName : "N/A";
-    document.getElementById("currentUVValue").innerHTML = currentObject.UVI ? Math.round(UVArray[i].UVI) : "N/A";
+    document.getElementById("currentUVValue").innerHTML = currentObject.UVI ? Math.round(currentObject.UVI) : "N/A";
     document.getElementById("currentUVLevel").innerHTML = getUVLevel(currentObject.UVI);
     document.getElementById("currentUVSiteCounty").innerHTML = currentObject.County ? currentObject.County : "N/A";
     document.getElementById("currentUVPublishTime").innerHTML = currentObject.PublishTime ? currentObject.PublishTime : "N/A";
-    document.getElementById("weatherUVLevel").innerHTML = "紫外線等級:" + getUVLevel(currentObject.UVI);
+    //document.getElementById("weatherUVLevel").innerHTML = "紫外線等級:" + getUVLevel(currentObject.UVI);
     //GetWeatherDataByCountyName(currentObject.County);
 }
 
@@ -448,7 +528,30 @@ function onSelectAirPollutantSiteChange() {
     for (var i = 0; i < AirPollutantArray.length; i++) {
         if (AirPollutantArray[i].SiteName == siteName) {
             setCurrentAirPollutantInfoTable(AirPollutantArray[i]);
-            GetWeatherDataByCountyName(AirPollutantArray[i].County);
+            //GetWeatherDataByCountyName(AirPollutantArray[i].County);
+
+
+            var match = $.grep(AirPollutantSiteArray, function (item) {
+                return item.SiteName == AirPollutantArray[i].SiteName;
+            });
+
+            var longitudeTWD97;
+            var latitudeTW97
+            if (match) {
+                longitudeTWD97 = match[0].TWD97Lon ? match[0].TWD97Lon : "N/A";
+                latitudeTW97 = match[0].TWD97Lat ? match[0].TWD97Lat : "N/A";
+            }
+            else {
+                longitudeTWD97 = "N/A";
+                latitudeTW97 = "N/A";
+            }
+            var myLatLng = new GLatLng(latitudeTW97, longitudeTWD97);
+            myMap.setCenter(myLatLng, 15);
+            myMap.addControl(new GLargeMapControl());
+            myMarker = new GMarker(myLatLng);
+            myMap.addOverlay(myMarker);
+
+            getWeatherStatus(longitudeTWD97, latitudeTW97);
             break;
         }
     }
@@ -461,7 +564,7 @@ function setCurrentAirPollutantInfoTable(currentObject) {
     document.getElementById("currentAirPollutantStatus").innerHTML = currentObject.Status ? currentObject.Status : "N/A";
     document.getElementById("currentAirPollutantCounty").innerHTML = currentObject.County ? currentObject.County : "N/A";
     document.getElementById("currentAirPollutantPublishTime").innerHTML = currentObject.PublishTime ? currentObject.PublishTime : "N/A";
-    document.getElementById("weatherAirStatus").innerHTML = currentObject.Status ? "空氣品質: " + currentObject.Status : "空氣品質: N/A";
+    //document.getElementById("weatherAirStatus").innerHTML = currentObject.Status ? "空氣品質: " + currentObject.Status : "空氣品質: N/A";
     //GetWeatherDataByCountyName(currentObject.County);
 }
 
@@ -650,7 +753,8 @@ function GetWeatherDataByCountyName(countyName) {
     //        break;
     //    }
     //}
-
+    document.getElementById("countyInformation").innerHTML = countyName + "天氣狀況";
+    
     for (var i = 0; i < jsonCity2.results.table.length; i++) {
         if (countyName == jsonCity2.results.table[i].city.name) {
             //GetWeatherData(jsonCity.results.table[i].city.id);
@@ -848,9 +952,24 @@ function GetWeatherData2(cityId) {
         'xpath=' + "'" + '//tbody//tr' + "'") + '&format=json';
 
     $.getJSON(BasicQueryUrl + query, function (data) {
-        document.getElementById("weatherValidity").innerHTML = data.query.results.tr[0].th.content;
-        document.getElementById("weatherTemperature").innerHTML = "溫度: " + data.query.results.tr[0].td[0];
-        document.getElementById("weatherRainPercentage").innerHTML = "降雨機率: " + data.query.results.tr[0].td[3];
+        //alert(data.query.results.tr.length);
+        document.getElementById("firstWeatherValidity").innerHTML = data.query.results.tr[0].th.content;
+        document.getElementById("firstWeatherTemperature").innerHTML = data.query.results.tr[0].td[0];
+        document.getElementById("firstWeatherStatus").innerHTML = data.query.results.tr[0].td[1].img.title;
+        document.getElementById("firstWeatherComfort").innerHTML = data.query.results.tr[0].td[2];
+        document.getElementById("firstWeatherRainPercentage").innerHTML = data.query.results.tr[0].td[3];
+
+        document.getElementById("secondWeatherValidity").innerHTML = data.query.results.tr[1].th.content;
+        document.getElementById("secondWeatherTemperature").innerHTML = data.query.results.tr[1].td[0];
+        document.getElementById("secondWeatherStatus").innerHTML = data.query.results.tr[1].td[1].img.title;
+        document.getElementById("secondWeatherComfort").innerHTML = data.query.results.tr[1].td[2];
+        document.getElementById("secondWeatherRainPercentage").innerHTML = data.query.results.tr[1].td[3];
+
+        document.getElementById("thirdWeatherValidity").innerHTML = data.query.results.tr[2].th.content;
+        document.getElementById("thirdWeatherTemperature").innerHTML = data.query.results.tr[2].td[0];
+        document.getElementById("thirdWeatherStatus").innerHTML = data.query.results.tr[2].td[1].img.title;
+        document.getElementById("thirdWeatherComfort").innerHTML = data.query.results.tr[2].td[2];
+        document.getElementById("thirdWeatherRainPercentage").innerHTML = data.query.results.tr[2].td[3];
 
     });
 
