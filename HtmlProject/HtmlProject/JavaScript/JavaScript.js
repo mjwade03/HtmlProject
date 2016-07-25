@@ -68,15 +68,15 @@ function initMap() {
     myMarker = new google.maps.Marker({position:myMap.getPosition,map:myMap,title:"You are here!"});
 
     google.maps.event.addListener(myMap, "click", function (e) {
-            // alert(e.latLng);
-            mylatlng = e.latlng;
-            //設定標註座標
-            var currentLng = e.lng;
-            var currentLat = e.lat;
-            //document.getElementById('inLatLng').value = point.toString();
-            document.getElementById('inLatLng').innerHTML = "經緯度: " + e.latLng;
-            getAddress2(e.latLng);
-            getWeatherStatus(currentLng, currentLat);
+        // alert(e.latLng);
+        mylatlng = e.latLng;
+        //設定標註座標
+        var currentLng = mylatlng.lng();
+        var currentLat = mylatlng.lat();
+        //document.getElementById('inLatLng').value = point.toString();
+        document.getElementById('inLatLng').innerHTML = "經緯度: " + e.latLng;
+        getAddress2(e.latLng);
+        getWeatherStatus(currentLng, currentLat);
     });
 }
 
@@ -477,12 +477,13 @@ function onSelectUVSiteChange() {
                 longitudeTWD97 = "N/A";
                 latitudeTW97 = "N/A";
             }
-
-            var myLatLng = new GLatLng(latitudeTW97, longitudeTWD97);
-            myMap.setCenter(myLatLng, 15);
-            myMap.addControl(new GLargeMapControl());
-            myMarker = new GMarker(myLatLng);
-            myMap.addOverlay(myMarker);
+            
+            var myLatLng = new google.maps.LatLng(latitudeTW97, longitudeTWD97);
+            getAddress2(myLatLng);
+            //myMap.setCenter(myLatLng, 15);
+            //myMap.addControl(new GLargeMapControl());
+            //myMarker = new GMarker(myLatLng);
+            //myMap.addOverlay(myMarker);
 
 
             getWeatherStatus(longitudeTWD97, latitudeTW97);
@@ -636,11 +637,12 @@ function onSelectAirPollutantSiteChange() {
                 longitudeTWD97 = "N/A";
                 latitudeTW97 = "N/A";
             }
-            var myLatLng = new GLatLng(latitudeTW97, longitudeTWD97);
-            myMap.setCenter(myLatLng, 15);
-            myMap.addControl(new GLargeMapControl());
-            myMarker = new GMarker(myLatLng);
-            myMap.addOverlay(myMarker);
+            var myLatLng = new google.maps.LatLng(latitudeTW97, longitudeTWD97);
+            getAddress2(myLatLng);
+            //myMap.setCenter(myLatLng, 15);
+            //myMap.addControl(new GLargeMapControl());
+            //myMarker = new GMarker(myLatLng);
+            //myMap.addOverlay(myMarker);
 
             getWeatherStatus(longitudeTWD97, latitudeTW97);
             break;
