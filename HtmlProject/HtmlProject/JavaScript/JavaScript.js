@@ -1074,9 +1074,9 @@ function GetWeatherData2(cityId) {
         document.getElementById("thirdWeatherStatus").title = data.query.results.tr[2].td[1].img.title;
         document.getElementById("thirdWeatherComfort").innerHTML = data.query.results.tr[2].td[2];
         document.getElementById("thirdWeatherRainPercentage").innerHTML = data.query.results.tr[2].td[3];
-
+        $("#WeatherStatusTable").fadeIn(1000);
     });
-
+   
 
 }
 
