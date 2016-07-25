@@ -30,23 +30,45 @@ table.dataTable td {
     border-collapse: collapse;
 
 }*/
+div.reserveSpace{
+    height:300px;
 
-
+}
+div.dataTableBorder {
+    border:1pt solid rgba(80%,80%,80%,0.9);
+    border-radius: 5px;
+    display: inline-block;
+    background: rgba(0%,0%,0%,0.2);
+}
+table.dataTable{
+    border-collapse:collapse;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    margin-left: 10px;
+    display:none;
+}
+table.dataTable tr {
+    
+}
 table.dataTable td {
     font-size:18px;
+    font-weight:lighter;
     font-family:Microsoft JhengHei;
-	padding: 5px 5px 5px 0;
+	padding: 10px;
     vertical-align:middle;
+    border-top:1pt solid white;
     margin:auto;
     text-align: left;
-
+    color: white;
 }
 table.dataTable th {
     font-size:18px;
     font-weight: bold;
     font-family:Microsoft JhengHei;
-    border-bottom:1pt solid black;
+    padding: 10px;
 	text-align: left;
+    color: rgba(80%,80%,80%,0.9);
 }
 table.weatherStatusTable,
 table.weatherStatusTable tr,
@@ -55,8 +77,7 @@ table.weatherStatusTable td {
     font-weight: bold;
     font-size:18px;
     font-family:Microsoft JhengHei;
-    text-align: center;
-    border-collapse: collapse;
+    text-align: left;
 }
 
 #MainBody{

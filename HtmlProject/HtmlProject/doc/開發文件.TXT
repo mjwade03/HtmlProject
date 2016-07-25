@@ -15,3 +15,13 @@ AIzaSyDS7IojxtL7VgMq4UuPVhT0MSQUFXpf1ik
 6.秀出完整三個時段的天氣預測 E
 7.研究是否可以秀出當前的實際氣溫等等 E
 8.獨立秀出PM2.5的狀況 E
+
+
+
+
+
+
+
+
+
+http://weather.json.tw/

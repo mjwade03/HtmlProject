@@ -24,57 +24,72 @@
     <form id="InformationForm">
         <nav>
             <div id="my_map" style="width: 500px; height: 500px"></div>
+            <p>以地址搜尋地點</p>
+            <input id="inAddr" name="inAddr" type="text" size="40" value="100台灣台北市中正區北平西路3號臺北車站" style="font-size:18px;font-family:Microsoft JhengHei;" />
+            <button type="button" onclick="ShowAddress()" style="font-size:18px;font-family:Microsoft JhengHei;">GO!</button>
         </nav>
         <article>
-        以地址搜尋地點：<input id="inAddr" name="inAddr" type="text" size="40" value="100台灣台北市中正區北平西路3號臺北車站" style="font-size:18px;font-family:Microsoft JhengHei;" />
-            <button type="button" onclick="ShowAddress()" style="font-size:18px;font-family:Microsoft JhengHei;">GO!</button>
+        <!--以地址搜尋地點：<input id="inAddr" name="inAddr" type="text" size="40" value="100台灣台北市中正區北平西路3號臺北車站" style="font-size:18px;font-family:Microsoft JhengHei;" />
+            <button type="button" onclick="ShowAddress()" style="font-size:18px;font-family:Microsoft JhengHei;">GO!</button>-->
 
             <p valign="top" id="currentAddress" hidden>100台灣台北市中正區北平西路3號臺北車站</p>
             <p valign="top" id="inLatLng" name="inLatLng" size="40" hidden></p>
             <p valign="top" id="countyInformation" align="left">臺北市天氣狀況</p>
-            <table id="WeatherStatusTable" class="dataTable">
-                <tr>                    
-                    <th valign="top">預報有效期間</th>
-                    <th valign="top"> </th>
-                    <th valign="top">舒適度</th>
-                    <th valign="top">溫度</th>
-                    <th valign="top">降雨機率</th>
-                </tr>
-                <tr>
-                    <td valign="top" id="firstWeatherValidity">今日白天</td>
-                    <!--<td valign="top" id="firstWeatherStatus">多雲時晴</td>-->    
-                    <td>
-                        <img id="firstWeatherStatus"/>
-                    </td>                
-                    <td valign="top" id="firstWeatherComfort">舒適</td>
-                    <td valign="top" id="firstWeatherTemperature">26 ~ 37</td>
-                    <td valign="top" id="firstWeatherRainPercentage">20%</td>
-                </tr>
-                <tr>
-                    <td valign="top" id="secondWeatherValidity">今晚至明晨</td>
-                    <!--<td valign="top" id="secondWeatherStatus">多雲時晴</td>-->  
-                    <td>
-                        <img id="secondWeatherStatus" />
-                    </td>    
-                    <td valign="top" id="secondWeatherComfort">舒適</td>
-                    <td valign="top" id="secondWeatherTemperature">26 ~ 37</td>
-                    <td valign="top" id="secondWeatherRainPercentage">20%</td>
-                </tr>
-                <tr>
-                    <td valign="top" id="thirdWeatherValidity">明日白天</td>
-                    <!--<td valign="top" id="thirdWeatherStatus">多雲時晴</td>-->  
-                    <td>
-                        <img id="thirdWeatherStatus" />
-                    </td>    
-                    <td valign="top" id="thirdWeatherComfort">舒適</td>
-                    <td valign="top" id="thirdWeatherTemperature">26 ~ 37</td>
-                    <td valign="top" id="thirdWeatherRainPercentage">20%</td>
-                </tr>
-        
-            </table>
+           <table>
+               <tr>
+                   <td>
+                       <div class="reserveSpace"></div>
+                   </td>
+                   <td>
+                       <div class="dataTableBorder">
+
+                           <table id="WeatherStatusTable" class="dataTable">
+                               <tr>
+                                   <th valign="top">預報有效期間</th>
+                                   <th valign="top">天氣狀況</th>
+                                   <th valign="top">舒適度</th>
+                                   <th valign="top">溫度</th>
+                                   <th valign="top">降雨機率</th>
+                               </tr>
+                               <tr>
+                                   <td valign="top" id="firstWeatherValidity">今日白天</td>
+                                   <td>
+                                       <img id="firstWeatherStatus" />
+                                   </td>
+                                   <td valign="top" id="firstWeatherComfort">舒適</td>
+                                   <td valign="top" id="firstWeatherTemperature">26 ~ 37</td>
+                                   <td valign="top" id="firstWeatherRainPercentage">20%</td>
+                               </tr>
+                               <tr>
+                                   <td valign="top" id="secondWeatherValidity">今晚至明晨</td>
+                                   <td>
+                                       <img id="secondWeatherStatus" />
+                                   </td>
+                                   <td valign="top" id="secondWeatherComfort">舒適</td>
+                                   <td valign="top" id="secondWeatherTemperature">26 ~ 37</td>
+                                   <td valign="top" id="secondWeatherRainPercentage">20%</td>
+                               </tr>
+                               <tr>
+                                   <td valign="top" id="thirdWeatherValidity">明日白天</td>
+                                   <td>
+                                       <img id="thirdWeatherStatus" />
+                                   </td>
+                                   <td valign="top" id="thirdWeatherComfort">舒適</td>
+                                   <td valign="top" id="thirdWeatherTemperature">26 ~ 37</td>
+                                   <td valign="top" id="thirdWeatherRainPercentage">20%</td>
+                               </tr>
+
+                           </table>
+                       </div>
+                   </td>
+               </tr>
+           </table>
+
+
+
 
             <p>即時資料:</p>
-            <table id="WeatherStatusTable" class="dataTable">
+            <table id="WeatherStatusTable" ><!--class="dataTable">-->
                 <tr>
                     <td valign="top" id="weatherUVLevel">紫外線等級:</td>
                 </tr>
@@ -93,7 +108,7 @@
             <select id="airPollutantSiteSelect" onchange="onSelectAirPollutantSiteChange()"></select>
             <br />
             <br />
-        <table class="dataTable">
+        <table ><!--class="dataTable">-->
             <tr>
 
                 <td valign="top">
