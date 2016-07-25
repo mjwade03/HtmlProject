@@ -260,7 +260,7 @@ function showPosition(position) {
         alert(e.latLng);
         mylatlng = e.latLng;
         //設定標註座標
-        var currentLng = mylatlnge.lng();
+        var currentLng = mylatlng.lng();
         var currentLat = mylatlng.lat();
         //document.getElementById('inLatLng').value = point.toString();
         document.getElementById('inLatLng').innerHTML = "經緯度: " + e.latLng;
