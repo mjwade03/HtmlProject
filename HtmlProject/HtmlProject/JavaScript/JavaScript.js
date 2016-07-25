@@ -258,10 +258,10 @@ function showPosition(position) {
     getWeatherStatus(lon, lat);
     myMap.addListener("click", function (e) {
         alert(e.latLng);
-        mylatlng = e.latlng;
+        mylatlng = e.latLng;
         //設定標註座標
-        var currentLng = e.lng;
-        var currentLat = e.lat;
+        var currentLng = mylatlnge.lng();
+        var currentLat = mylatlng.lat();
         //document.getElementById('inLatLng').value = point.toString();
         document.getElementById('inLatLng').innerHTML = "經緯度: " + e.latLng;
         getAddress2(e.latLng);
