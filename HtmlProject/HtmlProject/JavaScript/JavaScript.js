@@ -32,7 +32,7 @@ var mylatlng;
 var currentTemp;
 var currentUVStatus;
 var cuuentPM2_5;
-var currentAirPollutantStatus
+var currentAirPollutantStatus;
 
 function load() {
 
