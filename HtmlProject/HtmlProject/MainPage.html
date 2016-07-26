@@ -18,9 +18,9 @@
 
 
 <body id="MainBody" onload="load()">
-    <header>
+    <!--<header>
         <h1>紫外線&氣象站</h1>
-    </header>
+    </header>-->
     <form id="InformationForm">
         <nav>
             <div id="my_map" style="width: 500px; height: 500px"></div>
@@ -35,12 +35,12 @@
             <div valign="top" id="inLatLng" name="inLatLng" size="40" hidden></div>
             <table>
                 <tr>
-                    <td>
+                    <!--<td>
                         <div id="countyInformation" class="currentCountyField">臺北市</div>
                         <div id="currentTemp" class="currentTempField">34°C</div>
-                    </td>
+                    </td>-->
                     <td>
-                        <div id="helperInformation" class="littleHelperField"> </div>
+                        <!--<div id="helperInformation" class="littleHelperField"> </div>-->
                     </td>
                 </tr>
             </table>
@@ -49,6 +49,10 @@
 
             <table>
                 <tr>
+                    <td>
+                        <div id="countyInformation" class="currentCountyField">臺北市</div>
+                        <div id="currentTemp" class="currentTempField">34°C</div>
+                    </td>
                     <td>
                         <div class="reserveSpaceShort" ></div>
                     </td>
@@ -72,6 +76,8 @@
                     </td>
                 </tr>
             </table>
+
+            <div id="helperInformation" class="littleHelperField"> </div>
            <table>
                <tr>
                    <td>
@@ -91,7 +97,7 @@
                                <tr>
                                    <td valign="top" id="firstWeatherValidity">今日白天</td>
                                    <td>
-                                       <img id="firstWeatherStatus" />
+                                       <img id="firstWeatherStatus" height="50"/>
                                    </td>
                                    <td valign="top" id="firstWeatherComfort">舒適</td>
                                    <td valign="top" id="firstWeatherTemperature">26 ~ 37</td>
@@ -100,7 +106,7 @@
                                <tr>
                                    <td valign="top" id="secondWeatherValidity">今晚至明晨</td>
                                    <td>
-                                       <img id="secondWeatherStatus" />
+                                       <img id="secondWeatherStatus" height="50"/>
                                    </td>
                                    <td valign="top" id="secondWeatherComfort">舒適</td>
                                    <td valign="top" id="secondWeatherTemperature">26 ~ 37</td>
@@ -109,7 +115,7 @@
                                <tr>
                                    <td valign="top" id="thirdWeatherValidity">明日白天</td>
                                    <td>
-                                       <img id="thirdWeatherStatus" />
+                                       <img id="thirdWeatherStatus" height="50"/>
                                    </td>
                                    <td valign="top" id="thirdWeatherComfort">舒適</td>
                                    <td valign="top" id="thirdWeatherTemperature">26 ~ 37</td>

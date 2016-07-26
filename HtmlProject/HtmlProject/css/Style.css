@@ -54,7 +54,7 @@ div.currentCountyField{
     padding-top: 0px;
 }
 div.reserveSpaceShort{
-    height:150px;
+    width:20px;
 
 }
 div.reserveSpaceLong{
@@ -108,7 +108,7 @@ table.weatherStatusTable td {
 }
 
 #MainBody{
-    background-image:url(..//Image/01d29ccaf765eff5ce.jpg);
+    background-image:url(..//Image/SP505-201-0.jpg);
     background-repeat:no-repeat;
     background-size:cover;
 }
