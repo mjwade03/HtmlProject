@@ -69,7 +69,7 @@ function initMap() {
     });
 }
 
-function getWeatherStatus(currentLng, currentLat, callback) {
+function getWeatherStatus(currentLng, currentLat) {
     lastLat = currentLat;
     lastLng = currentLng;
     if ((UVArray != null && UVArray.length == 0) || (UVSiteArray != null && UVSiteArray.length == 0) || (AirPollutantArray != null && AirPollutantArray.length == 0) || (AirPollutantSiteArray != null && AirPollutantSiteArray.length == 0)) {
@@ -209,8 +209,8 @@ function showPosition(position) {
     lat = position.coords.latitude;
     lon = position.coords.longitude;
     latlon = new google.maps.LatLng(lat, lon)
-    getWeatherStatus(lon, lat, getAddress2(latlon));
-    // getAddress2(latlon);
+    getWeatherStatus(lon, lat);
+    getAddress2(latlon);
 }
 
 function showError(error) {
