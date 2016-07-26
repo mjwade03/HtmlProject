@@ -12,6 +12,14 @@ var alreadyGotAirPollutantSiteJson = false;
 var AirPollutantArray;
 var AirPollutantSiteArray;
 
+
+// 用於query目前即時的天氣資訊
+var queryRealTimeWeatherStatusUrl = 'http://opendata.cwb.gov.tw/opendata/DIV2/O-A0003-001.xml';
+var realTimeWeatherStatusDataArray;
+
+var lastLat;
+var lastLng;
+
 var weatherIconUrl = 'Image/WeatherIcon/';
 
 var geocoder = null;
@@ -28,6 +36,8 @@ function load() {
     loadUVSitenData();
     loadAirPollutantJsonData();
     loadAirPollutantSiteJsonData();
+
+    loadRealTimeWeatherStatusData();
 
     initMap();
     getLocation();
@@ -55,6 +65,8 @@ function initMap() {
 }
 
 function getWeatherStatus(currentLng, currentLat) {
+    lastLat = currentLat;
+    lastLng = currentLng;
     if ((UVArray != null && UVArray.length == 0) || (UVSiteArray != null && UVSiteArray.length == 0) || (AirPollutantArray != null && AirPollutantArray.length == 0) || (AirPollutantSiteArray != null && AirPollutantSiteArray.length == 0)) {
        // alert("Weather data not ready");
     }
@@ -78,7 +90,7 @@ function getWeatherStatus(currentLng, currentLat) {
         for (var i = 0; i < UVArray.length; i++) {
             if (UVArray[i].SiteName == targetUVSiteName) {
                 setCurrentUVInfoTable(UVArray[i]);
-                document.getElementById("weatherUVLevel").innerHTML = "紫外線等級:" + getUVLevel(UVArray[i].UVI);
+                document.getElementById("weatherUVLevel").innerHTML = getUVLevel(UVArray[i].UVI);
                 GetWeatherDataByCountyName(UVArray[i].County);
                 break;
             }
@@ -118,8 +130,8 @@ function getWeatherStatus(currentLng, currentLat) {
 
                   // alert( AirPollutantArray[i]["PM2.5"]);
 
-                    document.getElementById("weatherAirStatus").innerHTML = AirPollutantArray[i].Status ? "空氣品質: " + AirPollutantArray[i].Status : "空氣品質: N/A";
-                    document.getElementById("weatherPM25Level").innerHTML = AirPollutantArray[i]["PM2.5"] ? "PM2.5等級: " + getPM2_5Level(AirPollutantArray[i]["PM2.5"]) : "PM2.5等級: N/A";
+                    document.getElementById("weatherAirStatus").innerHTML = AirPollutantArray[i].Status ? AirPollutantArray[i].Status : "N/A";
+                    document.getElementById("weatherPM25Level").innerHTML = AirPollutantArray[i]["PM2.5"] ? getPM2_5Level(AirPollutantArray[i]["PM2.5"]) : "N/A";
                     GetWeatherDataByCountyName(AirPollutantArray[i].County);
                     break;
                 }
@@ -138,6 +150,9 @@ function getWeatherStatus(currentLng, currentLat) {
                 break;
             }
         }
+
+
+        updateRealTimeWeatherStatus();
     }
 }
 
@@ -579,6 +594,66 @@ function setCurrentAirPollutantInfoTable(currentObject) {
 }
 
 
+
+function loadRealTimeWeatherStatusData()
+{
+    var BasicQueryUrl = 'https://query.yahooapis.com/v1/public/yql?'
+    var query = 'q=' +
+        encodeURIComponent('select * from html where ' +
+        '  url = "http://opendata.cwb.gov.tw/opendata/DIV2/O-A0003-001.xml" and ' +
+        'xpath=' + "'" + '//location' + "'") + '&format=json';
+    $.getJSON(BasicQueryUrl + query, function (data) {
+        var obj = data.query.results.location;
+
+        realTimeWeatherStatusDataArray = obj;
+        updateRealTimeWeatherStatus();
+    });
+}
+
+function updateRealTimeWeatherStatus()
+{
+    if (realTimeWeatherStatusDataArray != null && lastLng && lastLat)
+    {
+        var targetTemp;
+        var targetObject;
+        var minRealTimeWeatherStatusStation = 999999999;
+        for (var index = 0; index < realTimeWeatherStatusDataArray.length; index++) {
+            var distance = Math.abs(realTimeWeatherStatusDataArray[index].lon - lastLng) + Math.abs(realTimeWeatherStatusDataArray[index].lat - lastLat);
+            if (distance < minRealTimeWeatherStatusStation) {
+                minRealTimeWeatherStatusStation = distance;
+                targetTemp = realTimeWeatherStatusDataArray[index].weatherelement[4].elementvalue.value;
+                targetObject = realTimeWeatherStatusDataArray[index];
+            }
+        }
+        var tempString = targetTemp.toString();
+        document.getElementById("currentTemp").innerHTML = tempString + "°C";
+    }
+
+}
+
+function updateLittleHelperContent(helperId)
+{
+    if (helperId) {
+        var BasicQueryUrl = 'https://query.yahooapis.com/v1/public/yql?'
+        var query = 'q=' +
+            encodeURIComponent('select * from html where ' +
+            '  url = "http://opendata.cwb.gov.tw/opendata/MFC/' + helperId + '.xml" and ' +
+            'xpath=' + "'" + '//dataset' + "'") + '&format=json';
+        $.getJSON(BasicQueryUrl + query, function (data) {
+            var obj = data.query.results;
+            var helperString="";
+            for (var index = 0; index < obj.dataset.parameterset.parameter.length;index++)
+            {
+                helperString = helperString + obj.dataset.parameterset.parameter[index].parametervalue + '<br />';
+            }
+            document.getElementById("helperInformation").innerHTML = helperString;
+
+            //realTimeWeatherStatusDataArray = obj;
+            //updateRealTimeWeatherStatus();
+        });
+    }
+}
+
 var jsonCity = {
     "results": {
         "table": [
@@ -763,12 +838,13 @@ function GetWeatherDataByCountyName(countyName) {
     //        break;
     //    }
     //}
-    document.getElementById("countyInformation").innerHTML = countyName + "天氣狀況";
+    document.getElementById("countyInformation").innerHTML = countyName;
     
     for (var i = 0; i < jsonCity2.results.table.length; i++) {
         if (countyName == jsonCity2.results.table[i].city.name) {
             //GetWeatherData(jsonCity.results.table[i].city.id);
             GetWeatherData2(jsonCity2.results.table[i].city.id);
+            updateLittleHelperContent(jsonCity2.results.table[i].city.helperId)
             break;
         }
     }
@@ -806,133 +882,155 @@ var jsonCity2 = {
         {
             "city": {
                 "id": "Keelung_City",
-                "name": "基隆市"
+                "name": "基隆市",
+                "helperId": "F-C0032-011",
             }
         },
         {
             "city": {
                 "id": "Taipei_City",
-                "name": "臺北市"
+                "name": "臺北市",
+                "helperId": "F-C0032-009",
             }
         },
         {
             "city": {
                 "id": "New_Taipei_City",
-                "name": "新北市"
+                "name": "新北市",
+                "helperId": "F-C0032-010",
             }
         },
         {
             "city": {
                 "id": "Taoyuan_City",
-                "name": "桃園縣"
+                "name": "桃園市",
+                "helperId": "F-C0032-022",
             }
         },
         {
             "city": {
                 "id": "Hsinchu_City",
-                "name": "新竹市"
+                "name": "新竹市",
+                "helperId": "F-C0032-024",
             }
         },
         {
             "city": {
                 "id": "Hsinchu_County",
-                "name": "新竹縣"
+                "name": "新竹縣",
+                "helperId": "F-C0032-023",
             }
         },
         {
             "city": {
                 "id": "Miaoli_County",
-                "name": "苗栗縣"
+                "name": "苗栗縣",
+                "helperId": "F-C0032-020",
             }
         },
         {
             "city": {
                 "id": "Taichung_City",
-                "name": "臺中市"
+                "name": "臺中市",
+                "helperId": "F-C0032-021",
             }
         },
         {
             "city": {
                 "id": "Changhua_County",
-                "name": "彰化縣"
+                "name": "彰化縣",
+                "helperId": "F-C0032-028",
             }
         },
         {
             "city": {
                 "id": "Nantou_County",
-                "name": "南投縣"
+                "name": "南投縣",
+                "helperId": "F-C0032-026",
             }
         },
         {
             "city": {
                 "id": "Yunlin_County",
-                "name": "雲林縣"
+                "name": "雲林縣",
+                "helperId": "F-C0032-029",
             }
         },
         {
             "city": {
                 "id": "Chiayi_City",
-                "name": "嘉義市"
+                "name": "嘉義市",
+                "helperId": "F-C0032-019",
             }
         },
         {
             "city": {
                 "id": "Chiayi_County",
-                "name": "嘉義縣"
+                "name": "嘉義縣",
+                "helperId": "F-C0032-018",
             }
         },
         {
             "city": {
                 "id": "Yilan_County",
-                "name": "宜蘭縣"
+                "name": "宜蘭縣",
+                "helperId": "F-C0032-013",
             }
         },
         {
             "city": {
                 "id": "Hualien_County",
-                "name": "花蓮縣"
+                "name": "花蓮縣",
+                "helperId": "F-C0032-012",
             }
         },
         {
             "city": {
                 "id": "Taitung_County",
-                "name": "臺東縣"
+                "name": "臺東縣",
+                "helperId": "F-C0032-027",
             }
         },
         {
             "city": {
                 "id": "Tainan_City",
-                "name": "臺南市"
+                "name": "臺南市",
+                "helperId": "F-C0032-016",
             }
         },
         {
             "city": {
                 "id": "Kaohsiung_City",
-                "name": "高雄市"
+                "name": "高雄市",
+                "helperId": "F-C0032-017",
             }
         },
         {
             "city": {
                 "id": "Pingtung_County",
-                "name": "屏東縣"
+                "name": "屏東縣",
+                "helperId": "F-C0032-025",
             }
         },
         {
             "city": {
                 "id": "Lienchiang_County",
-                "name": "連江縣"
+                "name": "連江縣",
+                "helperId": "F-C0032-030",
             }
         },
         {
             "city": {
                 "id": "Kinmen_County",
-                "name": "金門縣"
+                "name": "金門縣",
+                "helperId": "F-C0032-014",
             }
         },
         {
             "city": {
                 "id": "Penghu_County",
-                "name": "澎湖縣"
+                "name": "澎湖縣",
+                "helperId": "F-C0032-015",
             }
         }
         ]
@@ -979,6 +1077,7 @@ function GetWeatherData2(cityId) {
         document.getElementById("thirdWeatherComfort").innerHTML = data.query.results.tr[2].td[2];
         document.getElementById("thirdWeatherRainPercentage").innerHTML = data.query.results.tr[2].td[3];
         $("#WeatherStatusTable").fadeIn(1000);
+        $("#realTimeWeatherStatusTable").fadeIn(1000);
     });
    
 

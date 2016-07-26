@@ -31,14 +31,51 @@
         <article>
         <!--以地址搜尋地點：<input id="inAddr" name="inAddr" type="text" size="40" value="100台灣台北市中正區北平西路3號臺北車站" style="font-size:18px;font-family:Microsoft JhengHei;" />
             <button type="button" onclick="ShowAddress()" style="font-size:18px;font-family:Microsoft JhengHei;">GO!</button>-->
+            <div valign="top" id="currentAddress" hidden>100台灣台北市中正區北平西路3號臺北車站</div>
+            <div valign="top" id="inLatLng" name="inLatLng" size="40" hidden></div>
+            <table>
+                <tr>
+                    <td>
+                        <div id="countyInformation" class="currentCountyField">臺北市</div>
+                        <div id="currentTemp" class="currentTempField">34°C</div>
+                    </td>
+                    <td>
+                        <div id="helperInformation" class="littleHelperField"> </div>
+                    </td>
+                </tr>
+            </table>
 
-            <p valign="top" id="currentAddress" hidden>100台灣台北市中正區北平西路3號臺北車站</p>
-            <p valign="top" id="inLatLng" name="inLatLng" size="40" hidden></p>
-            <p valign="top" id="countyInformation" align="left">臺北市天氣狀況</p>
+
+
+            <table>
+                <tr>
+                    <td>
+                        <div class="reserveSpaceShort" ></div>
+                    </td>
+                    <td>
+                        <div class="dataTableBorder">
+
+                            <table id="realTimeWeatherStatusTable" class="dataTable">
+                                <tr>
+                                    <th valign="top">紫外線等級</th>
+                                    <th valign="top">PM2.5等級</th>
+                                    <th valign="top">空氣品質</th>
+                                </tr>
+                                <tr>
+                                    <td valign="top" id="weatherUVLevel"></td>
+                                    <td valign="top" id="weatherPM25Level"></td>
+                                    <td valign="top" id="weatherAirStatus"></td>
+                                </tr>
+
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+            </table>
            <table>
                <tr>
                    <td>
-                       <div class="reserveSpace"></div>
+                       <div class="reserveSpaceLong"></div>
                    </td>
                    <td>
                        <div class="dataTableBorder">
@@ -88,8 +125,9 @@
 
 
 
-            <p>即時資料:</p>
-            <table id="WeatherStatusTable" ><!--class="dataTable">-->
+
+            <!--<p>即時資料:</p>
+            <table id="WeatherStatusTable" >
                 <tr>
                     <td valign="top" id="weatherUVLevel">紫外線等級:</td>
                 </tr>
@@ -100,7 +138,7 @@
                     <td valign="top" id="weatherAirStatus">空氣品質:</td>
                 </tr>
             </table>
-            <br />
+            <br />-->
 
             紫外線測站:
             <select id="UVSiteSelect" onchange="onSelectUVSiteChange()"></select>

@@ -30,7 +30,34 @@ table.dataTable td {
     border-collapse: collapse;
 
 }*/
-div.reserveSpace{
+div.littleHelperField{
+    color:white;
+    text-shadow:3px 3px 3px #000000;
+    font-family:Microsoft JhengHei;
+    font-size:18px;
+    font-weight:lighter;
+    padding-left:20px;
+}
+div.currentTempField{
+    font-size:60px;
+    font-weight: bold;
+    font-family:Microsoft JhengHei;
+    color:white;
+    text-shadow:3px 3px 3px #000000;
+    padding-top: 0px;
+}
+div.currentCountyField{
+    font-size:50px;
+    font-weight: bold;
+    font-family:Microsoft JhengHei;
+    color:white;
+    padding-top: 0px;
+}
+div.reserveSpaceShort{
+    height:150px;
+
+}
+div.reserveSpaceLong{
     height:300px;
 
 }
