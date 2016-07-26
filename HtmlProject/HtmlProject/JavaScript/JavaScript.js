@@ -29,6 +29,11 @@ var popup;
 var mylatlng;
 
 
+var currentTemp;
+var currentUVStatus;
+var cuuentPM2_5;
+var currentAirPollutantStatus
+
 function load() {
 
 
@@ -91,6 +96,7 @@ function getWeatherStatus(currentLng, currentLat) {
             if (UVArray[i].SiteName == targetUVSiteName) {
                 setCurrentUVInfoTable(UVArray[i]);
                 document.getElementById("weatherUVLevel").innerHTML = getUVLevel(UVArray[i].UVI);
+                currentUVStatus = getUVLevel(UVArray[i].UVI);
                 GetWeatherDataByCountyName(UVArray[i].County);
                 break;
             }
@@ -132,6 +138,8 @@ function getWeatherStatus(currentLng, currentLat) {
 
                     document.getElementById("weatherAirStatus").innerHTML = AirPollutantArray[i].Status ? AirPollutantArray[i].Status : "N/A";
                     document.getElementById("weatherPM25Level").innerHTML = AirPollutantArray[i]["PM2.5"] ? getPM2_5Level(AirPollutantArray[i]["PM2.5"]) : "N/A";
+                    currentAirPollutantStatus = AirPollutantArray[i].Status ? AirPollutantArray[i].Status : "N/A";
+                    cuuentPM2_5 = AirPollutantArray[i]["PM2.5"] ? getPM2_5Level(AirPollutantArray[i]["PM2.5"]) : "N/A";
                     GetWeatherDataByCountyName(AirPollutantArray[i].County);
                     break;
                 }
@@ -627,6 +635,7 @@ function updateRealTimeWeatherStatus()
         }
         var tempString = targetTemp.toString();
         document.getElementById("currentTemp").innerHTML = tempString + "°C";
+        currentTemp = tempString + "°C";
     }
 
 }
