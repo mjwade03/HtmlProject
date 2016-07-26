@@ -64,8 +64,8 @@ function initMap() {
         var currentLng = mylatlng.lng();
         var currentLat = mylatlng.lat();
         document.getElementById('inLatLng').innerHTML = "經緯度: " + e.latLng;
-        getAddress2(e.latLng);
         getWeatherStatus(currentLng, currentLat);
+        getAddress2(e.latLng);
     });
 }
 
@@ -187,7 +187,11 @@ function getAddress2(latLng){
 // 設定 marker 的訊息泡泡
 function showAddressOfResult(result, marker) {
     myMap.setCenter(marker.getPosition());
-    var popupContent = '<b>地址: </b> ' + result.formatted_address;
+    var popupContent = '<b>地址: </b> ' + result.formatted_address + '<br>' +
+                        '<b>溫度: </b>' + currentTemp + '<br>' +
+                        '<b>紫外線等級: </b>' + currentUVStatus + '<br>' +
+                        '<b>PM2.5等級: </b>' + cuuentPM2_5 + '<br>' +
+                        '<b>空氣品質: </b>' + currentAirPollutantStatus;
     popup.setContent(popupContent);
     popup.open(myMap, marker);
 }
@@ -205,8 +209,8 @@ function showPosition(position) {
     lat = position.coords.latitude;
     lon = position.coords.longitude;
     latlon = new google.maps.LatLng(lat, lon)
-    getAddress2(latlon);
     getWeatherStatus(lon, lat);
+    getAddress2(latlon);
 }
 
 function showError(error) {
@@ -419,7 +423,6 @@ function onSelectUVSiteChange() {
             }
             
             var myLatLng = new google.maps.LatLng(latitudeTW97, longitudeTWD97);
-            getAddress2(myLatLng);
             //myMap.setCenter(myLatLng, 15);
             //myMap.addControl(new GLargeMapControl());
             //myMarker = new GMarker(myLatLng);
@@ -427,6 +430,7 @@ function onSelectUVSiteChange() {
 
 
             getWeatherStatus(longitudeTWD97, latitudeTW97);
+            getAddress2(myLatLng);
 
             break;
         }
@@ -578,13 +582,13 @@ function onSelectAirPollutantSiteChange() {
                 latitudeTW97 = "N/A";
             }
             var myLatLng = new google.maps.LatLng(latitudeTW97, longitudeTWD97);
-            getAddress2(myLatLng);
             //myMap.setCenter(myLatLng, 15);
             //myMap.addControl(new GLargeMapControl());
             //myMarker = new GMarker(myLatLng);
             //myMap.addOverlay(myMarker);
 
             getWeatherStatus(longitudeTWD97, latitudeTW97);
+            getAddress2(myLatLng);
             break;
         }
     }
