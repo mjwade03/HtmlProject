@@ -498,16 +498,10 @@ function getUVLevel(UVI) {
 function setTextColorByUVLevel(element, UVI)
 {
     var roundUVI = Math.round(UVI);
-    if (roundUVI >= 0 && roundUVI <= 2)
+    if (roundUVI >= 0 && roundUVI <= 5)
         element.style.color = "green";
-    else if (roundUVI >= 3 && roundUVI <= 5)
-        element.style.color = "yellow";
-    else if (roundUVI >= 6 && roundUVI <= 7)
-        element.style.color = "orange";
-    else if (roundUVI >= 8 && roundUVI <= 10)
+    else if (roundUVI >= 6)
         element.style.color = "red";
-    else if (roundUVI >= 11)
-        element.style.color = "purple";
     else
         element.style.color = "black";
 }
@@ -526,39 +520,19 @@ function getPM2_5Level(PM2_5)
 }
 function setTextColorByPM2_5Level(element, PM2_5)
 {
-    if (PM2_5 >= 0 && PM2_5 <= 11)
-        element.style.color = "rgb(156, 255, 156)";
-    else if (PM2_5 >= 12 && PM2_5 <= 23)
-        element.style.color = "rgb(49, 255, 0)";
-    else if (PM2_5 >= 24 && PM2_5 <= 35)
-        element.style.color = "rgb(49, 207, 0)";
-    else if (PM2_5 >= 36 && PM2_5 <= 41)
-        element.style.color = "rgb(255, 255, 0)";
-    else if (PM2_5 >= 42 && PM2_5 <= 47)
-        element.style.color = "rgb(255, 207, 0)";
-    else if (PM2_5 >= 48 && PM2_5 <= 53)
-        element.style.color = "rgb(255, 154, 0)";
-    else if (PM2_5 >= 54 && PM2_5 <= 58)
-        element.style.color = "rgb(255, 100, 100)";
-    else if (PM2_5 >= 59 && PM2_5 <= 64)
-        element.style.color = "rgb(255, 0, 0)";
-    else if (PM2_5 >= 65 && PM2_5 <= 70)
-        element.style.color = "rgb(153, 0, 0)";
-    else if (PM2_5 >= 71)
-        element.style.color = "rgb(206, 48, 255)";
+    if (PM2_5 >= 0 && PM2_5 <= 53)
+        element.style.color = "green";
+    else if (PM2_5 >= 54)
+        element.style.color = "red";
     else
         element.style.color = "black";
 }
 function setTextColorByPSILevel(element, PSI)
 {
-    if ( PSI <= 50)
+    if ( PSI <= 100)
         element.style.color = "green";
-    else if (PSI >= 51 && PSI <= 100)
-        element.style.color = "yellow";
-    else if (PSI >= 101 && PSI <= 199)
+    else if (PSI >= 101 )
         element.style.color = "red";
-    else if (PSI >= 200)
-        element.style.color = "purple";
     else
         element.style.color = "black";
 }
