@@ -42,36 +42,24 @@
             </table>
 
 
+            <div id="countyInformation" class="currentCountyField">臺北市</div>
 
-            <table>
-                <tr>
-                    <td>
-                        <div id="countyInformation" class="currentCountyField">臺北市</div>
-                        <div id="currentTemp" class="currentTempField">34°C</div>
-                    </td>
-                    <td>
-                        <div class="reserveSpaceShort"></div>
-                    </td>
-                    <td>
-                        <div class="dataTableBorder">
-
-                            <table id="realTimeWeatherStatusTable" class="dataTable">
-                                <tr>
-                                    <th valign="top">紫外線等級</th>
-                                    <th valign="top">PM2.5等級</th>
-                                    <th valign="top">空氣品質</th>
-                                </tr>
-                                <tr>
-                                    <td valign="top" id="weatherUVLevel"></td>
-                                    <td valign="top" id="weatherPM25Level"></td>
-                                    <td valign="top" id="weatherAirStatus"></td>
-                                </tr>
-
-                            </table>
-                        </div>
-                    </td>
-                </tr>
-            </table>
+            <div style="padding:20px;">
+                <table id="weatherStatusTable" class="realTimeWeatherStatusTable">
+                    <tr>
+                        <th>溫度</th>
+                        <th>紫外線</th>
+                        <th>PM2.5</th>
+                        <th>空氣品質</th>
+                    </tr>
+                    <tr>
+                        <td id="currentTemp" style="color:red"></td>
+                        <td id="weatherUVLevel" style="color:red"></td>
+                        <td id="weatherPM25Level" style="color:red"></td>
+                        <td id="weatherAirStatus" style="color:red"></td>
+                    </tr>
+                </table>
+            </div>
 
             <div id="helperInformation" class="littleHelperField"> </div>
             <table>
@@ -80,7 +68,7 @@
                         <div class="reserveSpaceLong"></div>
                     </td>
                     <td>
-                        <div class="dataTableBorder">
+                        <!--<div class="dataTableBorder">-->
 
                             <table id="WeatherStatusTable" class="dataTable">
                                 <tr>
@@ -99,6 +87,7 @@
                                     <td valign="top" id="firstWeatherTemperature">26 ~ 37</td>
                                     <td valign="top" id="firstWeatherRainPercentage">20%</td>
                                 </tr>
+                                <tr></tr>
                                 <tr>
                                     <td valign="top" id="secondWeatherValidity">今晚至明晨</td>
                                     <td>
@@ -108,6 +97,7 @@
                                     <td valign="top" id="secondWeatherTemperature">26 ~ 37</td>
                                     <td valign="top" id="secondWeatherRainPercentage">20%</td>
                                 </tr>
+                                <tr></tr>
                                 <tr>
                                     <td valign="top" id="thirdWeatherValidity">明日白天</td>
                                     <td>
@@ -119,7 +109,7 @@
                                 </tr>
 
                             </table>
-                        </div>
+                        <!--</div>-->
                     </td>
                 </tr>
             </table>
@@ -141,13 +131,13 @@
             </tr>
         </table>
         <br />-->
-            紫外線測站:
-            <select id="UVSiteSelect" onchange="onSelectUVSiteChange()"></select>
-            空氣汙染測站:
-            <select id="airPollutantSiteSelect" onchange="onSelectAirPollutantSiteChange()"></select>
+            <!--紫外線測站:-->
+            <select id="UVSiteSelect" onchange="onSelectUVSiteChange()" hidden></select>
+            <!--空氣汙染測站:-->
+            <select id="airPollutantSiteSelect" onchange="onSelectAirPollutantSiteChange()" hidden></select>
             <br />
             <br />
-            <table>
+            <table hidden>
                 <!--class="dataTable">-->
                 <tr>
 

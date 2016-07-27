@@ -31,12 +31,11 @@ table.dataTable td {
 
 }*/
 div.littleHelperField{
-    color:white;
-    text-shadow:3px 3px 3px #000000;
+    color:black;
     font-family:Microsoft JhengHei;
-    font-size:18px;
+    font-size:20px;
     font-weight:lighter;
-    padding-left:20px;
+    padding:20px;
 }
 div.currentTempField{
     font-size:60px;
@@ -48,10 +47,9 @@ div.currentTempField{
 }
 div.currentCountyField{
     font-size:50px;
-    font-weight: bold;
     font-family:Microsoft JhengHei;
-    color:white;
-    padding-top: 0px;
+    color:black;
+    padding:20px;
 }
 div.reserveSpaceShort{
     width:20px;
@@ -67,6 +65,8 @@ div.dataTableBorder {
     display: inline-block;
     background: rgba(0%,0%,0%,0.2);
 }
+
+/*Style of data table*/
 table.dataTable{
     border-collapse:collapse;
     margin-top: 10px;
@@ -75,40 +75,50 @@ table.dataTable{
     margin-left: 10px;
     display:none;
 }
-table.dataTable tr {
-    
+table.dataTable tr:nth-child(odd){
+    height:10px;
 }
-table.dataTable td {
+table.dataTable tr:nth-child(even){
+    background-color: lightgray;
+}
+table.dataTable td {    
     font-size:18px;
     font-weight:lighter;
     font-family:Microsoft JhengHei;
-	padding: 10px;
+	padding:10px;
     vertical-align:middle;
-    border-top:1pt solid white;
     margin:auto;
     text-align: left;
-    color: white;
+    color: black;
 }
 table.dataTable th {
     font-size:18px;
-    font-weight: bold;
+    font-weight:lighter;
     font-family:Microsoft JhengHei;
-    padding: 10px;
-	text-align: left;
-    color: rgba(80%,80%,80%,0.9);
+	padding:10px;
+	text-align: center;
+    color: black;
 }
-table.weatherStatusTable,
-table.weatherStatusTable tr,
-table.weatherStatusTable td {
-    color: red;
-    font-weight: bold;
-    font-size:18px;
+
+table.realTimeWeatherStatusTable,
+table.realTimeWeatherStatusTable tr,
+table.realTimeWeatherStatusTable th{
+    width:500px;
+    font-size:20px;
+    font-weight:lighter;
     font-family:Microsoft JhengHei;
-    text-align: left;
+    color: black;
+    text-align:left;
+}
+table.realTimeWeatherStatusTable td {
+    width:500px;
+    font-size:40px;
+    font-family:Microsoft JhengHei;
+    text-align:left;
 }
 
 #MainBody{
-    background-image:url(..//Image/SP505-201-0.jpg);
+    background-image:url(..//Image/01d29ccaf765eff5ce.jpg);
     background-repeat:no-repeat;
     background-size:cover;
 }
