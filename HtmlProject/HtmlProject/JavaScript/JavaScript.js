@@ -80,15 +80,15 @@ function initMap() {
         searchBox.setBounds(myMap.getBounds());
     });
 
-  searchBox.addListener('places_changed', function() {
-    var places = searchBox.getPlaces();
+    searchBox.addListener('places_changed', function() {
+        var places = searchBox.getPlaces();
 
-    if (places.length == 0) {
-      return;
-    }
+        if (places.length == 0) {
+        return;
+        }
 
-    ShowAddress();
-  });
+        ShowAddress();
+    });
 }
 
 function getWeatherStatus(currentLng, currentLat) {
@@ -197,6 +197,7 @@ function getAddress2(latLng){
     geocoder.geocode({
         'latLng': latLng
     }, function(results, status) {
+        myMarker.setMap(null);
         if (status == google.maps.GeocoderStatus.OK) {
             if (results) {
                 var marker = new google.maps.Marker({
@@ -204,7 +205,11 @@ function getAddress2(latLng){
                     map: myMap,
                     title: 'You are here!',
                 });
-                showAddressOfResult(results[0], marker);
+                myMarker = marker;
+                marker.addListener("click", function (){
+                    popup.open(myMap, myMarker);
+                });
+                showAddressOfResult(results[0], myMarker);
             }
         } else {
             alert("Reverse Geocoding failed because: " + status);
