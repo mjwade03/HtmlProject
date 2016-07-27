@@ -16,6 +16,7 @@ var AirPollutantSiteArray;
 // 用於query目前即時的天氣資訊
 var queryRealTimeWeatherStatusUrl = 'http://opendata.cwb.gov.tw/opendata/DIV2/O-A0003-001.xml';
 var realTimeWeatherStatusDataArray;
+var alreadyUpdateRealTimeStatus= false;
 
 var lastLat;
 var lastLng;
@@ -34,6 +35,7 @@ var currentUVStatus;
 var cuuentPM2_5;
 var currentAirPollutantStatus;
 
+var alreadyGetLocation = false;
 function load() {
 
 
@@ -45,7 +47,7 @@ function load() {
     loadRealTimeWeatherStatusData();
 
     initMap();
-    getLocation();
+    //getLocation();
 }
 
 function initMap() {
@@ -198,10 +200,19 @@ function showAddressOfResult(result, marker) {
 
 //定位
 function getLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition, showError);
-    } else {
-        alert("您的瀏覽器不支援定位服務");
+    //alert(alreadyGetLocation + ":" + alreadyUpdateRealTimeStatus + ":" + alreadyGotUVJson + ":" + alreadyGotUVSiteJson + ":" + alreadyGotAirPollutantJson + ":" + alreadyGotAirPollutantSiteJson);
+    if (alreadyGetLocation == false &&
+        alreadyUpdateRealTimeStatus == true &&
+        alreadyGotUVJson == true &&
+        alreadyGotUVSiteJson == true &&
+        alreadyGotAirPollutantJson == true &&
+        alreadyGotAirPollutantSiteJson == true) {
+        alreadyGetLocation = true;
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition, showError);
+        } else {
+            alert("您的瀏覽器不支援定位服務");
+        }
     }
 }
 
@@ -321,6 +332,7 @@ function loadUVSitenData() {
 
 function updateUVData() {
     if (alreadyGotUVJson == true && alreadyGotUVSiteJson == true) {
+        getLocation();
         for (var i = 0; i < UVArray.length; i++) {
             var site = UVArray[i].SiteName ? UVArray[i].SiteName : "N/A";
             var uvi = UVArray[i].UVI ? UVArray[i].UVI : "N/A";
@@ -356,8 +368,8 @@ function updateUVData() {
         }
         // setCurrentUVInfoTable(UVArray[0]);
         getWeatherStatus(121.51715755462646 * 1, 25.04763902653048 * 1);
-        alreadyGotUVJson = false;
-        alreadyGotUVSiteJson = false;
+        //alreadyGotUVJson = false;
+        //alreadyGotUVSiteJson = false;
     }
 }
 
@@ -486,6 +498,7 @@ function loadAirPollutantSiteJsonData() {
 
 function updateAirPollutantData() {
     if (alreadyGotAirPollutantJson == true && alreadyGotAirPollutantSiteJson == true) {
+        getLocation();
         for (var i = 0; i < AirPollutantArray.length; i++) {
             var site = AirPollutantArray[i].SiteName ? AirPollutantArray[i].SiteName : "N/A";
             var place = AirPollutantArray[i].County ? AirPollutantArray[i].County : "N/A";
@@ -521,8 +534,8 @@ function updateAirPollutantData() {
         getWeatherStatus(121.51715755462646 * 1, 25.04763902653048 * 1);
         // setCurrentAirPollutantInfoTable(AirPollutantArray[0]);
 
-        alreadyGotAirPollutantJson = false;
-        alreadyGotAirPollutantSiteJson = false;
+        //alreadyGotAirPollutantJson = false;
+        //alreadyGotAirPollutantSiteJson = false;
     }
 }
 
@@ -626,6 +639,7 @@ function updateRealTimeWeatherStatus()
 {
     if (realTimeWeatherStatusDataArray != null && lastLng && lastLat)
     {
+
         var targetTemp;
         var targetObject;
         var minRealTimeWeatherStatusStation = 999999999;
@@ -640,6 +654,9 @@ function updateRealTimeWeatherStatus()
         var tempString = targetTemp.toString();
         document.getElementById("currentTemp").innerHTML = tempString + "°C";
         currentTemp = tempString + "°C";
+        alreadyUpdateRealTimeStatus = true;
+        getLocation();
+
     }
 
 }
