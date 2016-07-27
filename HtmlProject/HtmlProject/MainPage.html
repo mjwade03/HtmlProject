@@ -3,6 +3,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=600">
     <title>Map and weather information</title>
     <!--Script for google map-->
     <script async defer src="https://maps.google.com/maps/api/js?key=AIzaSyDS7IojxtL7VgMq4UuPVhT0MSQUFXpf1ik&sensor=false"></script>
@@ -23,8 +24,8 @@
     </header>-->
     <!--<form id="InformationForm">-->
     <div>
-        <!--<article>-->
-        <div style="width:50%;float:left;">
+        <nav>
+        <div>
             <!--以地址搜尋地點：<input id="inAddr" name="inAddr" type="text" size="40" value="100台灣台北市中正區北平西路3號臺北車站" style="font-size:18px;font-family:Microsoft JhengHei;" />
         <button type="button" onclick="ShowAddress()" style="font-size:18px;font-family:Microsoft JhengHei;">GO!</button>-->
             <div valign="top" id="currentAddress" hidden>100台灣台北市中正區北平西路3號臺北車站</div>
@@ -206,17 +207,17 @@
                 </tr>
             </table>
         </div>
-        <!--</article>-->
-        <!--<nav>-->
-        <div style="width:50%;float:left;">
-            <p>以地址搜尋地點</p>
-            <input id="inAddr" name="inAddr" type="text" size="40" style="font-size:18px;font-family:Microsoft JhengHei;" />
-            <button type="button" onclick="ShowAddress()" style="font-size:18px;font-family:Microsoft JhengHei;">GO!</button>
-            <br />
-            <br />
-            <div id="my_map" style="width: 500px; height: 500px"></div>
-        </div>
-        <!--</nav>-->
+        </nav>
+        <section>
+            <div >
+                <br />
+                <br />
+                <p>以地址搜尋地點</p>
+                <input id="inAddr" name="inAddr" type="text" size="40" style="font-size:18px;font-family:Microsoft JhengHei;" />
+                <button type="button" onclick="ShowAddress()" style="font-size:18px;font-family:Microsoft JhengHei;">GO!</button>
+                <div id="my_map" style="width: auto; height: 500px"></div>
+            </div>
+        </section>
 
     </div>
     <!--</form>-->
