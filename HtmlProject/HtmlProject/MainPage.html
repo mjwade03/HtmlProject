@@ -21,27 +21,20 @@
     <!--<header>
         <h1>紫外線&氣象站</h1>
     </header>-->
-    <form id="InformationForm">
-        <nav>
-
-            <p>以地址搜尋地點</p>
-            <input id="inAddr" name="inAddr" type="text" size="40" style="font-size:18px;font-family:Microsoft JhengHei;" />
-            <button type="button" onclick="ShowAddress()" style="font-size:18px;font-family:Microsoft JhengHei;">GO!</button>
-            <br />
-            <br />
-            <div id="my_map" style="width: 500px; height: 500px"></div>
-         </nav>
-        <article>
-        <!--以地址搜尋地點：<input id="inAddr" name="inAddr" type="text" size="40" value="100台灣台北市中正區北平西路3號臺北車站" style="font-size:18px;font-family:Microsoft JhengHei;" />
-            <button type="button" onclick="ShowAddress()" style="font-size:18px;font-family:Microsoft JhengHei;">GO!</button>-->
+    <!--<form id="InformationForm">-->
+    <div>
+        <!--<article>-->
+        <div style="width:50%;float:left;">
+            <!--以地址搜尋地點：<input id="inAddr" name="inAddr" type="text" size="40" value="100台灣台北市中正區北平西路3號臺北車站" style="font-size:18px;font-family:Microsoft JhengHei;" />
+        <button type="button" onclick="ShowAddress()" style="font-size:18px;font-family:Microsoft JhengHei;">GO!</button>-->
             <div valign="top" id="currentAddress" hidden>100台灣台北市中正區北平西路3號臺北車站</div>
             <div valign="top" id="inLatLng" name="inLatLng" size="40" hidden></div>
             <table>
                 <tr>
                     <!--<td>
-                        <div id="countyInformation" class="currentCountyField">臺北市</div>
-                        <div id="currentTemp" class="currentTempField">34°C</div>
-                    </td>-->
+                    <div id="countyInformation" class="currentCountyField">臺北市</div>
+                    <div id="currentTemp" class="currentTempField">34°C</div>
+                </td>-->
                     <td>
                         <!--<div id="helperInformation" class="littleHelperField"> </div>-->
                     </td>
@@ -57,7 +50,7 @@
                         <div id="currentTemp" class="currentTempField">34°C</div>
                     </td>
                     <td>
-                        <div class="reserveSpaceShort" ></div>
+                        <div class="reserveSpaceShort"></div>
                     </td>
                     <td>
                         <div class="dataTableBorder">
@@ -81,151 +74,152 @@
             </table>
 
             <div id="helperInformation" class="littleHelperField"> </div>
-           <table>
-               <tr>
-                   <td>
-                       <div class="reserveSpaceLong"></div>
-                   </td>
-                   <td>
-                       <div class="dataTableBorder">
+            <table>
+                <tr>
+                    <td>
+                        <div class="reserveSpaceLong"></div>
+                    </td>
+                    <td>
+                        <div class="dataTableBorder">
 
-                           <table id="WeatherStatusTable" class="dataTable">
-                               <tr>
-                                   <th valign="top">預報有效期間</th>
-                                   <th valign="top">天氣狀況</th>
-                                   <th valign="top">舒適度</th>
-                                   <th valign="top">溫度</th>
-                                   <th valign="top">降雨機率</th>
-                               </tr>
-                               <tr>
-                                   <td valign="top" id="firstWeatherValidity">今日白天</td>
-                                   <td>
-                                       <img id="firstWeatherStatus" height="50"/>
-                                   </td>
-                                   <td valign="top" id="firstWeatherComfort">舒適</td>
-                                   <td valign="top" id="firstWeatherTemperature">26 ~ 37</td>
-                                   <td valign="top" id="firstWeatherRainPercentage">20%</td>
-                               </tr>
-                               <tr>
-                                   <td valign="top" id="secondWeatherValidity">今晚至明晨</td>
-                                   <td>
-                                       <img id="secondWeatherStatus" height="50"/>
-                                   </td>
-                                   <td valign="top" id="secondWeatherComfort">舒適</td>
-                                   <td valign="top" id="secondWeatherTemperature">26 ~ 37</td>
-                                   <td valign="top" id="secondWeatherRainPercentage">20%</td>
-                               </tr>
-                               <tr>
-                                   <td valign="top" id="thirdWeatherValidity">明日白天</td>
-                                   <td>
-                                       <img id="thirdWeatherStatus" height="50"/>
-                                   </td>
-                                   <td valign="top" id="thirdWeatherComfort">舒適</td>
-                                   <td valign="top" id="thirdWeatherTemperature">26 ~ 37</td>
-                                   <td valign="top" id="thirdWeatherRainPercentage">20%</td>
-                               </tr>
+                            <table id="WeatherStatusTable" class="dataTable">
+                                <tr>
+                                    <th valign="top">預報有效期間</th>
+                                    <th valign="top">天氣狀況</th>
+                                    <th valign="top">舒適度</th>
+                                    <th valign="top">溫度</th>
+                                    <th valign="top">降雨機率</th>
+                                </tr>
+                                <tr>
+                                    <td valign="top" id="firstWeatherValidity">今日白天</td>
+                                    <td>
+                                        <img id="firstWeatherStatus" height="50" />
+                                    </td>
+                                    <td valign="top" id="firstWeatherComfort">舒適</td>
+                                    <td valign="top" id="firstWeatherTemperature">26 ~ 37</td>
+                                    <td valign="top" id="firstWeatherRainPercentage">20%</td>
+                                </tr>
+                                <tr>
+                                    <td valign="top" id="secondWeatherValidity">今晚至明晨</td>
+                                    <td>
+                                        <img id="secondWeatherStatus" height="50" />
+                                    </td>
+                                    <td valign="top" id="secondWeatherComfort">舒適</td>
+                                    <td valign="top" id="secondWeatherTemperature">26 ~ 37</td>
+                                    <td valign="top" id="secondWeatherRainPercentage">20%</td>
+                                </tr>
+                                <tr>
+                                    <td valign="top" id="thirdWeatherValidity">明日白天</td>
+                                    <td>
+                                        <img id="thirdWeatherStatus" height="50" />
+                                    </td>
+                                    <td valign="top" id="thirdWeatherComfort">舒適</td>
+                                    <td valign="top" id="thirdWeatherTemperature">26 ~ 37</td>
+                                    <td valign="top" id="thirdWeatherRainPercentage">20%</td>
+                                </tr>
 
-                           </table>
-                       </div>
-                   </td>
-               </tr>
-           </table>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+            </table>
 
 
 
 
 
             <!--<p>即時資料:</p>
-            <table id="WeatherStatusTable" >
-                <tr>
-                    <td valign="top" id="weatherUVLevel">紫外線等級:</td>
-                </tr>
-                <tr>
-                    <td valign="top" id="weatherPM25Level">PM2.5等級:</td>
-                </tr>
-                <tr>
-                    <td valign="top" id="weatherAirStatus">空氣品質:</td>
-                </tr>
-            </table>
-            <br />-->
-
+        <table id="WeatherStatusTable" >
+            <tr>
+                <td valign="top" id="weatherUVLevel">紫外線等級:</td>
+            </tr>
+            <tr>
+                <td valign="top" id="weatherPM25Level">PM2.5等級:</td>
+            </tr>
+            <tr>
+                <td valign="top" id="weatherAirStatus">空氣品質:</td>
+            </tr>
+        </table>
+        <br />-->
             紫外線測站:
             <select id="UVSiteSelect" onchange="onSelectUVSiteChange()"></select>
             空氣汙染測站:
             <select id="airPollutantSiteSelect" onchange="onSelectAirPollutantSiteChange()"></select>
             <br />
             <br />
-        <table ><!--class="dataTable">-->
-            <tr>
+            <table>
+                <!--class="dataTable">-->
+                <tr>
 
-                <td valign="top">
-                    <table>
-                        <tr>
-                            <td>紫外線數值: </td>
-                            <td id="currentUVValue">10</td>
-                        </tr>
-                        <tr>
-                            <td>紫外線等級: </td>
-                            <td id="currentUVLevel">危險</td>
-                        </tr>
-                        <tr>
-                            <td>測站名稱: </td>
-                            <td id="currentUVSiteName">鞍部</td>
-                        </tr>
-                        <tr>
-                            <td>測站所在縣市: </td>
-                            <td id="currentUVSiteCounty">台北市</td>
-                        </tr>
-                        <tr>
-                            <td>發布時間: </td>
-                            <td id="currentUVPublishTime">2016-07-06 14:00</td>
-                        </tr>
-                    </table>
+                    <td valign="top">
+                        <table>
+                            <tr>
+                                <td>紫外線數值: </td>
+                                <td id="currentUVValue">10</td>
+                            </tr>
+                            <tr>
+                                <td>紫外線等級: </td>
+                                <td id="currentUVLevel">危險</td>
+                            </tr>
+                            <tr>
+                                <td>測站名稱: </td>
+                                <td id="currentUVSiteName">鞍部</td>
+                            </tr>
+                            <tr>
+                                <td>測站所在縣市: </td>
+                                <td id="currentUVSiteCounty">台北市</td>
+                            </tr>
+                            <tr>
+                                <td>發布時間: </td>
+                                <td id="currentUVPublishTime">2016-07-06 14:00</td>
+                            </tr>
+                        </table>
 
-                <td valign="top">
-                    <table>
-                        <tr>
-                            <td>空氣汙染指標: </td>
-                            <td id="currentAirPollutantValue">10</td>
-                        </tr>
-                        <tr>
-                            <td>空氣品質: </td>
-                            <td id="currentAirPollutantStatus">10</td>
-                        </tr>
-                        <tr>
-                            <td>指標汙染物: </td>
-                            <td id="currentAirPollutantMajorPollutant">危險</td>
-                        </tr>
-                        <tr>
-                            <td>測站名稱: </td>
-                            <td id="currentAirPollutantSiteName">鞍部</td>
-                        </tr>
-                        <tr>
-                            <td>測站所在縣市: </td>
-                            <td id="currentAirPollutantCounty">台北市</td>
-                        </tr>
-                        <tr>
-                            <td>發布時間: </td>
-                            <td id="currentAirPollutantPublishTime">2016-07-06 14:00</td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-        </table>
-    </article>
+                    <td valign="top">
+                        <table>
+                            <tr>
+                                <td>空氣汙染指標: </td>
+                                <td id="currentAirPollutantValue">10</td>
+                            </tr>
+                            <tr>
+                                <td>空氣品質: </td>
+                                <td id="currentAirPollutantStatus">10</td>
+                            </tr>
+                            <tr>
+                                <td>指標汙染物: </td>
+                                <td id="currentAirPollutantMajorPollutant">危險</td>
+                            </tr>
+                            <tr>
+                                <td>測站名稱: </td>
+                                <td id="currentAirPollutantSiteName">鞍部</td>
+                            </tr>
+                            <tr>
+                                <td>測站所在縣市: </td>
+                                <td id="currentAirPollutantCounty">台北市</td>
+                            </tr>
+                            <tr>
+                                <td>發布時間: </td>
+                                <td id="currentAirPollutantPublishTime">2016-07-06 14:00</td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <!--</article>-->
+        <!--<nav>-->
+        <div style="width:50%;float:left;">
+            <p>以地址搜尋地點</p>
+            <input id="inAddr" name="inAddr" type="text" size="40" style="font-size:18px;font-family:Microsoft JhengHei;" />
+            <button type="button" onclick="ShowAddress()" style="font-size:18px;font-family:Microsoft JhengHei;">GO!</button>
+            <br />
+            <br />
+            <div id="my_map" style="width: 500px; height: 500px"></div>
+        </div>
+        <!--</nav>-->
 
-    </form>
-
-
-
-    <!--Current Address:<p id="currentAddress" name="currentAddress" size="40" value="" />
-    <br/>
-    <p id="inLatLng" name="inLatLng" size="40" value="" />
-    <p id="weatherValidity">預報有效時間: </p>
-    <p id="weatherCounty">縣市:</p>-->
-    <!--<p id="weatherTemperature">溫度: </p>
-    <p id="weatherRainPercentage">降雨機率:</p>-->
-    <!--紫外線的部分-->
+    </div>
+    <!--</form>-->
     <br />
     <br />
 
