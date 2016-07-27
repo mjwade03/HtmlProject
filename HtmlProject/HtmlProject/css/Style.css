@@ -118,7 +118,7 @@ table.dataTable td {
 table.realTimeWeatherStatusTable,
 table.realTimeWeatherStatusTable tr,
 table.realTimeWeatherStatusTable th{
-    font-size:20px;
+    font-size:16px;
     font-weight:lighter;
     font-family:Microsoft JhengHei;
     color: #828282;
@@ -136,7 +136,7 @@ table.realTimeWeatherStatusTable td {
     /*background-image:url(..//Image/01d29ccaf765eff5ce.jpg);
     background-repeat:no-repeat;
     background-size:cover;*/
-    background-color:#EBEBEB;
+    background-color:#F2F0EA;
 }
 
 #InformationForm{
