@@ -69,6 +69,26 @@ function initMap() {
         getWeatherStatus(currentLng, currentLat);
         getAddress2(e.latLng);
     });
+
+    // Create the search box and link it to the UI element.
+    var input = document.getElementById('pac-input');
+    myMap.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+    var searchBox = new google.maps.places.SearchBox(input);
+
+    // Bias the SearchBox results towards current map's viewport.
+    myMap.addListener('bounds_changed', function() {
+        searchBox.setBounds(myMap.getBounds());
+    });
+
+  searchBox.addListener('places_changed', function() {
+    var places = searchBox.getPlaces();
+
+    if (places.length == 0) {
+      return;
+    }
+
+    ShowAddress();
+  });
 }
 
 function getWeatherStatus(currentLng, currentLat) {
@@ -941,7 +961,7 @@ function GetWeatherDataByCountyName(countyName) {
 
 //輸入地址取得位置，顯示地圖與資訊
 function ShowAddress() {
-    var address = document.getElementById('inAddr').value;
+    var address = document.getElementById('pac-input').value;
     if (geocoder) {
         geocoder.geocode({
                 'address': address
