@@ -5,7 +5,7 @@
     text-align: center;
 }
 
-@media screen and (min-width:600px) {
+@media screen and (min-width:800px) {
   nav {
     float: left;
     width: 50%;
@@ -15,7 +15,7 @@
     height: 100%;
   }
 }
-@media screen and (max-width:599px) {
+@media screen and (max-width:799px) {
   nav li {
     display: inline;
   }
@@ -52,7 +52,6 @@ div.littleHelperField{
     font-size:20px;
     font-weight:lighter;
     padding:20px;
-    min-width: 600px;
 }
 div.currentTempField{
     font-size:60px;
@@ -119,18 +118,18 @@ table.dataTable td {
 table.realTimeWeatherStatusTable,
 table.realTimeWeatherStatusTable tr,
 table.realTimeWeatherStatusTable th{
-    width:600px;
     font-size:20px;
     font-weight:lighter;
     font-family:Microsoft JhengHei;
     color: #828282;
     text-align:left;
+    padding-right:50px;
 }
 table.realTimeWeatherStatusTable td {
-    width:600px;
     font-size:40px;
     font-family:Microsoft JhengHei;
     text-align:left;
+    padding-right:50px;
 }
 
 #MainBody{
