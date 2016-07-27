@@ -117,7 +117,9 @@ function getWeatherStatus(currentLng, currentLat) {
         for (var i = 0; i < UVArray.length; i++) {
             if (UVArray[i].SiteName == targetUVSiteName) {
                 setCurrentUVInfoTable(UVArray[i]);
+
                 document.getElementById("weatherUVLevel").innerHTML = getUVLevel(UVArray[i].UVI);
+                setTextColorByUVLevel(document.getElementById("weatherUVLevel"), UVArray[i].UVI);
                 currentUVStatus = getUVLevel(UVArray[i].UVI);
                 GetWeatherDataByCountyName(UVArray[i].County);
                 break;
@@ -159,7 +161,11 @@ function getWeatherStatus(currentLng, currentLat) {
                   // alert( AirPollutantArray[i]["PM2.5"]);
 
                     document.getElementById("weatherAirStatus").innerHTML = AirPollutantArray[i].Status ? AirPollutantArray[i].Status : "N/A";
+                    setTextColorByPSILevel(document.getElementById("weatherAirStatus"), AirPollutantArray[i]["PSI"]);
+
                     document.getElementById("weatherPM25Level").innerHTML = AirPollutantArray[i]["PM2.5"] ? getPM2_5Level(AirPollutantArray[i]["PM2.5"]) : "N/A";
+                    setTextColorByPM2_5Level(document.getElementById("weatherPM25Level"), AirPollutantArray[i]["PM2.5"]);
+
                     currentAirPollutantStatus = AirPollutantArray[i].Status ? AirPollutantArray[i].Status : "N/A";
                     cuuentPM2_5 = AirPollutantArray[i]["PM2.5"] ? getPM2_5Level(AirPollutantArray[i]["PM2.5"]) : "N/A";
                     GetWeatherDataByCountyName(AirPollutantArray[i].County);
@@ -472,19 +478,34 @@ function onSelectUVSiteChange() {
 function getUVLevel(UVI) {
     var roundUVI = Math.round(UVI);
     if (roundUVI >= 0 && roundUVI <= 2)
-        return "低量級";
+        return "低量";
     else if (roundUVI >= 3 && roundUVI <= 5)
-        return "中量級";
+        return "中量";
     else if (roundUVI >= 6 && roundUVI <= 7)
-        return "高量級";
+        return "高量";
     else if (roundUVI >= 8 && roundUVI <= 10)
-        return "過量級";
+        return "過量";
     else if (roundUVI >= 11)
-        return "危險級";
+        return "危險";
     else
         return "N/A";
 }
-
+function setTextColorByUVLevel(element, UVI)
+{
+    var roundUVI = Math.round(UVI);
+    if (roundUVI >= 0 && roundUVI <= 2)
+        element.style.color = "green";
+    else if (roundUVI >= 3 && roundUVI <= 5)
+        element.style.color = "yellow";
+    else if (roundUVI >= 6 && roundUVI <= 7)
+        element.style.color = "orange";
+    else if (roundUVI >= 8 && roundUVI <= 10)
+        element.style.color = "red";
+    else if (roundUVI >= 11)
+        element.style.color = "purple";
+    else
+        element.style.color = "black";
+}
 function getPM2_5Level(PM2_5)
 {
     if (PM2_5 >= 0 && PM2_5 <= 35)
@@ -497,6 +518,44 @@ function getPM2_5Level(PM2_5)
         return "非常高";
     else
         return "N/A";
+}
+function setTextColorByPM2_5Level(element, PM2_5)
+{
+    if (PM2_5 >= 0 && PM2_5 <= 11)
+        element.style.color = "rgb(156, 255, 156)";
+    else if (PM2_5 >= 12 && PM2_5 <= 23)
+        element.style.color = "rgb(49, 255, 0)";
+    else if (PM2_5 >= 24 && PM2_5 <= 35)
+        element.style.color = "rgb(49, 207, 0)";
+    else if (PM2_5 >= 36 && PM2_5 <= 41)
+        element.style.color = "rgb(255, 255, 0)";
+    else if (PM2_5 >= 42 && PM2_5 <= 47)
+        element.style.color = "rgb(255, 207, 0)";
+    else if (PM2_5 >= 48 && PM2_5 <= 53)
+        element.style.color = "rgb(255, 154, 0)";
+    else if (PM2_5 >= 54 && PM2_5 <= 58)
+        element.style.color = "rgb(255, 100, 100)";
+    else if (PM2_5 >= 59 && PM2_5 <= 64)
+        element.style.color = "rgb(255, 0, 0)";
+    else if (PM2_5 >= 65 && PM2_5 <= 70)
+        element.style.color = "rgb(153, 0, 0)";
+    else if (PM2_5 >= 71)
+        element.style.color = "rgb(206, 48, 255)";
+    else
+        element.style.color = "black";
+}
+function setTextColorByPSILevel(element, PSI)
+{
+    if ( PSI <= 50)
+        element.style.color = "green";
+    else if (PSI >= 51 && PSI <= 100)
+        element.style.color = "yellow";
+    else if (PSI >= 101 && PSI <= 199)
+        element.style.color = "red";
+    else if (PSI >= 200)
+        element.style.color = "purple";
+    else
+        element.style.color = "black";
 }
 function setCurrentUVInfoTable(currentObject) {
     document.getElementById("currentUVSiteName").innerHTML = currentObject.SiteName ? currentObject.SiteName : "N/A";
