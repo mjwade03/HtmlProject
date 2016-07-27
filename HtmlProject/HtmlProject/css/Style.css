@@ -49,7 +49,7 @@ table.dataTable td {
 div.littleHelperField{
     color:black;
     font-family:Microsoft JhengHei;
-    font-size:20px;
+    font-size:16px;
     font-weight:lighter;
     padding:20px;
 }
@@ -98,7 +98,7 @@ table.dataTable tr:nth-child(even){
     background-color: lightgray;
 }
 table.dataTable th {
-    font-size:18px;
+    font-size:16px;
     font-weight:lighter;
     font-family:Microsoft JhengHei;
 	padding:10px;
@@ -106,7 +106,7 @@ table.dataTable th {
     color: black;
 }
 table.dataTable td {
-    font-size:18px;
+    font-size:16px;
     font-weight:lighter;
     font-family:Microsoft JhengHei;
 	padding:10px;
