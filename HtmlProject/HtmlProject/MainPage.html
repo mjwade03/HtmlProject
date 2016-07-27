@@ -31,23 +31,35 @@
             <div valign="top" id="currentAddress" hidden>100台灣台北市中正區北平西路3號臺北車站</div>
             <div valign="top" id="inLatLng" name="inLatLng" size="40" hidden></div>
 
-            <div id="countyInformation" class="currentCountyField">臺北市</div>
+
 
             <div style="padding:20px;">
-                <table id="realTimeWeatherStatusTable" class="realTimeWeatherStatusTable">
+                <table>
                     <tr>
-                        <th>溫度</th>
-                        <th>紫外線</th>
-                        <th>PM2.5</th>
-                        <th>空氣品質</th>
-                    </tr>
-                    <tr>
-                        <td id="currentTemp" style="color:red"></td>
-                        <td id="weatherUVLevel" style="color:red"></td>
-                        <td id="weatherPM25Level" style="color:red"></td>
-                        <td id="weatherAirStatus" style="color:red"></td>
+                        <td>
+                            <div id="countyInformation" class="currentCountyField">臺北市</div>
+                        </td>
+                        <td>
+                            <table id="realTimeWeatherStatusTable" class="realTimeWeatherStatusTable">
+
+                                <tr>
+                                    <th>溫度</th>
+                                    <th>紫外線</th>
+                                    <th>PM2.5</th>
+                                    <th>空氣品質</th>
+                                </tr>
+                                <tr>
+                                    <td id="currentTemp" style="color:red"></td>
+                                    <td id="weatherUVLevel" style="color:red"></td>
+                                    <td id="weatherPM25Level" style="color:red"></td>
+                                    <td id="weatherAirStatus" style="color:red"></td>
+                                </tr>
+                            </table>
+                        </td>
+
                     </tr>
                 </table>
+
             </div>
 
             <div id="helperInformation" class="littleHelperField"> </div>

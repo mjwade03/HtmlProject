@@ -710,7 +710,7 @@ function updateRealTimeWeatherStatus()
             }
         }
         var tempString = targetTemp.toString();
-        document.getElementById("currentTemp").innerHTML = tempString + "°C";
+        document.getElementById("currentTemp").innerHTML = tempString ;
         currentTemp = tempString + "°C";
         alreadyUpdateRealTimeStatus = true;
         getLocation();
