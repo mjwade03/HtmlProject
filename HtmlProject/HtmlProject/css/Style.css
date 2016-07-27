@@ -51,6 +51,7 @@ div.littleHelperField{
     font-size:20px;
     font-weight:lighter;
     padding:20px;
+    min-width: 600px;
 }
 div.currentTempField{
     font-size:60px;
@@ -96,16 +97,6 @@ table.dataTable tr:nth-child(odd){
 table.dataTable tr:nth-child(even){
     background-color: lightgray;
 }
-table.dataTable td {    
-    font-size:18px;
-    font-weight:lighter;
-    font-family:Microsoft JhengHei;
-	padding:10px;
-    vertical-align:middle;
-    margin:auto;
-    text-align: left;
-    color: black;
-}
 table.dataTable th {
     font-size:18px;
     font-weight:lighter;
@@ -114,19 +105,28 @@ table.dataTable th {
 	text-align: center;
     color: black;
 }
+table.dataTable td {
+    font-size:18px;
+    font-weight:lighter;
+    font-family:Microsoft JhengHei;
+	padding:10px;
+    text-align: left;
+    color: black;
+}
+
 
 table.realTimeWeatherStatusTable,
 table.realTimeWeatherStatusTable tr,
 table.realTimeWeatherStatusTable th{
-    width:500px;
+    width:600px;
     font-size:20px;
     font-weight:lighter;
     font-family:Microsoft JhengHei;
-    color: black;
+    color: #828282;
     text-align:left;
 }
 table.realTimeWeatherStatusTable td {
-    width:500px;
+    width:600px;
     font-size:40px;
     font-family:Microsoft JhengHei;
     text-align:left;
