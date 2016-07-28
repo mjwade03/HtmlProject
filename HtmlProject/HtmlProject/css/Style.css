@@ -200,5 +200,6 @@ img
   font-weight: 300;
 }
 #my_map{
-    height: 100%;
+    width: auto;
+    height: 600px;
 }
