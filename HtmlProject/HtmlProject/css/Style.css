@@ -125,13 +125,13 @@ table.realTimeWeatherStatusTable th{
     font-family:Microsoft JhengHei;
     color: #828282;
     text-align:left;
-    padding-right:20px;
+    padding-right:30px;
 }
 table.realTimeWeatherStatusTable td {
     font-size:40px;
     font-family:Microsoft JhengHei;
     text-align:left;
-    padding-right:20px;
+    padding-right:30px;
 }
 
 #MainBody{
