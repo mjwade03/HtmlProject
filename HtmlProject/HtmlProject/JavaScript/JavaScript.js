@@ -74,6 +74,8 @@ function initMap() {
     var input = document.getElementById('pac-input');
     myMap.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
     var searchBox = new google.maps.places.SearchBox(input);
+    var pacsave = document.getElementById('pac-save');
+    myMap.controls[google.maps.ControlPosition.TOP_LEFT].push(pacsave);
 
     // Bias the SearchBox results towards current map's viewport.
     myMap.addListener('bounds_changed', function() {
@@ -89,6 +91,7 @@ function initMap() {
 
         ShowAddress();
     });
+    checkCookie();
 }
 
 function getWeatherStatus(currentLng, currentLat) {
@@ -961,6 +964,43 @@ function ShowAddress() {
                 }
             }
         );
+    }
+}
+
+function saveAddress(){
+    var address = document.getElementById('pac-input').value;
+    if(address != ""){
+        setCookie("address", address, 365);
+    }
+}
+
+function setCookie(addr, avalue, exdays) {
+    alert(avalue);
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    var expires = "expires="+d.toUTCString();
+    document.cookie = addr + "=" + avalue + "; " + expires;
+}
+
+function getCookie(addr) {
+    var address = addr + "=";
+    var ca = document.cookie.split(';');
+    for(var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(address) == 0) {
+            return c.substring(address.length, c.length);
+        }
+    }
+    return "";
+}
+
+function checkCookie() {
+    var address = getCookie("address");
+    if (address != "") {
+        document.getElementById('pac-input').value = address;
     }
 }
 
