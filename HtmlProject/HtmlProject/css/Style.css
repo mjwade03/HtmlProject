@@ -8,7 +8,7 @@
 @media screen and (min-width:800px) {
   nav {
     float: left;
-    width: 50%;
+    width: 66%;
   }
   section {
     margin-left: auto;
@@ -51,7 +51,7 @@ div.littleHelperField{
     font-family:Microsoft JhengHei;
     font-size:16px;
     font-weight:lighter;
-    padding:20px;
+
 }
 div.currentTempField{
     font-size:60px;
@@ -62,13 +62,13 @@ div.currentTempField{
     padding-top: 0px;
 }
 div.currentCountyField{
-    font-size:80px;
+    font-size:70px;
     font-family:Microsoft JhengHei;
     color:black;
     padding-right:20px;
     padding-left:0px;
     padding-bottom:20px;
-    padding-top:20px;
+    padding-top:10px;
 }
 div.reserveSpaceShort{
     width:20px;
@@ -91,7 +91,6 @@ table.dataTable{
     margin-top: 10px;
     margin-bottom: 10px;
     margin-right: 10px;
-    margin-left: 10px;
     display:none;
 }
 table.dataTable tr:nth-child(odd){
