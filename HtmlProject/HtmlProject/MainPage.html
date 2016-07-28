@@ -18,111 +18,98 @@
 </head>
 
 
-<body id="MainBody" onload="load()">
+<body id="MainBody" onload="load()" >
     <!--<header>
         <h1>紫外線&氣象站</h1>
     </header>-->
     <!--<form id="InformationForm">-->
     <div>
         <nav>
-            <div style="padding-left:30px;">
+            <div style="padding-left:60px; padding-right:60px;">
                 <div valign="top" id="currentAddress" hidden>100台灣台北市中正區北平西路3號臺北車站</div>
                 <div valign="top" id="inLatLng" name="inLatLng" size="40" hidden></div>
                 <div>
-                    <!--<nav class="headerDiv">
-                        <div id="countyInformation" class="currentCountyField">臺北市</div>
-                    </nav>
-                    <section class="headerDiv">
-                        <table id="realTimeWeatherStatusTable" class="realTimeWeatherStatusTable">
+                    <div style="height:400px;">
+                        <table >
                             <tr>
-                                <th>溫度</th>
-                                <th>紫外線</th>
-                                <th>PM2.5</th>
-                                <th>空氣品質</th>
-                            </tr>
-                            <tr>
-                                <td id="currentTemp" style="color:red"></td>
-                                <td id="weatherUVLevel" style="color:red"></td>
-                                <td id="weatherPM25Level" style="color:red"></td>
-                                <td id="weatherAirStatus" style="color:red"></td>
+                                <td>
+                                    <div id="countyInformation" class="currentCountyField">臺北市</div>
+                                </td>
+                                <td>
+                                    <table id="realTimeWeatherStatusTable" class="realTimeWeatherStatusTable">
+                                        <tr>
+                                            <th>溫度</th>
+                                            <th>紫外線</th>
+                                            <th>PM2.5</th>
+                                            <th>空氣品質</th>
+                                        </tr>
+                                        <tr>
+                                            <td id="currentTemp" style="color:red"></td>
+                                            <td id="weatherUVLevel" style="color:red"></td>
+                                            <td id="weatherPM25Level" style="color:red"></td>
+                                            <td id="weatherAirStatus" style="color:red"></td>
+                                        </tr>
+                                    </table>
+                                </td>
                             </tr>
                         </table>
-                    </section>-->
-                    <table>
-                        <tr>
-                            <td>
-                                <div id="countyInformation" class="currentCountyField">臺北市</div>
-                            </td>
-                            <td>
-                                <table id="realTimeWeatherStatusTable" class="realTimeWeatherStatusTable">
-                                    <tr>
-                                        <th>溫度</th>
-                                        <th>紫外線</th>
-                                        <th>PM2.5</th>
-                                        <th>空氣品質</th>
-                                    </tr>
-                                    <tr>
-                                        <td id="currentTemp" style="color:red"></td>
-                                        <td id="weatherUVLevel" style="color:red"></td>
-                                        <td id="weatherPM25Level" style="color:red"></td>
-                                        <td id="weatherAirStatus" style="color:red"></td>
-                                    </tr>
-                                </table>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-                <div id="helperInformation" class="littleHelperField"> </div>
-                <div>
-                    <table>
-                        <tr>
-                            <td>
-                                <div class="reserveSpaceLong"></div>
-                            </td>
-                            <td>
-                                <table id="WeatherStatusTable" class="dataTable">
-                                    <tr>
-                                        <th>預報有效期間</th>
-                                        <th>天氣狀況</th>
-                                        <th>舒適度</th>
-                                        <th>溫度</th>
-                                        <th>降雨機率</th>
-                                    </tr>
-                                    <tr>
-                                        <td id="firstWeatherValidity">今日白天</td>
-                                        <td>
-                                            <img id="firstWeatherStatus" height="50" />
-                                        </td>
-                                        <td id="firstWeatherComfort">舒適</td>
-                                        <td id="firstWeatherTemperature">26 ~ 37</td>
-                                        <td id="firstWeatherRainPercentage">20%</td>
-                                    </tr>
-                                    <tr></tr>
-                                    <tr>
-                                        <td id="secondWeatherValidity">今晚至明晨</td>
-                                        <td>
-                                            <img id="secondWeatherStatus" height="50" />
-                                        </td>
-                                        <td id="secondWeatherComfort">舒適</td>
-                                        <td id="secondWeatherTemperature">26 ~ 37</td>
-                                        <td id="secondWeatherRainPercentage">20%</td>
-                                    </tr>
-                                    <tr></tr>
-                                    <tr>
-                                        <td id="thirdWeatherValidity">明日白天</td>
-                                        <td>
-                                            <img id="thirdWeatherStatus" height="50" />
-                                        </td>
-                                        <td id="thirdWeatherComfort">舒適</td>
-                                        <td id="thirdWeatherTemperature">26 ~ 37</td>
-                                        <td id="thirdWeatherRainPercentage">20%</td>
-                                    </tr>
+                    </div>
 
-                                </table>
-                            </td>
-                        </tr>
-                    </table>
+                    <div style="height:400px;">
+                        <div id="helperInformation" class="littleHelperField"> </div>
+                        <div>
+                            <table>
+                                <tr>
+                                    <td>
+                                        <div class="reserveSpaceLong"></div>
+                                    </td>
+                                    <td>
+                                        <table id="WeatherStatusTable" class="dataTable">
+                                            <tr>
+                                                <th>預報有效期間</th>
+                                                <th>天氣狀況</th>
+                                                <th>舒適度</th>
+                                                <th>溫度</th>
+                                                <th>降雨機率</th>
+                                            </tr>
+                                            <tr>
+                                                <td id="firstWeatherValidity">今日白天</td>
+                                                <td>
+                                                    <img id="firstWeatherStatus" height="50" />
+                                                </td>
+                                                <td id="firstWeatherComfort">舒適</td>
+                                                <td id="firstWeatherTemperature">26 ~ 37</td>
+                                                <td id="firstWeatherRainPercentage">20%</td>
+                                            </tr>
+                                            <tr></tr>
+                                            <tr>
+                                                <td id="secondWeatherValidity">今晚至明晨</td>
+                                                <td>
+                                                    <img id="secondWeatherStatus" height="50" />
+                                                </td>
+                                                <td id="secondWeatherComfort">舒適</td>
+                                                <td id="secondWeatherTemperature">26 ~ 37</td>
+                                                <td id="secondWeatherRainPercentage">20%</td>
+                                            </tr>
+                                            <tr></tr>
+                                            <tr>
+                                                <td id="thirdWeatherValidity">明日白天</td>
+                                                <td>
+                                                    <img id="thirdWeatherStatus" height="50" />
+                                                </td>
+                                                <td id="thirdWeatherComfort">舒適</td>
+                                                <td id="thirdWeatherTemperature">26 ~ 37</td>
+                                                <td id="thirdWeatherRainPercentage">20%</td>
+                                            </tr>
+
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
                 </div>
+
                 <!--紫外線測站:-->
                 <select id="UVSiteSelect" onchange="onSelectUVSiteChange()" hidden></select>
                 <!--空氣汙染測站:-->

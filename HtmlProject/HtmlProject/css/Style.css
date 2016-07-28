@@ -51,7 +51,7 @@ div.littleHelperField{
     font-family:Microsoft JhengHei;
     font-size:16px;
     font-weight:lighter;
-    padding-top:150px;
+    line-height:1.5;
 }
 div.currentTempField{
     font-size:60px;
