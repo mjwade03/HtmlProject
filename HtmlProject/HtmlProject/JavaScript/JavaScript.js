@@ -1002,6 +1002,7 @@ function setCookie(addr, avalue, exdays) {
     d.setTime(d.getTime() + (exdays*24*60*60*1000));
     var expires = "expires="+d.toUTCString();
     document.cookie = addr + "=" + avalue + "; " + expires;
+    alert("*"+ avalue +"*紀錄成功!!!");
 }
 
 function getCookie(addr) {

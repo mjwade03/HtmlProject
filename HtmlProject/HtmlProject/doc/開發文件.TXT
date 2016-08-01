@@ -16,12 +16,10 @@ AIzaSyDS7IojxtL7VgMq4UuPVhT0MSQUFXpf1ik
 7.研究是否可以秀出當前的實際氣溫等等 E
 8.獨立秀出PM2.5的狀況 E
 
-
-
-
-
-
-
+參考網站
+1.學習 CSS 版面配置 http://zh-tw.learnlayout.com/
+2.Node入門 http://www.nodebeginner.org/index-zh-tw.html
+3.git教學（github、gitlab）http://qbsuranalang.blogspot.tw/2015/01/gitgithubgitlab.html
 
 
 http://weather.json.tw/
