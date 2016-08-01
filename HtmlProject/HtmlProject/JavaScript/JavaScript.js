@@ -47,6 +47,7 @@ function load() {
     loadAirPollutantSiteJsonData();
 
     loadRealTimeWeatherStatusData();
+    //loadRealTimeWeatherStatusDataByNodeJs();
 
     initMap();
     //getLocation();
@@ -194,6 +195,7 @@ function getWeatherStatus(currentLng, currentLat) {
 
 
         updateRealTimeWeatherStatus();
+        //updateRealTimeWeatherStatusByNodeJs();
     }
 }
 
@@ -363,12 +365,12 @@ function loadJsonpData3(targetData)
                     updateUVData();
                     break;
                 case "AirPollutant":
-                    AirPollutantArray = response;
+                    AirPollutantArray = JSON.parse(response);
                     alreadyGotAirPollutantJson = true;
                     updateAirPollutantData();
                     break;
                 case "AirPollutantSite":
-                    AirPollutantSiteArray = response;
+                    AirPollutantSiteArray = JSON.parse(response);
                     alreadyGotAirPollutantSiteJson = true;
                     updateAirPollutantData();
                     break;
@@ -378,13 +380,13 @@ function loadJsonpData3(targetData)
 }
 
 function loadUVJsonpData() {
-    loadJsonpData2(queryUVJsonUrl);
-    //loadJsonpData3("UV");
+    //loadJsonpData2(queryUVJsonUrl);
+    loadJsonpData3("UV");
 }
 
 function loadUVSitenData() {
-    loadJsonpData2(queryUVSiteJsonUrl);
-    //loadJsonpData3("UVSite");
+    //loadJsonpData2(queryUVSiteJsonUrl);
+    loadJsonpData3("UVSite");
 }
 
 function updateUVData() {
@@ -573,11 +575,13 @@ function setCurrentUVInfoTable(currentObject) {
 }
 
 function loadAirPollutantJsonData() {
-    loadJsonpData2(queryAirPollutantJsonUrl);
+    //loadJsonpData2(queryAirPollutantJsonUrl);
+    loadJsonpData3("AirPollutant");
 }
 
 function loadAirPollutantSiteJsonData() {
-    loadJsonpData2(queryAirPollutantSiteJsonUrl);
+    //loadJsonpData2(queryAirPollutantSiteJsonUrl);
+    loadJsonpData3("AirPollutantSite");
 }
 
 function updateAirPollutantData() {
@@ -706,6 +710,7 @@ function setCurrentAirPollutantInfoTable(currentObject) {
 
 function loadRealTimeWeatherStatusData()
 {
+    // 原本使用YQL的方法
     var BasicQueryUrl = 'https://query.yahooapis.com/v1/public/yql?'
     var query = 'q=' +
         encodeURIComponent('select * from html where ' +
@@ -716,7 +721,9 @@ function loadRealTimeWeatherStatusData()
 
         realTimeWeatherStatusDataArray = obj;
         updateRealTimeWeatherStatus();
+        //updateRealTimeWeatherStatusByNodeJs
     });
+
 }
 
 function updateRealTimeWeatherStatus()
@@ -745,6 +752,41 @@ function updateRealTimeWeatherStatus()
 
 }
 
+
+
+function loadRealTimeWeatherStatusDataByNodeJs()
+{
+    $.ajax({
+        type: 'GET',
+        url: node_jsServerUrl + "RealTimeWeatherStatus",
+        success: function (response) {
+            //var testArray = JSON.parse(response);
+            realTimeWeatherStatusDataArray = JSON.parse(response).cwbopendata.location;
+            var test = 0;
+            test++;
+        }
+    });
+}
+function updateRealTimeWeatherStatusByNodeJs()
+{
+    if (realTimeWeatherStatusDataArray != null && lastLng && lastLat) {
+
+        var targetTemp;
+        var minRealTimeWeatherStatusStation = 999999999;
+        for (var index = 0; index < realTimeWeatherStatusDataArray.length; index++) {
+            var distance = Math.abs(realTimeWeatherStatusDataArray[index].lon[0] - lastLng) + Math.abs(realTimeWeatherStatusDataArray[index].lat[0] - lastLat);
+            if (distance < minRealTimeWeatherStatusStation) {
+                minRealTimeWeatherStatusStation = distance;
+                targetTemp = realTimeWeatherStatusDataArray[index].weatherElement[4].elementValue[0].value[0];
+            }
+        }
+        var tempString = targetTemp.toString();
+        document.getElementById("currentTemp").innerHTML = tempString;
+        currentTemp = tempString + "°C";
+        alreadyUpdateRealTimeStatus = true;
+        getLocation();
+    }
+}
 function updateLittleHelperContent(helperId)
 {
     if (helperId) {
@@ -761,197 +803,31 @@ function updateLittleHelperContent(helperId)
                 helperString = helperString + obj.dataset.parameterset.parameter[index].parametervalue + '<br />';
             }
             document.getElementById("helperInformation").innerHTML = helperString;
-
-            //realTimeWeatherStatusDataArray = obj;
-            //updateRealTimeWeatherStatus();
         });
     }
 }
 
-var jsonCity = {
-    "results": {
-        "table": [
-        {
-            "city": {
-                "id": "KeelungList",
-                "name": "基隆市"
-            }
-        },
-        {
-            "city": {
-                "id": "TaipeiCityList",
-                "name": "臺北市"
-            }
-        },
-        {
-            "city": {
-                "id": "TaipeiList",
-                "name": "新北市"
-            }
-        },
-        {
-            "city": {
-                "id": "TaoyuanList",
-                "name": "桃園縣"
-            }
-        },
-        {
-            "city": {
-                "id": "HsinchuCityList",
-                "name": "新竹市"
-            }
-        },
-        {
-            "city": {
-                "id": "HsinchuList",
-                "name": "新竹縣"
-            }
-        },
-        {
-            "city": {
-                "id": "MiaoliList",
-                "name": "苗栗縣"
-            }
-        },
-        {
-            "city": {
-                "id": "TaichungList",
-                "name": "臺中市"
-            }
-        },
-        {
-            "city": {
-                "id": "ChanghuaList",
-                "name": "彰化縣"
-            }
-        },
-        {
-            "city": {
-                "id": "NantouList",
-                "name": "南投縣"
-            }
-        },
-        {
-            "city": {
-                "id": "YunlinList",
-                "name": "雲林縣"
-            }
-        },
-        {
-            "city": {
-                "id": "ChiayiCityList",
-                "name": "嘉義市"
-            }
-        },
-        {
-            "city": {
-                "id": "ChiayiList",
-                "name": "嘉義縣"
-            }
-        },
-        {
-            "city": {
-                "id": "YilanList",
-                "name": "宜蘭縣"
-            }
-        },
-        {
-            "city": {
-                "id": "HualienList",
-                "name": "花蓮縣"
-            }
-        },
-        {
-            "city": {
-                "id": "TaitungList",
-                "name": "臺東縣"
-            }
-        },
-        {
-            "city": {
-                "id": "TainanList",
-                "name": "臺南市"
-            }
-        },
-        {
-            "city": {
-                "id": "KaohsiungCityList",
-                "name": "高雄市"
-            }
-        },
-        {
-            "city": {
-                "id": "PingtungList",
-                "name": "屏東縣"
-            }
-        },
-        {
-            "city": {
-                "id": "MatsuList",
-                "name": "連江縣"
-            }
-        },
-        {
-            "city": {
-                "id": "KinmenList",
-                "name": "金門縣"
-            }
-        },
-        {
-            "city": {
-                "id": "PenghuList",
-                "name": "澎湖縣"
-            }
-        }
-        ]
-    }
-};
+function updateLittleHelperContentByNodeJs(helperId) {
+    if (helperId) {
 
-/*透過YQL取得氣象資料*/
-function GetWeatherData(cityId) {
-    var BasicQueryUrl = 'https://query.yahooapis.com/v1/public/yql?'
-    var query = 'q=' +
-        encodeURIComponent('select * from html where ' +
-        '  url = "http://www.cwb.gov.tw/V7/forecast/f_index.htm" and ' +
-        'xpath=' + "'" + '//tr[@id="' + cityId + '"]' + "'") + '&format=json';
-
-    $.getJSON(BasicQueryUrl + query, function (data) {
-        var Infohtml = '';
-        var ImagUrl = '';
-        //取得圖片,在最後一個元素
-        var lastImglength = data.query.results.tr.td.length - 1;
-        $.each(data.query.results.tr.td, function (i, val) {
-            if (val.a.content != undefined) {
-                var name = '';
-                //alert(val.a.content);
-                switch (i) {
-                    case 0:
-                        name = "縣市";
-                        document.getElementById("weatherCounty").innerHTML = name + ": " + val.a.content;
-                        break;
-                    case 1:
-                        name = "溫度";
-                        document.getElementById("weatherTemperature").innerHTML = name + ": " + val.a.content;
-                        break;
-                    case 2:
-                        name = "降雨機率";
-                        document.getElementById("weatherRainPercentage").innerHTML = name + ": " + val.a.content;
-                        break;
-                }
-                Infohtml += '<td width="100px;"><p>' + name + '</p>' + val.a.content + '</td>';
+        $.ajax({
+            type: 'GET',
+            url: node_jsServerUrl + "LittleHelper" + "&ID=" + helperId,
+            success: function (response) {
+                var obj = JSON.parse(response).cwbopendata;
+                var helperString = "";
+                for (var index = 0; index < obj.dataset[0].parameterSet[0].parameter.length; index++) {
+                    helperString = helperString + obj.dataset[0].parameterSet[0].parameter[index].parameterValue[0] + '<br />';
+               }
+                document.getElementById("helperInformation").innerHTML = helperString;
             }
         });
-    });
+
+
+    }
 }
 
 function GetWeatherDataByCountyName(countyName) {
-    //for (var i = 0; i < jsonCity.results.table.length; i++) {
-    //    if (countyName == jsonCity.results.table[i].city.name) {
-    //        //GetWeatherData(jsonCity.results.table[i].city.id);
-    //        GetWeatherData(jsonCity.results.table[i].city.id);
-    //        break;
-    //    }
-    //}
     document.getElementById("countyInformation").innerHTML = countyName;
     
     for (var i = 0; i < jsonCity2.results.table.length; i++) {
@@ -959,6 +835,7 @@ function GetWeatherDataByCountyName(countyName) {
             //GetWeatherData(jsonCity.results.table[i].city.id);
             GetWeatherData2(jsonCity2.results.table[i].city.id);
             updateLittleHelperContent(jsonCity2.results.table[i].city.helperId)
+            //updateLittleHelperContentByNodeJs(jsonCity2.results.table[i].city.helperId);
             break;
         }
     }
