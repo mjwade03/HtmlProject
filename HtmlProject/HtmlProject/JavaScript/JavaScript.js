@@ -18,6 +18,8 @@ var queryRealTimeWeatherStatusUrl = 'http://opendata.cwb.gov.tw/opendata/DIV2/O-
 var realTimeWeatherStatusDataArray;
 var alreadyUpdateRealTimeStatus= false;
 
+// 自訂的Node.js server
+var node_jsServerUrl = "http://127.0.0.1:3000/";
 var lastLat;
 var lastLng;
 
@@ -343,25 +345,46 @@ function loadJsonpData2(targetUrl) {
 }
 
 
-function loadJsonpData3(targetUrl)
+function loadJsonpData3(targetData)
 {
-    alert("here");
-    $.getJSON(targetUrl + "&callback=?", function (data) {
-        alert(data);
-        $.each(data.services, function (index, service) {
-            alert("3");
-            //processService(service);
-        });
+    $.ajax({
+        type: 'GET',
+        url: node_jsServerUrl + targetData,
+        success: function (response) {
+            switch (targetData) {
+                case "UV":
+                    UVArray = JSON.parse(response);
+                    alreadyGotUVJson = true;
+                    updateUVData();
+                    break;
+                case "UVSite":
+                    UVSiteArray = JSON.parse(response);
+                    alreadyGotUVSiteJson = true;
+                    updateUVData();
+                    break;
+                case "AirPollutant":
+                    AirPollutantArray = response;
+                    alreadyGotAirPollutantJson = true;
+                    updateAirPollutantData();
+                    break;
+                case "AirPollutantSite":
+                    AirPollutantSiteArray = response;
+                    alreadyGotAirPollutantSiteJson = true;
+                    updateAirPollutantData();
+                    break;
+            }
+        }
     });
 }
 
 function loadUVJsonpData() {
     loadJsonpData2(queryUVJsonUrl);
-    //loadJsonpData3(queryUVJsonUrl);
+    //loadJsonpData3("UV");
 }
 
 function loadUVSitenData() {
     loadJsonpData2(queryUVSiteJsonUrl);
+    //loadJsonpData3("UVSite");
 }
 
 function updateUVData() {
