@@ -1,0 +1,14 @@
+{
+  "name": "express-app-server",
+  "version": "0.0.0",
+  "description": "ExpressAppServer",
+  "main": "app.js",
+  "author": {
+    "name": "eason"
+  },
+  "dependencies": {
+    "express": "3.4.4",
+    "jade": "*",
+    "stylus": "*"
+  }
+}

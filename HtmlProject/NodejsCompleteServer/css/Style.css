@@ -1,0 +1,205 @@
+﻿header, footer {
+    padding: 1em;
+    color: purple;
+    clear: left;
+    text-align: center;
+}
+
+@media screen and (min-width:800px) {
+  nav {
+    float: left;
+    width: 66%;
+  }
+  section {
+    margin-left: auto;
+    height: 100%;
+  }
+}
+@media screen and (max-width:799px) {
+  nav li {
+    display: inline;
+  }
+}
+
+nav {
+    float: left;
+    margin: 0;
+    padding: 1em;
+}
+
+article {
+    margin-left: 170px;
+    border-left: 1px solid gray;
+    padding: 1em;
+    overflow: hidden;
+}
+
+/*table.dataTable,
+table.dataTable tr,
+table.dataTable td {
+    color: red;
+    font-weight: bold;
+    font-size:18px;
+    font-family:Microsoft JhengHei;
+    border: 1px solid black;
+    text-align: center;
+    border-collapse: collapse;
+
+}*/
+div.littleHelperField{
+    color:#434343;
+    font-family:Microsoft JhengHei;
+    font-size:16px;
+    font-weight:lighter;
+    line-height:2.0;
+}
+div.currentTempField{
+    font-size:60px;
+    font-weight: bold;
+    font-family:Microsoft JhengHei;
+    color:white;
+    text-shadow:3px 3px 3px #000000;
+    padding-top: 0px;
+}
+div.currentCountyField{
+    font-size:70px;
+    font-family:Microsoft JhengHei;
+    color:black;
+    padding-right:20px;
+    padding-left:0px;
+    padding-bottom:20px;
+    padding-top:10px;
+}
+div.reserveSpaceShort{
+    width:20px;
+
+}
+div.reserveSpaceLong{
+    height:300px;
+
+}
+div.dataTableBorder {
+    border:1pt solid rgba(80%,80%,80%,0.9);
+    border-radius: 5px;
+    display: inline-block;
+    background: rgba(0%,0%,0%,0.2);
+}
+
+/*Style of data table*/
+table.dataTable{
+    border-collapse:collapse;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    display:none;
+}
+table.dataTable tr:nth-child(odd){
+    height:10px;
+}
+table.dataTable tr:nth-child(even){
+    background-color: lightgray;
+}
+table.dataTable th {
+    font-size:16px;
+    font-weight:lighter;
+    font-family:Microsoft JhengHei;
+	padding:10px;
+	text-align: center;
+    color: black;
+}
+table.dataTable td {
+    font-size:16px;
+    font-weight:lighter;
+    font-family:Microsoft JhengHei;
+	padding:10px;
+    text-align: left;
+    color: black;
+}
+
+
+table.realTimeWeatherStatusTable,
+table.realTimeWeatherStatusTable tr,
+table.realTimeWeatherStatusTable th{
+    font-size:16px;
+    font-weight:lighter;
+    font-family:Microsoft JhengHei;
+    color: #828282;
+    text-align:left;
+    padding-right:30px;
+}
+table.realTimeWeatherStatusTable td {
+    font-size:40px;
+    font-family:Microsoft JhengHei;
+    text-align:left;
+    padding-right:30px;
+}
+
+#MainBody{
+    /*background-image:url(..//Image/01d29ccaf765eff5ce.jpg);
+    background-repeat:no-repeat;
+    background-size:cover;*/
+    background-color:#FCFAF3;
+}
+
+#InformationForm{
+    color: red;
+    font-weight: bold;
+    font-size:18px;
+    font-family:Microsoft JhengHei;
+}
+
+header.outset {border-style: outset;}
+
+img
+{
+
+  display:table-cell;
+  vertical-align:middle;
+  margin:auto;
+}
+
+.controls {
+  margin-top: 10px;
+  border: 1px solid transparent;
+  border-radius: 2px 0 0 2px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  height: 32px;
+  outline: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+#pac-input {
+  background-color: #fff;
+  font-family: Roboto;
+  font-size: 15px;
+  font-weight: 300;
+  margin-left: 12px;
+  padding: 0 11px 0 13px;
+  text-overflow: ellipsis;
+  width: 300px;
+}
+
+#pac-input:focus {
+  border-color: #4d90fe;
+}
+
+.pac-container {
+  font-family: Roboto;
+}
+
+#type-selector {
+  color: #fff;
+  background-color: #4d90fe;
+  padding: 5px 11px 0px 11px;
+}
+
+#type-selector label {
+  font-family: Roboto;
+  font-size: 13px;
+  font-weight: 300;
+}
+#my_map{
+    width: auto;
+    height: 800px;
+}

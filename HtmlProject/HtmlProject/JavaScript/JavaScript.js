@@ -380,13 +380,13 @@ function loadJsonpData3(targetData)
 }
 
 function loadUVJsonpData() {
-    //loadJsonpData2(queryUVJsonUrl);
-    loadJsonpData3("UV");
+    loadJsonpData2(queryUVJsonUrl);
+    //loadJsonpData3("UV");
 }
 
 function loadUVSitenData() {
-    //loadJsonpData2(queryUVSiteJsonUrl);
-    loadJsonpData3("UVSite");
+    loadJsonpData2(queryUVSiteJsonUrl);
+    //loadJsonpData3("UVSite");
 }
 
 function updateUVData() {
@@ -575,13 +575,13 @@ function setCurrentUVInfoTable(currentObject) {
 }
 
 function loadAirPollutantJsonData() {
-    //loadJsonpData2(queryAirPollutantJsonUrl);
-    loadJsonpData3("AirPollutant");
+    loadJsonpData2(queryAirPollutantJsonUrl);
+    //loadJsonpData3("AirPollutant");
 }
 
 function loadAirPollutantSiteJsonData() {
-    //loadJsonpData2(queryAirPollutantSiteJsonUrl);
-    loadJsonpData3("AirPollutantSite");
+    loadJsonpData2(queryAirPollutantSiteJsonUrl);
+    //loadJsonpData3("AirPollutantSite");
 }
 
 function updateAirPollutantData() {
@@ -834,6 +834,7 @@ function GetWeatherDataByCountyName(countyName) {
         if (countyName == jsonCity2.results.table[i].city.name) {
             //GetWeatherData(jsonCity.results.table[i].city.id);
             GetWeatherData2(jsonCity2.results.table[i].city.id);
+            //GetWeatherDataByNodeJs(jsonCity2.results.table[i].city.id);
             updateLittleHelperContent(jsonCity2.results.table[i].city.helperId)
             //updateLittleHelperContentByNodeJs(jsonCity2.results.table[i].city.helperId);
             break;
@@ -1109,5 +1110,46 @@ function GetWeatherData2(cityId) {
     });
    
 
+}
+
+
+function GetWeatherDataByNodeJs(cityId)
+{
+    $.ajax({
+        type: 'GET',
+        url: node_jsServerUrl + "WeatherReport" + "&targetCity=" + cityId,
+        success: function (response) {
+            var obj = JSON.parse(response);
+            var data = obj[0].children;
+
+            document.getElementById("firstWeatherValidity").innerHTML = data[0].children[1].children[0].content;
+            document.getElementById("firstWeatherTemperature").innerHTML = data[0].children[3].children[0].content;
+            var imgSrc = data[0].children[5].children[1].attributes.src.split("/");
+            document.getElementById("firstWeatherStatus").src = weatherIconUrl + imgSrc[imgSrc.length - 2] + '/' + imgSrc[imgSrc.length - 1];
+            document.getElementById("firstWeatherStatus").title = data[0].children[5].children[1].attributes.title;
+            document.getElementById("firstWeatherComfort").innerHTML = data[0].children[7].children[0].content;
+            document.getElementById("firstWeatherRainPercentage").innerHTML = data[0].children[9].children[0].content;
+
+            document.getElementById("secondWeatherValidity").innerHTML = data[1].children[1].children[0].content;
+            document.getElementById("secondWeatherTemperature").innerHTML = data[1].children[3].children[0].content;
+            imgSrc = data[1].children[5].children[1].attributes.src.split("/");
+            document.getElementById("secondWeatherStatus").src = weatherIconUrl + imgSrc[imgSrc.length - 2] + '/' + imgSrc[imgSrc.length - 1];
+            document.getElementById("secondWeatherStatus").title = data[1].children[5].children[1].attributes.title;
+            document.getElementById("secondWeatherComfort").innerHTML = data[1].children[7].children[0].content;
+            document.getElementById("secondWeatherRainPercentage").innerHTML = data[1].children[9].children[0].content;
+
+            document.getElementById("thirdWeatherValidity").innerHTML = data[2].children[1].children[0].content;
+            document.getElementById("thirdWeatherTemperature").innerHTML = data[2].children[3].children[0].content;
+            imgSrc = data[2].children[5].children[1].attributes.src.split("/");
+            document.getElementById("thirdWeatherStatus").src = weatherIconUrl + imgSrc[imgSrc.length - 2] + '/' + imgSrc[imgSrc.length - 1];
+            document.getElementById("thirdWeatherStatus").title = data[2].children[5].children[1].attributes.title;
+            document.getElementById("thirdWeatherComfort").innerHTML = data[2].children[7].children[0].content;
+            document.getElementById("thirdWeatherRainPercentage").innerHTML = data[2].children[9].children[0].content;
+
+            $("#WeatherStatusTable").fadeIn(1000);
+            $("#realTimeWeatherStatusTable").fadeIn(1000);
+
+        }
+    });
 }
 
