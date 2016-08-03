@@ -441,10 +441,10 @@ var jsonCity2 = {
 function getWeatherStatus(currentLng, currentLat) {
     lastLat = currentLat;
     lastLng = currentLng;
-    if ((UVArray != null && UVArray.length == 0) || (UVSiteArray != null && UVSiteArray.length == 0) || (AirPollutantArray != null && AirPollutantArray.length == 0) || (AirPollutantSiteArray != null && AirPollutantSiteArray.length == 0)) {
+    if ((UVArray != undefined && UVArray.length == 0) || (UVSiteArray != undefined && UVSiteArray.length == 0) || (AirPollutantArray != undefined && AirPollutantArray.length == 0) || (AirPollutantSiteArray != undefined && AirPollutantSiteArray.length == 0)) {
         // alert("Weather data not ready");
     }
-    else if (UVArray == null || UVSiteArray == null || AirPollutantArray == null || AirPollutantSiteArray == null) {
+    else if (UVArray == undefined || UVSiteArray == undefined || AirPollutantArray == undefined || AirPollutantSiteArray == undefined) {
         // alert("Weather data not ready");
     }
     else {
@@ -489,7 +489,7 @@ function getWeatherStatus(currentLng, currentLat) {
 
         // Find the nearst air pollutant site
         var minAirPollutantSiteDistance = 999999999;
-        if (AirPollutantSiteArray != null) {
+        if (AirPollutantSiteArray != undefined) {
             for (var i = 0; i < AirPollutantSiteArray.length; i++) {
                 var distance = Math.abs(AirPollutantSiteArray[i].TWD97Lon - currentLng) + Math.abs(AirPollutantSiteArray[i].TWD97Lat - currentLat);
                 if (distance < minAirPollutantSiteDistance) {
@@ -498,7 +498,7 @@ function getWeatherStatus(currentLng, currentLat) {
                 }
             }
         }
-        if (AirPollutantArray != null) {
+        if (AirPollutantArray != undefined) {
             for (var i = 0; i < AirPollutantArray.length; i++) {
                 ///alert("2: " + AirPollutantArray[i].PM25);
                 if (AirPollutantArray[i].SiteName == targetAirPollutantSiteName) {
@@ -779,7 +779,7 @@ function loadRealTimeWeatherStatusData() {
 }
 
 function updateRealTimeWeatherStatus() {
-    if (realTimeWeatherStatusDataArray != null && lastLng && lastLat) {
+    if (realTimeWeatherStatusDataArray != undefined && lastLng && lastLat) {
 
         var targetTemp;
         var targetObject;
@@ -816,7 +816,7 @@ function loadRealTimeWeatherStatusDataByNodeJs() {
 }
 
 function updateRealTimeWeatherStatusByNodeJs() {
-    if (realTimeWeatherStatusDataArray != null && lastLng && lastLat) {
+    if (realTimeWeatherStatusDataArray != undefined && lastLng && lastLat) {
 
         var targetTemp;
         var minRealTimeWeatherStatusStation = 999999999;
@@ -838,7 +838,7 @@ function updateRealTimeWeatherStatusByNodeJs() {
 
 
 
-// 特定區域小幫手資訊相關
+// 特定行政區域天氣小幫手資訊相關
 function updateLittleHelperContent(helperId) {
     if (helperId) {
         var BasicQueryUrl = 'https://query.yahooapis.com/v1/public/yql?'
@@ -882,7 +882,6 @@ function GetWeatherDataByCountyName(countyName) {
 
     for (var i = 0; i < jsonCity2.results.table.length; i++) {
         if (countyName == jsonCity2.results.table[i].city.name) {
-            //GetWeatherData(jsonCity.results.table[i].city.id);
             //GetWeatherData2(jsonCity2.results.table[i].city.id);
             GetWeatherDataByNodeJs(jsonCity2.results.table[i].city.id);
             //updateLittleHelperContent(jsonCity2.results.table[i].city.helperId)
@@ -926,7 +925,6 @@ function GetWeatherDataByNodeJs(cityId) {
 
             $("#WeatherStatusTable").fadeIn(1000);
             $("#realTimeWeatherStatusTable").fadeIn(1000);
-
         }
     });
 }

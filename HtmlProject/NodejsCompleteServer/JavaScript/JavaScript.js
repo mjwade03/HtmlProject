@@ -1,7 +1,7 @@
 ﻿// Map的部分
 var lastLat;
 var lastLng;
-var geocoder = null;
+var geocoder = undefined;
 var myMap;
 var myMarker;
 var popup;
@@ -15,6 +15,7 @@ var currentAirPollutantStatus;
 
 var alreadyGetLocation = false;
 
+var dataSource;
 function load()
 {    
     loadUVJsonpData();

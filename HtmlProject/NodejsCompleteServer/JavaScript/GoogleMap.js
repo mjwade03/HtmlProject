@@ -47,7 +47,7 @@ function getAddress2(latLng) {
     geocoder.geocode({
         'latLng': latLng
     }, function (results, status) {
-        myMarker.setMap(null);
+        myMarker.setMap(undefined);
         if (status == google.maps.GeocoderStatus.OK) {
             if (results) {
                 var marker = new google.maps.Marker({
