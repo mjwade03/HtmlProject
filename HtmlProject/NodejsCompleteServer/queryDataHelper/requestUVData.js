@@ -9,11 +9,9 @@
                 res.on('data', function (body) {
                     resultString = resultString + body;
                     console.log('Receive data');
-                    //console.log(body);
-                    //response.write(body);
                 });
                 res.on('end', function () {
-                    console.log('Already end');
+                    console.log('Data ended');
                     response.write(resultString);
                     response.end();
 

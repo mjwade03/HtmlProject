@@ -8,12 +8,10 @@
         res.on('data', function (body) {
             resultString = resultString + body.toString();
             console.log('Receive data');
-            //console.log(body);
-            //response.write(body);
         });
         res.on('end', function () {
             
-            console.log('Already end');
+            console.log('Data ended');
 
             var xml2js = require('xml2js'); // XML2JS Module
             var parser = new xml2js.Parser(); 

@@ -30,7 +30,9 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="JavaScript\GoogleMap.js" />
     <Compile Include="JavaScript\JavaScript.js" />
+    <Compile Include="JavaScript\WeatherData.js" />
     <Compile Include="queryDataHelper\displayMainPage.js" />
     <Compile Include="queryDataHelper\requestAirPollutantData.js" />
     <Compile Include="queryDataHelper\requestAirPollutantSiteData.js" />
@@ -41,6 +43,7 @@
     <Compile Include="queryDataHelper\requestWeatherReportData.js" />
     <Compile Include="server.js" />
     <Content Include="css\Style.css" />
+    <Content Include="subPage\HTML1.html" />
     <Content Include="MainPage.html" />
     <Content Include="package.json" />
     <Content Include="README.md" />
@@ -48,6 +51,7 @@
   <ItemGroup>
     <Folder Include="css\" />
     <Folder Include="JavaScript\" />
+    <Folder Include="subPage\" />
     <Folder Include="queryDataHelper\" />
     <Folder Include="typings\" />
     <Folder Include="typings\globals\" />

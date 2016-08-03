@@ -31,53 +31,81 @@ var app = express();
 
 app.get('/', function (request, response) { //我們要處理URL為 "/" 的HTTP GET請求
     response.sendFile(__dirname + '/MainPage.html');
+    console.log("=================================================");
+    console.log("Receive the request to display html page");
+    console.log("=================================================");
 });
 
 
 
 app.get('/UV', function (request, response) { //我們要處理URL為 "/" 的HTTP GET請求
     response.writeHead(200, { "Access-Control-Allow-Origin": "*" });
+    console.log("=================================================");
+    console.log("Receive the request to query UV data");
+    console.log("=================================================");
     UVData.getUVData(response);
 });
 app.get('/UVSite', function (request, response) { //我們要處理URL為 "/" 的HTTP GET請求
     response.writeHead(200, { "Access-Control-Allow-Origin": "*" });
+    console.log("=================================================");
+    console.log("Receive the request to query UV site data");
+    console.log("=================================================");
     UVDataSite.getUVSiteData(response);
 });
 app.get('/AirPollutant', function (request, response) { //我們要處理URL為 "/" 的HTTP GET請求
     response.writeHead(200, { "Access-Control-Allow-Origin": "*" });
+    console.log("=================================================");
+    console.log("Receive the request to query AirPollutant data");
+    console.log("=================================================");
     AirPollutantData.getAirPollutantData(response);
 });
 app.get('/AirPollutantSite', function (request, response) { //我們要處理URL為 "/" 的HTTP GET請求
     response.writeHead(200, { "Access-Control-Allow-Origin": "*" });
+    console.log("=================================================");
+    console.log("Receive the request to query AirPollutant site data");
+    console.log("=================================================");
     AirPollutantDataSite.getAirPollutantSiteData(response);
 });
 app.get('/RealTimeWeatherStatus', function (request, response) { //我們要處理URL為 "/" 的HTTP GET請求
     response.writeHead(200, { "Access-Control-Allow-Origin": "*" });
+    console.log("=================================================");
+    console.log("Receive the request to query RealTimeWeatherStatus data");
+    console.log("=================================================");
     RealTimeWeatherStatusData.getRealTimeWeatherStatusData(response);
 });
 app.get('/LittleHelper', function (request, response) { //我們要處理URL為 "/" 的HTTP GET請求
     response.writeHead(200, { "Access-Control-Allow-Origin": "*" });
+    console.log("=================================================");
+    console.log("Receive the request to query LittleHelper data");    
     var ID = request.query.ID;
-    LittleHelpData.getLittleHelperData(response, ID);
     console.log("With parameter: " + ID);
+    console.log("=================================================");
+    LittleHelpData.getLittleHelperData(response, ID);
+    
 });
 app.get('/WeatherReport', function (request, response) { //我們要處理URL為 "/" 的HTTP GET請求
     response.writeHead(200, { "Access-Control-Allow-Origin": "*" });
+    console.log("=================================================");
+    console.log("Receive the request to query WeatherReport data");    
     var targetCity = request.query.targetCity;
-    WeatherReportData.getWeatherReportData(response, targetCity);
     console.log("With parameter: " + targetCity);
+    console.log("=================================================");
+    WeatherReportData.getWeatherReportData(response, targetCity);
+    
 });
 app.get('/test', function (request, response) { //我們要處理URL為 "/" 的HTTP GET請求
     response.writeHead(200, { "Access-Control-Allow-Origin": "*" });
+    console.log("=================================================");
+    console.log("Receive the request to query test data");
+    console.log("=================================================");
     response.end('Test here 2'); //作出回應
 });
 //server.listen(3000, function () {
 app.listen(3000, function () {
     console.log('HTTP伺服器在 http://127.0.0.1:3000/ 上運行');
 });
+
 app.use('/css', express.static(__dirname + '/css'));
 app.use('/JavaScript', express.static(__dirname + '/JavaScript'));
 app.use('/Image', express.static(__dirname + '/Image'));
-//app.use(express.static(path.join(__dirname, 'css')));
-//app.use(express.static(path.join(__dirname, 'JavaScript')));
-//app.use(express.static(path.join(__dirname, 'Image')));
+app.use('/subPage', express.static(__dirname + '/subPage'));
