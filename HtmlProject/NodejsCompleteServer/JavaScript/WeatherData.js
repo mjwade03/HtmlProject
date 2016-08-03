@@ -435,6 +435,65 @@ var jsonCity2 = {
 //    });
 
 //}
+
+//function loadRealTimeWeatherStatusData() {
+//    // 原本使用YQL的方法
+//    var BasicQueryUrl = 'https://query.yahooapis.com/v1/public/yql?'
+//    var query = 'q=' +
+//        encodeURIComponent('select * from html where ' +
+//            '  url = "http://opendata.cwb.gov.tw/opendata/DIV2/O-A0003-001.xml" and ' +
+//            'xpath=' + "'" + '//location' + "'") + '&format=json';
+//    $.getJSON(BasicQueryUrl + query, function (data) {
+//        var obj = data.query.results.location;
+
+//        realTimeWeatherStatusDataArray = obj;
+//        updateRealTimeWeatherStatus();
+//    });
+
+//}
+
+//function updateRealTimeWeatherStatus() {
+//    if (realTimeWeatherStatusDataArray != undefined && lastLng && lastLat) {
+
+//        var targetTemp;
+//        var targetObject;
+//        var minRealTimeWeatherStatusStation = 999999999;
+//        for (var index = 0; index < realTimeWeatherStatusDataArray.length; index++) {
+//            var distance = Math.abs(realTimeWeatherStatusDataArray[index].lon - lastLng) + Math.abs(realTimeWeatherStatusDataArray[index].lat - lastLat);
+//            if (distance < minRealTimeWeatherStatusStation) {
+//                minRealTimeWeatherStatusStation = distance;
+//                targetTemp = realTimeWeatherStatusDataArray[index].weatherelement[4].elementvalue.value;
+//                targetObject = realTimeWeatherStatusDataArray[index];
+//            }
+//        }
+//        var tempString = targetTemp.toString();
+//        document.getElementById("currentTemp").innerHTML = tempString;
+//        currentTemp = tempString + "°C";
+//        alreadyUpdateRealTimeStatus = true;
+//        getLocation();
+
+//    }
+
+//}
+
+//function updateLittleHelperContent(helperId) {
+//    if (helperId) {
+//        var BasicQueryUrl = 'https://query.yahooapis.com/v1/public/yql?'
+//        var query = 'q=' +
+//            encodeURIComponent('select * from html where ' +
+//                '  url = "http://opendata.cwb.gov.tw/opendata/MFC/' + helperId + '.xml" and ' +
+//                'xpath=' + "'" + '//dataset' + "'") + '&format=json';
+//        $.getJSON(BasicQueryUrl + query, function (data) {
+//            var obj = data.query.results;
+//            var helperString = "";
+//            for (var index = 0; index < obj.dataset.parameterset.parameter.length; index++) {
+//                helperString = helperString + obj.dataset.parameterset.parameter[index].parametervalue + '<br />';
+//            }
+//            document.getElementById("helperInformation").innerHTML = helperString;
+//        });
+//    }
+//}
+
 //// Function not used now end
 
 
@@ -451,7 +510,7 @@ function getWeatherStatus(currentLng, currentLat) {
         var targetUVSiteName;
         var targetAirPollutantSiteName;
 
-        // Find the nearst UV site
+        // Find the nearest UV site
         var minUVSiteDistance = 999999999;
         for (var i = 0; i < UVSiteArray.length; i++) {
             var distance = Math.abs(UVSiteArray[i].TWD97Lon - currentLng) + Math.abs(UVSiteArray[i].TWD97Lat - currentLat);
@@ -460,18 +519,17 @@ function getWeatherStatus(currentLng, currentLat) {
                 targetUVSiteName = UVSiteArray[i].SiteName;
             }
         }
-        for (var i = 0; i < UVArray.length; i++) {
-            if (UVArray[i].SiteName == targetUVSiteName) {
-                setCurrentUVInfoTable(UVArray[i]);
 
-                document.getElementById("weatherUVLevel").innerHTML = getUVLevel(UVArray[i].UVI);
-                setTextColorByUVLevel(document.getElementById("weatherUVLevel"), UVArray[i].UVI);
-                currentUVStatus = getUVLevel(UVArray[i].UVI);
-                GetWeatherDataByCountyName(UVArray[i].County);
-                break;
-            }
+        // Get the UV status based on the UV site name
+        var UVGrepResult = $.grep(UVArray, function (e) { return e.SiteName == targetUVSiteName; });
+        if (UVGrepResult.length > 0)
+        {
+            setCurrentUVInfoTable(UVGrepResult[0]);
+            document.getElementById("weatherUVLevel").innerHTML = getUVLevel(UVGrepResult[0].UVI);
+            setTextColorByUVLevel(document.getElementById("weatherUVLevel"), UVGrepResult[0].UVI);
+            currentUVStatus = getUVLevel(UVGrepResult[0].UVI);
+            //GetWeatherDataByCountyName(UVGrepResult[0].County);
         }
-
         //// Change the UV drop down list to this station
         //var sel = document.getElementById('UVSiteSelect');
         //var opts = sel.options;
@@ -485,9 +543,7 @@ function getWeatherStatus(currentLng, currentLat) {
         //    }
         //}
 
-
-
-        // Find the nearst air pollutant site
+        // Find the nearest air pollutant site
         var minAirPollutantSiteDistance = 999999999;
         if (AirPollutantSiteArray != undefined) {
             for (var i = 0; i < AirPollutantSiteArray.length; i++) {
@@ -498,26 +554,21 @@ function getWeatherStatus(currentLng, currentLat) {
                 }
             }
         }
-        if (AirPollutantArray != undefined) {
-            for (var i = 0; i < AirPollutantArray.length; i++) {
-                ///alert("2: " + AirPollutantArray[i].PM25);
-                if (AirPollutantArray[i].SiteName == targetAirPollutantSiteName) {
-                    setCurrentAirPollutantInfoTable(AirPollutantArray[i]);
-                    
-                    document.getElementById("weatherAirStatus").innerHTML = AirPollutantArray[i].Status ? AirPollutantArray[i].Status : "N/A";
-                    setTextColorByPSILevel(document.getElementById("weatherAirStatus"), AirPollutantArray[i]["PSI"]);
 
-                    document.getElementById("weatherPM25Level").innerHTML = AirPollutantArray[i]["PM2.5"] ? getPM2_5Level(AirPollutantArray[i]["PM2.5"]) : "N/A";
-                    setTextColorByPM2_5Level(document.getElementById("weatherPM25Level"), AirPollutantArray[i]["PM2.5"]);
+        // Get the air pollutant status based on air pollutant site name
+        var AirPollutantGrepResult = $.grep(AirPollutantArray, function (e) { return e.SiteName == targetAirPollutantSiteName; });
+        if (AirPollutantGrepResult.length > 0) {
+            setCurrentAirPollutantInfoTable(AirPollutantGrepResult[0]);
+            document.getElementById("weatherAirStatus").innerHTML = AirPollutantGrepResult[0].Status ? AirPollutantGrepResult[0].Status : "N/A";
+            setTextColorByPSILevel(document.getElementById("weatherAirStatus"), AirPollutantGrepResult[0]["PSI"]);
 
-                    currentAirPollutantStatus = AirPollutantArray[i].Status ? AirPollutantArray[i].Status : "N/A";
-                    cuuentPM2_5 = AirPollutantArray[i]["PM2.5"] ? getPM2_5Level(AirPollutantArray[i]["PM2.5"]) : "N/A";
-                    GetWeatherDataByCountyName(AirPollutantArray[i].County);
-                    break;
-                }
-            }
+            document.getElementById("weatherPM25Level").innerHTML = AirPollutantGrepResult[0]["PM2_5"] ? getPM2_5Level(AirPollutantGrepResult[0]["PM2_5"]) : "N/A";
+            setTextColorByPM2_5Level(document.getElementById("weatherPM25Level"), AirPollutantGrepResult[0]["PM2_5"]);
+
+            currentAirPollutantStatus = AirPollutantGrepResult[0].Status ? AirPollutantGrepResult[0].Status : "N/A";
+            cuuentPM2_5 = AirPollutantGrepResult[0]["PM2_5"] ? getPM2_5Level(AirPollutantGrepResult[0]["PM2_5"]) : "N/A";
+            GetWeatherDataByCountyName(AirPollutantGrepResult[0].County);
         }
-
         //// Change the air pollutant drop down list to this station
         //sel = document.getElementById('airPollutantSiteSelect');
         //opts = sel.options;
@@ -530,8 +581,7 @@ function getWeatherStatus(currentLng, currentLat) {
         //        break;
         //    }
         //}
-
-
+        
         //updateRealTimeWeatherStatus();
         updateRealTimeWeatherStatusByNodeJs();
     }
@@ -562,6 +612,11 @@ function loadJsonpData3(targetData) {
                     AirPollutantSiteArray = JSON.parse(response);
                     alreadyGotAirPollutantSiteJson = true;
                     updateAirPollutantData();
+                    break;
+                case "RealTimeWeatherStatus":
+                    realTimeWeatherStatusDataArray = JSON.parse(response).cwbopendata.location;
+                    break;
+                default:
                     break;
             }
         }
@@ -762,57 +817,8 @@ function setCurrentAirPollutantInfoTable(currentObject) {
 
 
 // 即時天氣資訊相關
-function loadRealTimeWeatherStatusData() {
-    // 原本使用YQL的方法
-    var BasicQueryUrl = 'https://query.yahooapis.com/v1/public/yql?'
-    var query = 'q=' +
-        encodeURIComponent('select * from html where ' +
-            '  url = "http://opendata.cwb.gov.tw/opendata/DIV2/O-A0003-001.xml" and ' +
-            'xpath=' + "'" + '//location' + "'") + '&format=json';
-    $.getJSON(BasicQueryUrl + query, function (data) {
-        var obj = data.query.results.location;
-
-        realTimeWeatherStatusDataArray = obj;
-        updateRealTimeWeatherStatus();
-    });
-
-}
-
-function updateRealTimeWeatherStatus() {
-    if (realTimeWeatherStatusDataArray != undefined && lastLng && lastLat) {
-
-        var targetTemp;
-        var targetObject;
-        var minRealTimeWeatherStatusStation = 999999999;
-        for (var index = 0; index < realTimeWeatherStatusDataArray.length; index++) {
-            var distance = Math.abs(realTimeWeatherStatusDataArray[index].lon - lastLng) + Math.abs(realTimeWeatherStatusDataArray[index].lat - lastLat);
-            if (distance < minRealTimeWeatherStatusStation) {
-                minRealTimeWeatherStatusStation = distance;
-                targetTemp = realTimeWeatherStatusDataArray[index].weatherelement[4].elementvalue.value;
-                targetObject = realTimeWeatherStatusDataArray[index];
-            }
-        }
-        var tempString = targetTemp.toString();
-        document.getElementById("currentTemp").innerHTML = tempString;
-        currentTemp = tempString + "°C";
-        alreadyUpdateRealTimeStatus = true;
-        getLocation();
-
-    }
-
-}
-
 function loadRealTimeWeatherStatusDataByNodeJs() {
-    $.ajax({
-        type: 'GET',
-        url: node_jsServerUrl + "RealTimeWeatherStatus",
-        success: function (response) {
-            //var testArray = JSON.parse(response);
-            realTimeWeatherStatusDataArray = JSON.parse(response).cwbopendata.location;
-            var test = 0;
-            test++;
-        }
-    });
+    loadJsonpData3("RealTimeWeatherStatus");
 }
 
 function updateRealTimeWeatherStatusByNodeJs() {
@@ -837,29 +843,9 @@ function updateRealTimeWeatherStatusByNodeJs() {
 
 
 
-
 // 特定行政區域天氣小幫手資訊相關
-function updateLittleHelperContent(helperId) {
-    if (helperId) {
-        var BasicQueryUrl = 'https://query.yahooapis.com/v1/public/yql?'
-        var query = 'q=' +
-            encodeURIComponent('select * from html where ' +
-                '  url = "http://opendata.cwb.gov.tw/opendata/MFC/' + helperId + '.xml" and ' +
-                'xpath=' + "'" + '//dataset' + "'") + '&format=json';
-        $.getJSON(BasicQueryUrl + query, function (data) {
-            var obj = data.query.results;
-            var helperString = "";
-            for (var index = 0; index < obj.dataset.parameterset.parameter.length; index++) {
-                helperString = helperString + obj.dataset.parameterset.parameter[index].parametervalue + '<br />';
-            }
-            document.getElementById("helperInformation").innerHTML = helperString;
-        });
-    }
-}
-
 function updateLittleHelperContentByNodeJs(helperId) {
     if (helperId) {
-
         $.ajax({
             type: 'GET',
             url: node_jsServerUrl + "LittleHelper" + "?ID=" + helperId,
@@ -872,14 +858,11 @@ function updateLittleHelperContentByNodeJs(helperId) {
                 document.getElementById("helperInformation").innerHTML = helperString;
             }
         });
-
-
     }
 }
 
 function GetWeatherDataByCountyName(countyName) {
     document.getElementById("countyInformation").innerHTML = countyName;
-
     for (var i = 0; i < jsonCity2.results.table.length; i++) {
         if (countyName == jsonCity2.results.table[i].city.name) {
             //GetWeatherData2(jsonCity2.results.table[i].city.id);

@@ -12,7 +12,8 @@
                 });
                 res.on('end', function () {
                     console.log('Data ended');
-                    response.write(resultString);
+                    var outString = resultString.replace(/\PM2.5/g, 'PM2_5');
+                    response.write(outString);
                     response.end();
 
                 });

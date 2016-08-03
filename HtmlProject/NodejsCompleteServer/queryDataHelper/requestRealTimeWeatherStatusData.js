@@ -18,7 +18,9 @@
             //var xml = "<root>" + resultString.toString() + "</root>";
             parser.parseString(resultString, function (err, result) {
                 //console.log(result.cwbopendata.location);
-                response.write(JSON.stringify(result));
+                var jsonString = JSON.stringify(result);
+                var outString = jsonString.replace("$", "cwbversion");
+                response.write(outString);
                 response.end();
             });
             
