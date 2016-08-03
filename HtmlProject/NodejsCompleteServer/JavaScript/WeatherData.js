@@ -450,10 +450,10 @@ function getWeatherStatus(currentLng, currentLat) {
     else {
         var targetUVSiteName;
         var targetAirPollutantSiteName;
+
         // Find the nearst UV site
         var minUVSiteDistance = 999999999;
         for (var i = 0; i < UVSiteArray.length; i++) {
-
             var distance = Math.abs(UVSiteArray[i].TWD97Lon - currentLng) + Math.abs(UVSiteArray[i].TWD97Lat - currentLat);
             if (distance < minUVSiteDistance) {
                 minUVSiteDistance = distance;
@@ -472,18 +472,18 @@ function getWeatherStatus(currentLng, currentLat) {
             }
         }
 
-        // Change the UV drop down list to this station
-        var sel = document.getElementById('UVSiteSelect');
-        var opts = sel.options;
+        //// Change the UV drop down list to this station
+        //var sel = document.getElementById('UVSiteSelect');
+        //var opts = sel.options;
 
-        for (var index = 0; index < opts.length; index++) {
-            var opt = opts[index];
+        //for (var index = 0; index < opts.length; index++) {
+        //    var opt = opts[index];
 
-            if (opt.value == targetUVSiteName) {
-                sel.selectedIndex = index;
-                break;
-            }
-        }
+        //    if (opt.value == targetUVSiteName) {
+        //        sel.selectedIndex = index;
+        //        break;
+        //    }
+        //}
 
 
 
@@ -503,9 +503,7 @@ function getWeatherStatus(currentLng, currentLat) {
                 ///alert("2: " + AirPollutantArray[i].PM25);
                 if (AirPollutantArray[i].SiteName == targetAirPollutantSiteName) {
                     setCurrentAirPollutantInfoTable(AirPollutantArray[i]);
-
-                    // alert( AirPollutantArray[i]["PM2.5"]);
-
+                    
                     document.getElementById("weatherAirStatus").innerHTML = AirPollutantArray[i].Status ? AirPollutantArray[i].Status : "N/A";
                     setTextColorByPSILevel(document.getElementById("weatherAirStatus"), AirPollutantArray[i]["PSI"]);
 
@@ -520,22 +518,22 @@ function getWeatherStatus(currentLng, currentLat) {
             }
         }
 
-        // Change the air pollutant drop down list to this station
-        sel = document.getElementById('airPollutantSiteSelect');
-        opts = sel.options;
+        //// Change the air pollutant drop down list to this station
+        //sel = document.getElementById('airPollutantSiteSelect');
+        //opts = sel.options;
 
-        for (var index = 0; index < opts.length; index++) {
-            var opt = opts[index];
+        //for (var index = 0; index < opts.length; index++) {
+        //    var opt = opts[index];
 
-            if (opt.value == targetAirPollutantSiteName) {
-                sel.selectedIndex = index;
-                break;
-            }
-        }
+        //    if (opt.value == targetAirPollutantSiteName) {
+        //        sel.selectedIndex = index;
+        //        break;
+        //    }
+        //}
 
 
-        updateRealTimeWeatherStatus();
-        //updateRealTimeWeatherStatusByNodeJs();
+        //updateRealTimeWeatherStatus();
+        updateRealTimeWeatherStatusByNodeJs();
     }
 }
 
@@ -776,7 +774,6 @@ function loadRealTimeWeatherStatusData() {
 
         realTimeWeatherStatusDataArray = obj;
         updateRealTimeWeatherStatus();
-        //updateRealTimeWeatherStatusByNodeJs
     });
 
 }
@@ -894,13 +891,6 @@ function GetWeatherDataByCountyName(countyName) {
         }
     }
 }
-
-
-
-
-//var alreadyQueryWeatherData = false;
-
-
 
 function GetWeatherDataByNodeJs(cityId) {
     $.ajax({

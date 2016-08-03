@@ -28,8 +28,8 @@ var app = express();
 
 
 
-
-app.get('/', function (request, response) { //我們要處理URL為 "/" 的HTTP GET請求
+// 顯示主頁面
+app.get('/', function (request, response) {
     response.sendFile(__dirname + '/MainPage.html');
     console.log("=================================================");
     console.log("Receive the request to display html page");
@@ -37,7 +37,7 @@ app.get('/', function (request, response) { //我們要處理URL為 "/" 的HTTP 
 });
 
 
-
+// 查詢
 app.get('/UV', function (request, response) { //我們要處理URL為 "/" 的HTTP GET請求
     response.writeHead(200, { "Access-Control-Allow-Origin": "*" });
     console.log("=================================================");

@@ -22,8 +22,8 @@ function load()
     loadAirPollutantJsonData();
     loadAirPollutantSiteJsonData();
 
-    loadRealTimeWeatherStatusData();
-    //loadRealTimeWeatherStatusDataByNodeJs();
+    //loadRealTimeWeatherStatusData();
+    loadRealTimeWeatherStatusDataByNodeJs();
 
     initMap();
     //getLocation();
