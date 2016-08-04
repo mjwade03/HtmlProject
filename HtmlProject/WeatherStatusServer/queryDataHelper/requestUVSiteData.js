@@ -14,12 +14,45 @@
         res.on('end', function () {
             console.log('Already end');
             response.write(resultString);
+            SetUVSiteDataToDB(resultString);
             response.end();
 
         });
     });
     req.on('error', function (e) {
         console.log('problem with request: ' + e.message);
+    });
+
+    getDBToUVSiteData(function (err, result) {
+        if (!err) {
+            var rstring = result;
+            console.log(result);
+        }
+    });
+
+}
+
+function SetUVSiteDataToDB(jsonString) {
+    var mongodb = require("../mongodb");
+    var result = JSON.parse(jsonString);
+    mongodb.remove("UVSiteData");
+    mongodb.insert("UVSiteData", result);
+    //mongodb.find("UVSiteData", "");
+}
+
+function getDBToUVSiteData(callback) {
+    var mongodb = require("../mongodb");
+    mongodb.findAll("UVSiteData", function (err, data) {
+        if (!err) {
+            data.toArray(function (err, docs) {
+                if (!err) {
+                    var jsonString = JSON.stringify(docs);
+                    callback(err, jsonString);
+                }
+                else
+                    callback(err, null);
+            });
+        }
     });
 }
 

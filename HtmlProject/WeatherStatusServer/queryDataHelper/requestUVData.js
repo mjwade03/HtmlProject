@@ -15,13 +15,56 @@
                 res.on('end', function () {
                     console.log('Already end');
                     response.write(resultString);
+                    SetUVDataToDB(resultString);
                     response.end();
-
                 });
             });
             req.on('error', function (e) {
                 console.log('problem with request: ' + e.message);
             });
+
+            getDBToUVData(function (err, result) {
+                if (!err) {
+                    var rstring = result;
+                    console.log(result);
+                }
+            });
+}
+
+function SetUVDataToDB(jsonString) {
+    var mongodb = require("../mongodb");
+    var result = JSON.parse(jsonString);
+    mongodb.remove("UVData");
+    mongodb.insert("UVData", result);
+    mongodb.find("UVData", "SiteName", "臺北", function (err, item) {
+        console.log(item);
+    });
+    // mongodb.findAll("UVData", function (err, data) {
+    //     data.each(function (err, doc) {
+    //         if (!err) 
+    //             console.log(doc);
+    //     });
+    // });
+}
+
+function getDBToUVData(callback) {
+    var mongodb = require("../mongodb");
+    mongodb.findAll("UVData", function (err, data) {
+        if (!err) {
+            data.toArray(function(err, docs){
+                if (!err) {
+                    var jsonString = JSON.stringify(docs);
+                    callback(err, jsonString);
+                }
+                else
+                    callback(err, null);
+            });
+            //data.each(function (err, doc) {
+            //    if (!err) 
+            //        console.log(doc);
+            //});
+        }
+     });
 }
 
 exports.getUVData = getUVData;

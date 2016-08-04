@@ -30,6 +30,7 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="mongodb.js" />
     <Compile Include="queryDataHelper\displayMainPage.js" />
     <Compile Include="queryDataHelper\requestLittleHelperData.js" />
     <Compile Include="queryDataHelper\requestAirPollutantData.js" />
@@ -53,6 +54,7 @@
     <Folder Include="typings\globals\htmlparser2\" />
     <Folder Include="typings\globals\jsdom\" />
     <Folder Include="typings\globals\libxmljs\" />
+    <Folder Include="typings\globals\mongodb\" />
     <Folder Include="typings\globals\node\" />
     <Folder Include="typings\globals\xml2js\" />
     <Folder Include="typings\globals\xmldom\" />
@@ -65,6 +67,7 @@
     <TypeScriptCompile Include="typings\globals\htmlparser2\index.d.ts" />
     <TypeScriptCompile Include="typings\globals\jsdom\index.d.ts" />
     <TypeScriptCompile Include="typings\globals\libxmljs\index.d.ts" />
+    <TypeScriptCompile Include="typings\globals\mongodb\index.d.ts" />
     <TypeScriptCompile Include="typings\globals\node\index.d.ts" />
     <TypeScriptCompile Include="typings\globals\xml2js\index.d.ts" />
     <TypeScriptCompile Include="typings\globals\xmldom\index.d.ts" />

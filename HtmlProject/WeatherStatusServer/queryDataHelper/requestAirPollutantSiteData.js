@@ -14,6 +14,7 @@
         res.on('end', function () {
             console.log('Already end');
             response.write(resultString);
+            SetAirPollutantSiteDataToDB(resultString);
             response.end();
 
         });
@@ -21,6 +22,54 @@
     req.on('error', function (e) {
         console.log('problem with request: ' + e.message);
     });
+
+    getDBToAirPollutantSiteData(function (err, result) {
+        if (!err) {
+            var rstring = result;
+            console.log(result);
+        }
+    });
 }
+
+function SetAirPollutantSiteDataToDB(jsonString) {
+    //var getConnection = require("../connection");
+    // var result = JSON.parse(resultString);
+    // getConnection(function (err, db) {
+    //     if (!err) {
+    //         db.collection('AirPollutantSiteData', function (err, collection) {
+    //             if (!err) {
+    //                 collection.remove();
+    //                 collection.insert(result);
+    //                 console.log("AirPollutantSiteData insert success!");
+    //             }
+    //             else {
+    //                 console.log("ErrorMessage:" + err.message);
+    //             }
+    //         });
+    //     }
+    // });
+    var mongodb = require("../mongodb");
+    var result = JSON.parse(jsonString);
+    mongodb.remove("AirPollutantSiteData");
+    mongodb.insert("AirPollutantSiteData", result);
+    //mongodb.find("AirPollutantSiteData", "");
+}
+
+function getDBToAirPollutantSiteData(callback) {
+    var mongodb = require("../mongodb");
+    mongodb.findAll("AirPollutantSiteData", function (err, data) {
+        if (!err) {
+            data.toArray(function (err, docs) {
+                if (!err) {
+                    var jsonString = JSON.stringify(docs);
+                    callback(err, jsonString);
+                }
+                else
+                    callback(err, null);
+            });
+        }
+    });
+}
+
 
 exports.getAirPollutantSiteData = getAirPollutantSiteData;
