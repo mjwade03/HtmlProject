@@ -20,6 +20,9 @@ AIzaSyDS7IojxtL7VgMq4UuPVhT0MSQUFXpf1ik
 1.學習 CSS 版面配置 http://zh-tw.learnlayout.com/
 2.Node入門 http://www.nodebeginner.org/index-zh-tw.html
 3.git教學（github、gitlab）http://qbsuranalang.blogspot.tw/2015/01/gitgithubgitlab.html
+3.MongoDB介紹 http://mongodbcanred.blogspot.tw/2015/01/mongodb.html
+4.MongoDB 快速入門筆記 http://andyyou.logdown.com/posts/177570-mongodb-notes
+5.MongoDB 基礎入門教學 https://blog.gtwang.org/programming/getting-started-with-mongodb-shell-1/
 
 
 http://weather.json.tw/
