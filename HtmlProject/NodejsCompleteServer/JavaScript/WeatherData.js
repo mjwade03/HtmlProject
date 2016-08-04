@@ -500,10 +500,16 @@ var jsonCity2 = {
 function getWeatherStatus(currentLng, currentLat) {
     lastLat = currentLat;
     lastLng = currentLng;
-    if ((UVArray != undefined && UVArray.length == 0) || (UVSiteArray != undefined && UVSiteArray.length == 0) || (AirPollutantArray != undefined && AirPollutantArray.length == 0) || (AirPollutantSiteArray != undefined && AirPollutantSiteArray.length == 0)) {
+    if ((UVArray != undefined && UVArray.length == 0) ||
+        (UVSiteArray != undefined && UVSiteArray.length == 0) ||
+        (AirPollutantArray != undefined && AirPollutantArray.length == 0) ||
+        (AirPollutantSiteArray != undefined && AirPollutantSiteArray.length == 0)) {
         // alert("Weather data not ready");
     }
-    else if (UVArray == undefined || UVSiteArray == undefined || AirPollutantArray == undefined || AirPollutantSiteArray == undefined) {
+    else if (UVArray == undefined ||
+        UVSiteArray == undefined ||
+        AirPollutantArray == undefined ||
+        AirPollutantSiteArray == undefined) {
         // alert("Weather data not ready");
     }
     else {
@@ -567,7 +573,7 @@ function getWeatherStatus(currentLng, currentLat) {
 
             currentAirPollutantStatus = AirPollutantGrepResult[0].Status ? AirPollutantGrepResult[0].Status : "N/A";
             cuuentPM2_5 = AirPollutantGrepResult[0]["PM2_5"] ? getPM2_5Level(AirPollutantGrepResult[0]["PM2_5"]) : "N/A";
-            GetWeatherDataByCountyName(AirPollutantGrepResult[0].County);
+
         }
         //// Change the air pollutant drop down list to this station
         //sel = document.getElementById('airPollutantSiteSelect');
@@ -581,7 +587,12 @@ function getWeatherStatus(currentLng, currentLat) {
         //        break;
         //    }
         //}
-        
+
+
+        // Get the weather data based on the county name
+        GetWeatherDataByCountyName(AirPollutantGrepResult[0].County);
+
+        // 更新即時氣象資訊(溫度, 紫外線, PM2.5, 空氣品質)
         //updateRealTimeWeatherStatus();
         updateRealTimeWeatherStatusByNodeJs();
     }
@@ -865,8 +876,12 @@ function GetWeatherDataByCountyName(countyName) {
     document.getElementById("countyInformation").innerHTML = countyName;
     for (var i = 0; i < jsonCity2.results.table.length; i++) {
         if (countyName == jsonCity2.results.table[i].city.name) {
+
+            // 從中央氣象局網頁parse天氣預告的資料
             //GetWeatherData2(jsonCity2.results.table[i].city.id);
             GetWeatherDataByNodeJs(jsonCity2.results.table[i].city.id);
+
+            // 取得該縣市的天氣小幫手資訊
             //updateLittleHelperContent(jsonCity2.results.table[i].city.helperId)
             updateLittleHelperContentByNodeJs(jsonCity2.results.table[i].city.helperId);
             break;
@@ -882,6 +897,7 @@ function GetWeatherDataByNodeJs(cityId) {
             var obj = JSON.parse(response);
             var data = obj[0].children;
 
+            // First time slot
             document.getElementById("firstWeatherValidity").innerHTML = data[0].children[1].children[0].content;
             document.getElementById("firstWeatherTemperature").innerHTML = data[0].children[3].children[0].content;
             var imgSrc = data[0].children[5].children[1].attributes.src.split("/");
@@ -890,6 +906,7 @@ function GetWeatherDataByNodeJs(cityId) {
             document.getElementById("firstWeatherComfort").innerHTML = data[0].children[7].children[0].content;
             document.getElementById("firstWeatherRainPercentage").innerHTML = data[0].children[9].children[0].content;
 
+            // Second time slot
             document.getElementById("secondWeatherValidity").innerHTML = data[1].children[1].children[0].content;
             document.getElementById("secondWeatherTemperature").innerHTML = data[1].children[3].children[0].content;
             imgSrc = data[1].children[5].children[1].attributes.src.split("/");
@@ -898,6 +915,7 @@ function GetWeatherDataByNodeJs(cityId) {
             document.getElementById("secondWeatherComfort").innerHTML = data[1].children[7].children[0].content;
             document.getElementById("secondWeatherRainPercentage").innerHTML = data[1].children[9].children[0].content;
 
+            // Third time slot
             document.getElementById("thirdWeatherValidity").innerHTML = data[2].children[1].children[0].content;
             document.getElementById("thirdWeatherTemperature").innerHTML = data[2].children[3].children[0].content;
             imgSrc = data[2].children[5].children[1].attributes.src.split("/");
@@ -906,6 +924,7 @@ function GetWeatherDataByNodeJs(cityId) {
             document.getElementById("thirdWeatherComfort").innerHTML = data[2].children[7].children[0].content;
             document.getElementById("thirdWeatherRainPercentage").innerHTML = data[2].children[9].children[0].content;
 
+            // Fade in the table when data is ready
             $("#WeatherStatusTable").fadeIn(1000);
             $("#realTimeWeatherStatusTable").fadeIn(1000);
         }

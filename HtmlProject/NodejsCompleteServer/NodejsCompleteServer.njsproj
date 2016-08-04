@@ -33,7 +33,6 @@
     <Compile Include="JavaScript\GoogleMap.js" />
     <Compile Include="JavaScript\JavaScript.js" />
     <Compile Include="JavaScript\WeatherData.js" />
-    <Compile Include="queryDataHelper\displayMainPage.js" />
     <Compile Include="queryDataHelper\requestAirPollutantData.js" />
     <Compile Include="queryDataHelper\requestAirPollutantSiteData.js" />
     <Compile Include="queryDataHelper\requestLittleHelperData.js" />
