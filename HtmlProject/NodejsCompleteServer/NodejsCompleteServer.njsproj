@@ -33,6 +33,7 @@
     <Compile Include="JavaScript\GoogleMap.js" />
     <Compile Include="JavaScript\JavaScript.js" />
     <Compile Include="JavaScript\WeatherData.js" />
+    <Compile Include="queryDataHelper\DBHelper\mongodHelper.js" />
     <Compile Include="queryDataHelper\requestAirPollutantData.js" />
     <Compile Include="queryDataHelper\requestAirPollutantSiteData.js" />
     <Compile Include="queryDataHelper\requestLittleHelperData.js" />
@@ -50,6 +51,7 @@
   <ItemGroup>
     <Folder Include="css\" />
     <Folder Include="JavaScript\" />
+    <Folder Include="queryDataHelper\DBHelper\" />
     <Folder Include="subPage\" />
     <Folder Include="queryDataHelper\" />
     <Folder Include="typings\" />

@@ -16,6 +16,10 @@ var WeatherReportData = require("./queryDataHelper/requestWeatherReportData");
 var express = require('express');
 var app = express();
 
+// 提出http request去要資料的time out時間 以ms為單位
+var httpRequestTimeout = 10;
+
+
 
 // 顯示主頁面
 app.get('/', function (request, response) {
@@ -32,7 +36,7 @@ app.get('/UV', function (request, response) {
     console.log("=================================================");
     console.log("Receive the request to query UV data");
     console.log("=================================================");
-    UVData.getUVData(response);
+    UVData.getUVData(response, httpRequestTimeout);
 });
 
 
@@ -42,7 +46,7 @@ app.get('/UVSite', function (request, response) {
     console.log("=================================================");
     console.log("Receive the request to query UV site data");
     console.log("=================================================");
-    UVDataSite.getUVSiteData(response);
+    UVDataSite.getUVSiteData(response, httpRequestTimeout);
 });
 
 
@@ -52,7 +56,7 @@ app.get('/AirPollutant', function (request, response) {
     console.log("=================================================");
     console.log("Receive the request to query AirPollutant data");
     console.log("=================================================");
-    AirPollutantData.getAirPollutantData(response);
+    AirPollutantData.getAirPollutantData(response, httpRequestTimeout);
 });
 
 
@@ -62,7 +66,7 @@ app.get('/AirPollutantSite', function (request, response) {
     console.log("=================================================");
     console.log("Receive the request to query AirPollutant site data");
     console.log("=================================================");
-    AirPollutantDataSite.getAirPollutantSiteData(response);
+    AirPollutantDataSite.getAirPollutantSiteData(response, httpRequestTimeout);
 });
 
 
@@ -72,7 +76,7 @@ app.get('/RealTimeWeatherStatus', function (request, response) {
     console.log("=================================================");
     console.log("Receive the request to query RealTimeWeatherStatus data");
     console.log("=================================================");
-    RealTimeWeatherStatusData.getRealTimeWeatherStatusData(response);
+    RealTimeWeatherStatusData.getRealTimeWeatherStatusData(response, httpRequestTimeout);
 });
 
 
@@ -84,7 +88,7 @@ app.get('/LittleHelper', function (request, response) {
     var ID = request.query.ID;
     console.log("With parameter: " + ID);
     console.log("=================================================");
-    LittleHelpData.getLittleHelperData(response, ID);
+    LittleHelpData.getLittleHelperData(response, ID, httpRequestTimeout);
     
 });
 
@@ -97,7 +101,7 @@ app.get('/WeatherReport', function (request, response) {
     var targetCity = request.query.targetCity;
     console.log("With parameter: " + targetCity);
     console.log("=================================================");
-    WeatherReportData.getWeatherReportData(response, targetCity);
+    WeatherReportData.getWeatherReportData(response, targetCity, httpRequestTimeout);
     
 });
 
