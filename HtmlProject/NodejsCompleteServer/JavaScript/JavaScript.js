@@ -18,6 +18,17 @@ var alreadyGetLocation = false;
 var dataSource;
 function load()
 {    
+    var ishttps = 'https:' == document.location.protocol ? true : false;
+
+    if (ishttps) {
+        console.log("This page running in https");
+        //alert("In https");
+    } else {
+        console.log("This page running in http");
+        alert("In http");
+    }
+
+
     loadUVJsonpData();
     loadUVSitenData();
     loadAirPollutantJsonData();
