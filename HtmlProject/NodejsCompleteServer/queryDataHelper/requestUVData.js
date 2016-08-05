@@ -1,5 +1,6 @@
 ﻿function getUVData(response)
 {
+    var mongodb = require("../mongodb");
     var http = require("http");
     var req = http.get('http://opendata.epa.gov.tw/ws/Data/UV/?$orderby=PublishTime%20desc&$skip=0&$top=1000&format=json', function (res) {
         console.log('Status: ' + res.statusCode);
@@ -13,6 +14,7 @@
         res.on('end', function () {
             console.log('Data ended');
             response.write(resultString);
+            mongodb.SetDataToDB("UVData", resultString);
             response.end();
 
         });
@@ -29,6 +31,11 @@
             req.abort();
 
             // Try to get data from local database
+            mongodb.getDBToData("UVData", function (err, data){
+                if (!err) {
+                    console.log(data);
+                }
+            });
             response.write("Request already timeout");
             response.end();
         });

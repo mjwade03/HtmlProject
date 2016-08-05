@@ -15,7 +15,8 @@ var WeatherReportData = require("./queryDataHelper/requestWeatherReportData");
 // Declare express package
 var express = require('express');
 var app = express();
-
+var mongodb = require("./mongodb");
+mongodb.open();
 
 // 顯示主頁面
 app.get('/', function (request, response) {

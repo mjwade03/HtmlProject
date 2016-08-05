@@ -1,5 +1,6 @@
 ﻿function getRealTimeWeatherStatusData(response)
 {
+    var mongodb = require("../mongodb");
     var http = require("http");
     var req = http.get('http://opendata.cwb.gov.tw/opendata/DIV2/O-A0003-001.xml', function (res) {
         console.log('Status: ' + res.statusCode);
@@ -25,6 +26,7 @@
                     // Replace the dollar sign in json string
                     var outString = jsonString.replace("$", "cwbversion");
                     response.write(outString);
+                    mongodb.SetDataToDB("RealTimeWeatherStatusData", outString);
                 }
                 else {
                     console.log('Fail to convter data from xml to json string');
@@ -49,6 +51,11 @@
             req.abort();
 
             // Try to get data from local database
+            mongodb.getDBToData("RealTimeWeatherStatusData", function (err, data){
+                if (!err) {
+                    console.log(data);
+                }
+            });
             response.write("Request already timeout");
             response.end();
         });
