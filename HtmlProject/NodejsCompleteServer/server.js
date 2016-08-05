@@ -15,6 +15,9 @@ var WeatherReportData = require("./queryDataHelper/requestWeatherReportData");
 // Declare express package
 var express = require('express');
 var app = express();
+var mongodb = require("./mongodb");
+mongodb.open();
+
 
 // 提出http request去要資料的time out時間 以ms為單位
 var httpRequestTimeout = 10;
