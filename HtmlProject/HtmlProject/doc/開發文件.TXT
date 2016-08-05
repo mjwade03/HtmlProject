@@ -26,3 +26,11 @@ AIzaSyDS7IojxtL7VgMq4UuPVhT0MSQUFXpf1ik
 
 
 http://weather.json.tw/
+
+
+DB server
+C:\Program Files\MongoDB\Server\3.2\bin\mongod.exe
+
+
+看DB tables內容
+C:\Program Files\MongoDB\Server\3.2\bin\mongo.exe
