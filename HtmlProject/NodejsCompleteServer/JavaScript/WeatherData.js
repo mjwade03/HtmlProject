@@ -218,40 +218,7 @@ var jsonCity2 = {
 //        }
 //    });
 //}
-//function loadJsonpData2(targetUrl) {
-//    var BasicQueryUrl = 'https://query.yahooapis.com/v1/public/yql?'
-//    var query = 'q=' +
-//        encodeURIComponent('select * from html where ' +
-//            '  url = "' + targetUrl + '"') + '&format=json';
-//    $.getJSON(BasicQueryUrl + query, function (data) {
-//        var jsonString = data.query.results.body.toString();
-//        var obj = JSON.parse(jsonString);
-//        switch (targetUrl) {
-//            case queryUVJsonUrl:
-//                UVArray = obj;
-//                alreadyGotUVJson = true;
-//                updateUVData();
-//                break;
-//            case queryUVSiteJsonUrl:
-//                UVSiteArray = obj;
-//                alreadyGotUVSiteJson = true;
-//                updateUVData();
-//                break;
-//            case queryAirPollutantJsonUrl:
-//                //alert("Here: " + obj[0].PM25);
-//                AirPollutantArray = obj;
-//                //alert("Here: " + AirPollutantArray[0].PM25);
-//                alreadyGotAirPollutantJson = true;
-//                updateAirPollutantData();
-//                break;
-//            case queryAirPollutantSiteJsonUrl:
-//                AirPollutantSiteArray = obj;
-//                alreadyGotAirPollutantSiteJson = true;
-//                updateAirPollutantData();
-//                break;
-//        }
-//    });
-//}
+
 //function addNewUVData(site, uvi, publisher, place, longitudeWGS84, latitudeWGS84, longitudeTWD97, latitudeTWD97, time) {
 //    var num = document.getElementById("uvTable").rows.length;
 
@@ -392,107 +359,142 @@ var jsonCity2 = {
 //        }
 //    }
 //}
-//function GetWeatherData2(cityId) {
-//    //select * from html  where url='http://www.cwb.gov.tw/V7/forecast/taiwan/Keelung_City.htm' and xpath='//tbody//tr'
-//    var BasicQueryUrl = 'https://query.yahooapis.com/v1/public/yql?'
-//    var query = 'q=' +
-//        encodeURIComponent('select * from html where ' +
-//            '  url = "http://www.cwb.gov.tw/V7/forecast/taiwan/' + cityId + '.htm"' + ' and ' +
-//            'xpath=' + "'" + '//tbody//tr' + "'") + '&format=json';
+function loadJsonpData2(targetUrl) {
+    var BasicQueryUrl = 'https://query.yahooapis.com/v1/public/yql?'
+    var query = 'q=' +
+        encodeURIComponent('select * from html where ' +
+            '  url = "' + targetUrl + '"') + '&format=json';
+    $.getJSON(BasicQueryUrl + query, function (data) {
+        var jsonString = data.query.results.body.toString();
+        var obj = JSON.parse(jsonString);
+        switch (targetUrl) {
+            case queryUVJsonUrl:
+                UVArray = obj;
+                alreadyGotUVJson = true;
+                updateUVData();
+                break;
+            case queryUVSiteJsonUrl:
+                UVSiteArray = obj;
+                alreadyGotUVSiteJson = true;
+                updateUVData();
+                break;
+            case queryAirPollutantJsonUrl:
+                //alert("Here: " + obj[0].PM25);
+                AirPollutantArray = obj;
+                //alert("Here: " + AirPollutantArray[0].PM25);
+                alreadyGotAirPollutantJson = true;
+                updateAirPollutantData();
+                break;
+            case queryAirPollutantSiteJsonUrl:
+                AirPollutantSiteArray = obj;
+                alreadyGotAirPollutantSiteJson = true;
+                updateAirPollutantData();
+                break;
+        }
+    });
+}
 
-//    $.getJSON(BasicQueryUrl + query, function (data) {
-//        //alert(data.query.results.tr.length);
-//        document.getElementById("firstWeatherValidity").innerHTML = data.query.results.tr[0].th.content;
-//        document.getElementById("firstWeatherTemperature").innerHTML = data.query.results.tr[0].td[0];
-//        /// document.getElementById("firstWeatherStatus").innerHTML = data.query.results.tr[0].td[1].img.title;
-//        var imgSrc = (data.query.results.tr[0].td[1].img.src).split("/");
-//        document.getElementById("firstWeatherStatus").src = weatherIconUrl + imgSrc[imgSrc.length - 2] + '/' + imgSrc[imgSrc.length - 1];
-//        document.getElementById("firstWeatherStatus").title = data.query.results.tr[0].td[1].img.title;
-//        document.getElementById("firstWeatherComfort").innerHTML = data.query.results.tr[0].td[2];
-//        document.getElementById("firstWeatherRainPercentage").innerHTML = data.query.results.tr[0].td[3];
+function GetWeatherData2(cityId) {
+    //select * from html  where url='http://www.cwb.gov.tw/V7/forecast/taiwan/Keelung_City.htm' and xpath='//tbody//tr'
+    var BasicQueryUrl = 'https://query.yahooapis.com/v1/public/yql?'
+    var query = 'q=' +
+        encodeURIComponent('select * from html where ' +
+            '  url = "http://www.cwb.gov.tw/V7/forecast/taiwan/' + cityId + '.htm"' + ' and ' +
+            'xpath=' + "'" + '//tbody//tr' + "'") + '&format=json';
 
-//        document.getElementById("secondWeatherValidity").innerHTML = data.query.results.tr[1].th.content;
-//        document.getElementById("secondWeatherTemperature").innerHTML = data.query.results.tr[1].td[0];
-//        //document.getElementById("secondWeatherStatus").innerHTML = data.query.results.tr[1].td[1].img.title;
-//        //document.getElementById("secondWeatherStatus").src = 'Image/WeatherIcon/day/01.gif';
-//        imgSrc = (data.query.results.tr[1].td[1].img.src).split("/");
-//        document.getElementById("secondWeatherStatus").src = weatherIconUrl + imgSrc[imgSrc.length - 2] + '/' + imgSrc[imgSrc.length - 1];
-//        document.getElementById("secondWeatherStatus").title = data.query.results.tr[1].td[1].img.title;
-//        document.getElementById("secondWeatherComfort").innerHTML = data.query.results.tr[1].td[2];
-//        document.getElementById("secondWeatherRainPercentage").innerHTML = data.query.results.tr[1].td[3];
+    $.getJSON(BasicQueryUrl + query, function (data) {
+        //alert(data.query.results.tr.length);
+        document.getElementById("firstWeatherValidity").innerHTML = data.query.results.tr[0].th.content;
+        document.getElementById("firstWeatherTemperature").innerHTML = data.query.results.tr[0].td[0];
+        /// document.getElementById("firstWeatherStatus").innerHTML = data.query.results.tr[0].td[1].img.title;
+        var imgSrc = (data.query.results.tr[0].td[1].img.src).split("/");
+        document.getElementById("firstWeatherStatus").src = weatherIconUrl + imgSrc[imgSrc.length - 2] + '/' + imgSrc[imgSrc.length - 1];
+        document.getElementById("firstWeatherStatus").title = data.query.results.tr[0].td[1].img.title;
+        document.getElementById("firstWeatherComfort").innerHTML = data.query.results.tr[0].td[2];
+        document.getElementById("firstWeatherRainPercentage").innerHTML = data.query.results.tr[0].td[3];
 
-//        document.getElementById("thirdWeatherValidity").innerHTML = data.query.results.tr[2].th.content;
-//        document.getElementById("thirdWeatherTemperature").innerHTML = data.query.results.tr[2].td[0];
-//        //document.getElementById("thirdWeatherStatus").innerHTML = data.query.results.tr[2].td[1].img.title;
-//        //document.getElementById("thirdWeatherStatus").src = 'Image/WeatherIcon/day/01.gif';
-//        imgSrc = (data.query.results.tr[2].td[1].img.src).split("/");
-//        document.getElementById("thirdWeatherStatus").src = weatherIconUrl + imgSrc[imgSrc.length - 2] + '/' + imgSrc[imgSrc.length - 1];
-//        document.getElementById("thirdWeatherStatus").title = data.query.results.tr[2].td[1].img.title;
-//        document.getElementById("thirdWeatherComfort").innerHTML = data.query.results.tr[2].td[2];
-//        document.getElementById("thirdWeatherRainPercentage").innerHTML = data.query.results.tr[2].td[3];
-//        $("#WeatherStatusTable").fadeIn(1000);
-//        $("#realTimeWeatherStatusTable").fadeIn(1000);
-//    });
+        document.getElementById("secondWeatherValidity").innerHTML = data.query.results.tr[1].th.content;
+        document.getElementById("secondWeatherTemperature").innerHTML = data.query.results.tr[1].td[0];
+        //document.getElementById("secondWeatherStatus").innerHTML = data.query.results.tr[1].td[1].img.title;
+        //document.getElementById("secondWeatherStatus").src = 'Image/WeatherIcon/day/01.gif';
+        imgSrc = (data.query.results.tr[1].td[1].img.src).split("/");
+        document.getElementById("secondWeatherStatus").src = weatherIconUrl + imgSrc[imgSrc.length - 2] + '/' + imgSrc[imgSrc.length - 1];
+        document.getElementById("secondWeatherStatus").title = data.query.results.tr[1].td[1].img.title;
+        document.getElementById("secondWeatherComfort").innerHTML = data.query.results.tr[1].td[2];
+        document.getElementById("secondWeatherRainPercentage").innerHTML = data.query.results.tr[1].td[3];
 
-//}
+        document.getElementById("thirdWeatherValidity").innerHTML = data.query.results.tr[2].th.content;
+        document.getElementById("thirdWeatherTemperature").innerHTML = data.query.results.tr[2].td[0];
+        //document.getElementById("thirdWeatherStatus").innerHTML = data.query.results.tr[2].td[1].img.title;
+        //document.getElementById("thirdWeatherStatus").src = 'Image/WeatherIcon/day/01.gif';
+        imgSrc = (data.query.results.tr[2].td[1].img.src).split("/");
+        document.getElementById("thirdWeatherStatus").src = weatherIconUrl + imgSrc[imgSrc.length - 2] + '/' + imgSrc[imgSrc.length - 1];
+        document.getElementById("thirdWeatherStatus").title = data.query.results.tr[2].td[1].img.title;
+        document.getElementById("thirdWeatherComfort").innerHTML = data.query.results.tr[2].td[2];
+        document.getElementById("thirdWeatherRainPercentage").innerHTML = data.query.results.tr[2].td[3];
+        $("#WeatherStatusTable").fadeIn(1000);
+        $("#realTimeWeatherStatusTable").fadeIn(1000);
+    });
 
-//function loadRealTimeWeatherStatusData() {
-//    // 原本使用YQL的方法
-//    var BasicQueryUrl = 'https://query.yahooapis.com/v1/public/yql?'
-//    var query = 'q=' +
-//        encodeURIComponent('select * from html where ' +
-//            '  url = "http://opendata.cwb.gov.tw/opendata/DIV2/O-A0003-001.xml" and ' +
-//            'xpath=' + "'" + '//location' + "'") + '&format=json';
-//    $.getJSON(BasicQueryUrl + query, function (data) {
-//        var obj = data.query.results.location;
+}
 
-//        realTimeWeatherStatusDataArray = obj;
-//        updateRealTimeWeatherStatus();
-//    });
+function loadRealTimeWeatherStatusData() {
+    // 原本使用YQL的方法
+    var BasicQueryUrl = 'https://query.yahooapis.com/v1/public/yql?'
+    var query = 'q=' +
+        encodeURIComponent('select * from html where ' +
+            '  url = "http://opendata.cwb.gov.tw/opendata/DIV2/O-A0003-001.xml" and ' +
+            'xpath=' + "'" + '//location' + "'") + '&format=json';
+    $.getJSON(BasicQueryUrl + query, function (data) {
+        var obj = data.query.results.location;
 
-//}
+        realTimeWeatherStatusDataArray = obj;
+        updateRealTimeWeatherStatus();
+    });
 
-//function updateRealTimeWeatherStatus() {
-//    if (realTimeWeatherStatusDataArray != undefined && lastLng && lastLat) {
+}
 
-//        var targetTemp;
-//        var targetObject;
-//        var minRealTimeWeatherStatusStation = 999999999;
-//        for (var index = 0; index < realTimeWeatherStatusDataArray.length; index++) {
-//            var distance = Math.abs(realTimeWeatherStatusDataArray[index].lon - lastLng) + Math.abs(realTimeWeatherStatusDataArray[index].lat - lastLat);
-//            if (distance < minRealTimeWeatherStatusStation) {
-//                minRealTimeWeatherStatusStation = distance;
-//                targetTemp = realTimeWeatherStatusDataArray[index].weatherelement[4].elementvalue.value;
-//                targetObject = realTimeWeatherStatusDataArray[index];
-//            }
-//        }
-//        var tempString = targetTemp.toString();
-//        document.getElementById("currentTemp").innerHTML = tempString;
-//        currentTemp = tempString + "°C";
-//        alreadyUpdateRealTimeStatus = true;
-//        getLocation();
+function updateRealTimeWeatherStatus() {
+    if (realTimeWeatherStatusDataArray != undefined && lastLng && lastLat) {
 
-//    }
+        var targetTemp;
+        var targetObject;
+        var minRealTimeWeatherStatusStation = 999999999;
+        for (var index = 0; index < realTimeWeatherStatusDataArray.length; index++) {
+            var distance = Math.abs(realTimeWeatherStatusDataArray[index].lon - lastLng) + Math.abs(realTimeWeatherStatusDataArray[index].lat - lastLat);
+            if (distance < minRealTimeWeatherStatusStation) {
+                minRealTimeWeatherStatusStation = distance;
+                targetTemp = realTimeWeatherStatusDataArray[index].weatherelement[4].elementvalue.value;
+                targetObject = realTimeWeatherStatusDataArray[index];
+            }
+        }
+        var tempString = targetTemp.toString();
+        document.getElementById("currentTemp").innerHTML = tempString;
+        currentTemp = tempString + "°C";
+        alreadyUpdateRealTimeStatus = true;
+        getLocation();
 
-//}
+    }
 
-//function updateLittleHelperContent(helperId) {
-//    if (helperId) {
-//        var BasicQueryUrl = 'https://query.yahooapis.com/v1/public/yql?'
-//        var query = 'q=' +
-//            encodeURIComponent('select * from html where ' +
-//                '  url = "http://opendata.cwb.gov.tw/opendata/MFC/' + helperId + '.xml" and ' +
-//                'xpath=' + "'" + '//dataset' + "'") + '&format=json';
-//        $.getJSON(BasicQueryUrl + query, function (data) {
-//            var obj = data.query.results;
-//            var helperString = "";
-//            for (var index = 0; index < obj.dataset.parameterset.parameter.length; index++) {
-//                helperString = helperString + obj.dataset.parameterset.parameter[index].parametervalue + '<br />';
-//            }
-//            document.getElementById("helperInformation").innerHTML = helperString;
-//        });
-//    }
-//}
+}
+
+function updateLittleHelperContent(helperId) {
+    if (helperId) {
+        var BasicQueryUrl = 'https://query.yahooapis.com/v1/public/yql?'
+        var query = 'q=' +
+            encodeURIComponent('select * from html where ' +
+                '  url = "http://opendata.cwb.gov.tw/opendata/MFC/' + helperId + '.xml" and ' +
+                'xpath=' + "'" + '//dataset' + "'") + '&format=json';
+        $.getJSON(BasicQueryUrl + query, function (data) {
+            var obj = data.query.results;
+            var helperString = "";
+            for (var index = 0; index < obj.dataset.parameterset.parameter.length; index++) {
+                helperString = helperString + obj.dataset.parameterset.parameter[index].parametervalue + '<br />';
+            }
+            document.getElementById("helperInformation").innerHTML = helperString;
+        });
+    }
+}
 
 //// Function not used now end
 
@@ -593,8 +595,10 @@ function getWeatherStatus(currentLng, currentLat) {
         GetWeatherDataByCountyName(AirPollutantGrepResult[0].County);
 
         // 更新即時氣象資訊(溫度, 紫外線, PM2.5, 空氣品質)
-        //updateRealTimeWeatherStatus();
-        updateRealTimeWeatherStatusByNodeJs();
+        if (ishttps)
+            updateRealTimeWeatherStatus();
+        else
+            updateRealTimeWeatherStatusByNodeJs();
     }
 }
 
@@ -640,13 +644,17 @@ function loadJsonpData3(targetData) {
 
 //紫外線相關的
 function loadUVJsonpData() {
-    //loadJsonpData2(queryUVJsonUrl);
-    loadJsonpData3("UV");
+    if (ishttps)
+        loadJsonpData2(queryUVJsonUrl);
+    else
+        loadJsonpData3("UV");
 }
 
 function loadUVSitenData() {
-    //loadJsonpData2(queryUVSiteJsonUrl);
-    loadJsonpData3("UVSite");
+    if (ishttps)
+        loadJsonpData2(queryUVSiteJsonUrl);
+    else
+        loadJsonpData3("UVSite");
 }
 
 function updateUVData() {
@@ -765,13 +773,17 @@ function setTextColorByPSILevel(element, PSI) {
 }
 
 function loadAirPollutantJsonData() {
-    //loadJsonpData2(queryAirPollutantJsonUrl);
-    loadJsonpData3("AirPollutant");
+    if (ishttps)
+        loadJsonpData2(queryAirPollutantJsonUrl);
+    else
+        loadJsonpData3("AirPollutant");
 }
 
 function loadAirPollutantSiteJsonData() {
-    //loadJsonpData2(queryAirPollutantSiteJsonUrl);
-    loadJsonpData3("AirPollutantSite");
+    if (ishttps)
+        loadJsonpData2(queryAirPollutantSiteJsonUrl);
+    else
+        loadJsonpData3("AirPollutantSite");
 }
 
 function updateAirPollutantData() {
@@ -886,12 +898,16 @@ function GetWeatherDataByCountyName(countyName) {
         if (countyName == jsonCity2.results.table[i].city.name) {
 
             // 從中央氣象局網頁parse天氣預告的資料
-            //GetWeatherData2(jsonCity2.results.table[i].city.id);
-            GetWeatherDataByNodeJs(jsonCity2.results.table[i].city.id);
+            if (ishttps)
+                GetWeatherData2(jsonCity2.results.table[i].city.id);
+            else
+                GetWeatherDataByNodeJs(jsonCity2.results.table[i].city.id);
 
             // 取得該縣市的天氣小幫手資訊
-            //updateLittleHelperContent(jsonCity2.results.table[i].city.helperId)
-            updateLittleHelperContentByNodeJs(jsonCity2.results.table[i].city.helperId);
+            if (ishttps)
+                updateLittleHelperContent(jsonCity2.results.table[i].city.helperId);
+            else
+                updateLittleHelperContentByNodeJs(jsonCity2.results.table[i].city.helperId);
             break;
         }
     }

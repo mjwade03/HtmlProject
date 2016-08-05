@@ -16,16 +16,16 @@ var currentAirPollutantStatus;
 var alreadyGetLocation = false;
 
 var dataSource;
+var ishttps = 'https:' == document.location.protocol ? true : false;
+
 function load()
 {    
-    var ishttps = 'https:' == document.location.protocol ? true : false;
+
 
     if (ishttps) {
         console.log("This page running in https");
-        //alert("In https");
     } else {
         console.log("This page running in http");
-        alert("In http");
     }
 
 
@@ -34,8 +34,10 @@ function load()
     loadAirPollutantJsonData();
     loadAirPollutantSiteJsonData();
 
-    //loadRealTimeWeatherStatusData();
-    loadRealTimeWeatherStatusDataByNodeJs();
+    if (ishttps)
+        loadRealTimeWeatherStatusData();
+    else
+        loadRealTimeWeatherStatusDataByNodeJs();
 
     initMap();
     //getLocation();
