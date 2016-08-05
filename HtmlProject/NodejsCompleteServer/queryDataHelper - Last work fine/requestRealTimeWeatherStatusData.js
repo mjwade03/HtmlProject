@@ -1,8 +1,6 @@
-﻿var RealTimeWeatherStatusTableName = "RealTimeWeatherStatus";
-var DBHelper = require("./DBHelper/mongodHelper");
-
-function getRealTimeWeatherStatusData(response, httpRequestTimeout)
+﻿function getRealTimeWeatherStatusData(response)
 {
+    var mongodb = require("../mongodb");
     var http = require("http");
     var req = http.get('http://opendata.cwb.gov.tw/opendata/DIV2/O-A0003-001.xml', function (res) {
         console.log('Status: ' + res.statusCode);
@@ -27,38 +25,39 @@ function getRealTimeWeatherStatusData(response, httpRequestTimeout)
 
                     // Replace the dollar sign in json string
                     var outString = jsonString.replace("$", "cwbversion");
-
-                    // Write the data into db with table name
-                    DBHelper.saveDataToDB(RealTimeWeatherStatusTableName, outString);
-
-                    // Response the data back to client
-                    if (response.connection)
-                    {
-                        response.write(outString);
-                        response.end();
-                    }
+                    response.write(outString);
+                    mongodb.SetDataToDB("RealTimeWeatherStatusData", outString);
                 }
                 else {
-                    // Get last available data from db
-                    DBHelper.getDataFromDB(RealTimeWeatherStatusTableName, 'Fail to convter data from xml to json string', response);
+                    console.log('Fail to convter data from xml to json string');
                 }
-                
+
+
+
+                response.end();
             });
             
         });
     });
     req.on('error', function (e) {
-        // Get last available data from db
-        console.log('getRealTimeWeatherStatusData problem with request: ' + e.message);
+        console.log('problem with request: ' + e.message);
     });
 
     // 加入timeout的機制 若是time則嘗試從資料庫取得最後一筆更新的資料
     req.on('socket', function (socket) {
-        socket.setTimeout(httpRequestTimeout);
+        socket.setTimeout(4000);
         socket.on('timeout', function () {
             console.log('Time out, abort the real time weather status request and get data from local database');
-            DBHelper.getDataFromDB(RealTimeWeatherStatusTableName, 'Time out', response);
             req.abort();
+
+            // Try to get data from local database
+            mongodb.getDBToData("RealTimeWeatherStatusData", function (err, data){
+                if (!err) {
+                    console.log(data);
+                }
+            });
+            response.write("Request already timeout");
+            response.end();
         });
     });
 }

@@ -625,7 +625,11 @@ function loadJsonpData3(targetData) {
                     updateAirPollutantData();
                     break;
                 case "RealTimeWeatherStatus":
-                    realTimeWeatherStatusDataArray = JSON.parse(response).cwbopendata.location;
+                    var obj = JSON.parse(response);
+                    var arrayObject = obj.cwbopendata;
+                    if (arrayObject == undefined)
+                        arrayObject = obj[0].cwbopendata;
+                    realTimeWeatherStatusDataArray = arrayObject.location;
                     break;
                 default:
                     break;
@@ -861,10 +865,14 @@ function updateLittleHelperContentByNodeJs(helperId) {
             type: 'GET',
             url: node_jsServerUrl + "LittleHelper" + "?ID=" + helperId,
             success: function (response) {
-                var obj = JSON.parse(response).cwbopendata;
+                var obj = JSON.parse(response);
+                var arrayObject = obj.cwbopendata;
+                if (arrayObject == undefined)
+                    arrayObject = obj[0].cwbopendata;
+                
                 var helperString = "";
-                for (var index = 0; index < obj.dataset[0].parameterSet[0].parameter.length; index++) {
-                    helperString = helperString + obj.dataset[0].parameterSet[0].parameter[index].parameterValue[0] + '<br />';
+                for (var index = 0; index < arrayObject.dataset[0].parameterSet[0].parameter.length; index++) {
+                    helperString = helperString + arrayObject.dataset[0].parameterSet[0].parameter[index].parameterValue[0] + '<br />';
                 }
                 document.getElementById("helperInformation").innerHTML = helperString;
             }

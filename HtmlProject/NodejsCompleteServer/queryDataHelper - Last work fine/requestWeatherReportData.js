@@ -1,7 +1,4 @@
-﻿var WeatherReportTableName = "WeatherReport";
-var DBHelper = require("./DBHelper/mongodHelper");
-
-function getWeatherReportData(response, targetCity)
+﻿function getWeatherReportData(response, targetCity)
 {
     var http = require("http");
     var req = http.get('http://www.cwb.gov.tw/V7/forecast/taiwan/' + targetCity + '.htm', function (res) {
@@ -26,35 +23,29 @@ function getWeatherReportData(response, targetCity)
             
             if (json) {
                 var jsonString = JSON.stringify(json);
-
-                // Write the data into db with table name
-                DBHelper.saveDataToDB(WeatherReportTableName + targetCity, jsonString);
-
-                // Response the data back to client
-                if (response.connection)
-                {
-                    response.write(jsonString);
-                    response.end();
-                }
+                response.write(jsonString);
             }
             else {
-                DBHelper.getDataFromDB(WeatherReportTableName, 'Fail to convter data from html to json string', response);
+                console.log('Fail to convter data from html to json string');
             }
 
-           
+            response.end();
         });
     });
     req.on('error', function (e) {
-        console.log(WeatherReportTableName, 'problem with request: ' + e.message);
+        console.log('problem with request: ' + e.message);
     });
 
     // 加入timeout的機制 若是time則嘗試從資料庫取得最後一筆更新的資料
     req.on('socket', function (socket) {
-        socket.setTimeout(10);
+        socket.setTimeout(4000);
         socket.on('timeout', function () {
             console.log('Time out, abort the weather report request and get data from local database');
-            DBHelper.getDataFromDB(WeatherReportTableName, 'Time out', response);
             req.abort();
+
+            // Try to get data from local database
+            response.write("Request already timeout");
+            response.end();
         });
     });
 }

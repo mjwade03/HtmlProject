@@ -1,8 +1,6 @@
-﻿var UVTableName = "UV";
-var DBHelper = require("./DBHelper/mongodHelper");
-
-function getUVData(response, httpRequestTimeout)
+﻿function getUVData(response)
 {
+    var mongodb = require("../mongodb");
     var http = require("http");
     var req = http.get('http://opendata.epa.gov.tw/ws/Data/UV/?$orderby=PublishTime%20desc&$skip=0&$top=1000&format=json', function (res) {
         console.log('Status: ' + res.statusCode);
@@ -15,29 +13,31 @@ function getUVData(response, httpRequestTimeout)
         });
         res.on('end', function () {
             console.log('Data ended');
+            response.write(resultString);
+            mongodb.SetDataToDB("UVData", resultString);
+            response.end();
 
-            // Write the data into db with table name
-            DBHelper.saveDataToDB(UVTableName, resultString);
-            
-            // Response the data back to client
-            if (response.connection)
-            {
-                response.write(resultString);
-                response.end();
-            }
         });
     });
     req.on('error', function (e) {
-        console.log(UVTableName, 'problem with request: ' + e.message);
+        console.log('problem with request: ' + e.message);
     });
 
     // 加入timeout的機制 若是time則嘗試從資料庫取得最後一筆更新的資料
     req.on('socket', function (socket) {
-        socket.setTimeout(httpRequestTimeout);
+        socket.setTimeout(4000);
         socket.on('timeout', function () {
             console.log('Time out, abort the UV request and get data from local database');
-            DBHelper.getDataFromDB(UVTableName, 'Time out', response);
             req.abort();
+
+            // Try to get data from local database
+            mongodb.getDBToData("UVData", function (err, data){
+                if (!err) {
+                    console.log(data);
+                }
+            });
+            response.write("Request already timeout");
+            response.end();
         });
     });
 }
