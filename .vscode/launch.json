@@ -61,6 +61,27 @@
             "port": 5858,
             "sourceMaps": false,
             "outDir": null
+        },
+        {
+            "name": "Launch MainPage.html",
+            "type": "chrome",
+            "request": "launch",
+            "file": "${workspaceRoot}/HtmlProject/HtmlProject/MainPage.html"
+        },
+        {
+            "name": "Launch localhost with sourcemaps",
+            "type": "chrome",
+            "request": "launch",
+            "url": "http://localhost/MainPage.html",
+            "port": 3000,
+            "sourceMaps": true,
+            "webRoot": "wwwroot"
+        },
+        {
+            "name": "Attach",
+            "type": "chrome",
+            "request": "attach",
+            "port": 9222
         }
     ]
 }
