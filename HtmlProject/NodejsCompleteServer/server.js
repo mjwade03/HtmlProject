@@ -27,18 +27,22 @@ var httpRequestTimeout = 2000;
 // 顯示主頁面
 app.get('/', function (request, response) {
     response.sendFile(__dirname + '/MainPage.html');
+    console.log("");
     console.log("=================================================");
     console.log("Receive the request to display html page");
     console.log("=================================================");
+    console.log("");
 });
 
 
 // 查詢紫外線資料
 app.get('/UV', function (request, response) {
     response.writeHead(200, { "Access-Control-Allow-Origin": "*", "Content-Type": "text/html; charset=utf-8" });
+    console.log("");
     console.log("=================================================");
     console.log("Receive the request to query UV data");
     console.log("=================================================");
+    console.log("");
     UVData.getUVData(response, httpRequestTimeout);
 });
 
@@ -46,9 +50,11 @@ app.get('/UV', function (request, response) {
 // 查詢紫外線測站地理位置資料
 app.get('/UVSite', function (request, response) {
     response.writeHead(200, { "Access-Control-Allow-Origin": "*", "Content-Type": "text/html; charset=utf-8" });
+    console.log("");
     console.log("=================================================");
     console.log("Receive the request to query UV site data");
     console.log("=================================================");
+    console.log("");
     UVDataSite.getUVSiteData(response, httpRequestTimeout);
 });
 
@@ -56,9 +62,11 @@ app.get('/UVSite', function (request, response) {
 // 查詢空氣品質資料
 app.get('/AirPollutant', function (request, response) {
     response.writeHead(200, { "Access-Control-Allow-Origin": "*", "Content-Type": "text/html; charset=utf-8" });
+    console.log("");
     console.log("=================================================");
     console.log("Receive the request to query AirPollutant data");
     console.log("=================================================");
+    console.log("");
     AirPollutantData.getAirPollutantData(response, httpRequestTimeout);
 });
 
@@ -66,9 +74,11 @@ app.get('/AirPollutant', function (request, response) {
 // 查詢空氣品質測站地理位置資料
 app.get('/AirPollutantSite', function (request, response) {
     response.writeHead(200, { "Access-Control-Allow-Origin": "*", "Content-Type": "text/html; charset=utf-8" });
+    console.log("");
     console.log("=================================================");
     console.log("Receive the request to query AirPollutant site data");
     console.log("=================================================");
+    console.log("");
     AirPollutantDataSite.getAirPollutantSiteData(response, httpRequestTimeout);
 });
 
@@ -76,9 +86,11 @@ app.get('/AirPollutantSite', function (request, response) {
 // 查詢即時天氣資料
 app.get('/RealTimeWeatherStatus', function (request, response) {
     response.writeHead(200, { "Access-Control-Allow-Origin": "*", "Content-Type": "text/html; charset=utf-8" });
+    console.log("");
     console.log("=================================================");
     console.log("Receive the request to query RealTimeWeatherStatus data");
     console.log("=================================================");
+    console.log("");
     RealTimeWeatherStatusData.getRealTimeWeatherStatusData(response, httpRequestTimeout);
 });
 
@@ -86,11 +98,13 @@ app.get('/RealTimeWeatherStatus', function (request, response) {
 // 查詢特定縣市天氣小幫手資料
 app.get('/LittleHelper', function (request, response) {
     response.writeHead(200, { "Access-Control-Allow-Origin": "*", "Content-Type": "text/html; charset=utf-8" });
+    console.log("");
     console.log("=================================================");
     console.log("Receive the request to query LittleHelper data");    
     var ID = request.query.ID;
     console.log("With parameter: " + ID);
     console.log("=================================================");
+    console.log("");
     LittleHelpData.getLittleHelperData(response, ID, httpRequestTimeout);
     
 });
@@ -99,11 +113,13 @@ app.get('/LittleHelper', function (request, response) {
 // 查詢目前以及之後兩個時段的天氣預報資料
 app.get('/WeatherReport', function (request, response) {
     response.writeHead(200, { "Access-Control-Allow-Origin": "*", "Content-Type": "text/html; charset=utf-8" });
+    console.log("");
     console.log("=================================================");
     console.log("Receive the request to query WeatherReport data");    
     var targetCity = request.query.targetCity;
     console.log("With parameter: " + targetCity);
     console.log("=================================================");
+    console.log("");
     WeatherReportData.getWeatherReportData(response, targetCity, httpRequestTimeout);
     
 });
@@ -111,17 +127,21 @@ app.get('/WeatherReport', function (request, response) {
 // 保留做為測試用
 app.get('/test', function (request, response) { //我們要處理URL為 "/" 的HTTP GET請求
     response.writeHead(200, { "Access-Control-Allow-Origin": "*", "Content-Type": "text/html; charset=utf-8" });
+    console.log("");
     console.log("=================================================");
     console.log("Receive the request to query test data");
     console.log("=================================================");
+    console.log("");
     response.end('Test here 2'); //作出回應
 });
 // 保留做為測試用
 app.get('/123456', function (request, response) { //我們要處理URL為 "/" 的HTTP GET請求
     response.writeHead(200, { "Access-Control-Allow-Origin": "*", "Content-Type": "text/html; charset=utf-8" });
+    console.log("");
     console.log("=================================================");
     console.log("Receive the request to query test data");
     console.log("=================================================");
+    console.log("");
     response.end('Test here 2'); //作出回應
 });
 
