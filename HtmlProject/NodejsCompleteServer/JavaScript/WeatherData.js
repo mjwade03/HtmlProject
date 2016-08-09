@@ -450,8 +450,9 @@ function loadRealTimeWeatherStatusData() {
         var obj = data.query.results.location;
 
         realTimeWeatherStatusDataArray = obj;
-        updateRealTimeWeatherStatus();
+        alreadyGotRealTimeStatus = true;
         getLocation();
+        updateRealTimeWeatherStatus();        
     });
 
 }
@@ -473,7 +474,7 @@ function updateRealTimeWeatherStatus() {
         var tempString = targetTemp.toString();
         document.getElementById("currentTemp").innerHTML = tempString;
         currentTemp = tempString;
-        alreadyGotRealTimeStatus = true;
+        
     }
 
 }
