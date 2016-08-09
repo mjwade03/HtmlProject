@@ -44,7 +44,7 @@
 
         ShowAddress();
     });
-    checkCookie();
+    // checkCookie();
 }
 
 // 將經緯度透過 Google map API 反查地址
@@ -133,28 +133,33 @@ function showError(error) {
 //輸入地址取得位置，顯示地圖與資訊
 function ShowAddress() {
     var address = document.getElementById('pac-input').value;
-    if (geocoder) {
-        geocoder.geocode({
-            'address': address
-        }, function (results, status) {
-            myMarker.setMap(undefined);
-            if (status == google.maps.GeocoderStatus.OK) {
-                var marker = new google.maps.Marker({
-                    position: results[0].geometry.location,
-                    map: myMap,
-                    title: 'You are here!',
-                });
-                myMarker = marker;
-                showAddressOfResult(results[0], marker);
-                var currentLng = results[0].geometry.location.lng();
-                var currentLat = results[0].geometry.location.lat();
-                getWeatherStatus(currentLng, currentLat);
+    if(address.length > 0){
+        if (geocoder) {
+            geocoder.geocode({
+                'address': address
+            }, function (results, status) {
+                myMarker.setMap(undefined);
+                if (status == google.maps.GeocoderStatus.OK) {
+                    var marker = new google.maps.Marker({
+                        position: results[0].geometry.location,
+                        map: myMap,
+                        title: 'You are here!',
+                    });
+                    myMarker = marker;
+                    marker.addListener("click", function () {
+                        popup.open(myMap, myMarker);
+                    });
+                    showAddressOfResult(results[0], marker);
+                    var currentLng = results[0].geometry.location.lng();
+                    var currentLat = results[0].geometry.location.lat();
+                    getWeatherStatus(currentLng, currentLat);
+                }
+                else {
+                    alert("Reverse Geocoding failed because: " + status);
+                }
             }
-            else {
-                alert("Reverse Geocoding failed because: " + status);
-            }
+            );
         }
-        );
     }
 }
 
@@ -163,6 +168,8 @@ function saveAddress() {
     if (address != "") {
         setCookie("address", address, 365);
     }
+    else
+        alert("請輸入地點!!!");
 }
 
 function loadAddress() {
@@ -198,4 +205,6 @@ function checkCookie() {
     if (address != "") {
         document.getElementById('pac-input').value = address;
     }
+    else
+        alert("無紀錄!!!");
 }
