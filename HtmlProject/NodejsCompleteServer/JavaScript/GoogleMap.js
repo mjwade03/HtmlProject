@@ -2,7 +2,10 @@
     geocoder = new google.maps.Geocoder();
     myMap = new google.maps.Map(document.getElementById('my_map'), {
         center: { lat: 25.04763902653048, lng: 121.51715755462646 },
-        zoom: 15
+        zoom: 15,
+        mapTypeControlOptions: {
+            position: google.maps.ControlPosition.LEFT_BOTTOM
+        }
     });
     popup = new google.maps.InfoWindow();
 
@@ -24,6 +27,8 @@
     var searchBox = new google.maps.places.SearchBox(input);
     var pacsave = document.getElementById('pac-save');
     myMap.controls[google.maps.ControlPosition.TOP_LEFT].push(pacsave);
+    var pacload = document.getElementById('pac-load');
+    myMap.controls[google.maps.ControlPosition.TOP_LEFT].push(pacload);
 
     // Bias the SearchBox results towards current map's viewport.
     myMap.addListener('bounds_changed', function () {
@@ -133,12 +138,14 @@ function ShowAddress() {
         geocoder.geocode({
             'address': address
         }, function (results, status) {
+            myMarker.setMap(undefined);
             if (status == google.maps.GeocoderStatus.OK) {
                 var marker = new google.maps.Marker({
                     position: results[0].geometry.location,
                     map: myMap,
                     title: 'You are here!',
                 });
+                myMarker = marker;
                 showAddressOfResult(results[0], marker);
                 var currentLng = results[0].geometry.location.lng();
                 var currentLat = results[0].geometry.location.lat();
@@ -157,6 +164,11 @@ function saveAddress() {
     if (address != "") {
         setCookie("address", address, 365);
     }
+}
+
+function loadAddress() {
+    checkCookie();
+    ShowAddress();
 }
 
 function setCookie(addr, avalue, exdays) {
