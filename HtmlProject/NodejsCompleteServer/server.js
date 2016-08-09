@@ -124,6 +124,17 @@ app.get('/WeatherReport', function (request, response) {
     
 });
 
+
+// 投影片
+app.get('/Slide', function (request, response) {
+    response.sendFile(__dirname + '/Slide/天氣概況綜合資訊站.pptx');
+    console.log("");
+    console.log("=================================================");
+    console.log("Receive the request to show slide");
+    console.log("=================================================");
+    console.log("");
+});
+
 // 保留做為測試用
 app.get('/test', function (request, response) { //我們要處理URL為 "/" 的HTTP GET請求
     response.writeHead(200, { "Access-Control-Allow-Origin": "*", "Content-Type": "text/html; charset=utf-8" });
@@ -159,3 +170,4 @@ app.use('/css', express.static(__dirname + '/css'));
 app.use('/JavaScript', express.static(__dirname + '/JavaScript'));
 app.use('/Image', express.static(__dirname + '/Image'));
 app.use('/subPage', express.static(__dirname + '/subPage'));
+app.use('/Slide', express.static(__dirname + '/Slide'));

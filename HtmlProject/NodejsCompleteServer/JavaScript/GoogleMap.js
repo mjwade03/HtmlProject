@@ -109,8 +109,7 @@ function showPosition(position) {
 
     getWeatherStatus(lon, lat);
 
-    latlon = new google.maps.LatLng(lat, lon)
-    getWeatherStatus(lon, lat);
+    latlon = new google.maps.LatLng(lat, lon);
     getAddress2(latlon);
 }
 

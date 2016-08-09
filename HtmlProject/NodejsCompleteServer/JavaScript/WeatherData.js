@@ -472,8 +472,6 @@ function updateRealTimeWeatherStatus() {
         document.getElementById("currentTemp").innerHTML = tempString;
         currentTemp = tempString + "°C";
         alreadyGotRealTimeStatus = true;
-        getLocation();
-
     }
 
 }
@@ -635,11 +633,11 @@ function loadJsonpData3(targetData) {
                         arrayObject = obj[0].cwbopendata;
                     realTimeWeatherStatusDataArray = arrayObject.location;
                     alreadyGotRealTimeStatus = true;
-                    getLocation();
                     break;
                 default:
                     break;
             }
+            getLocation();
         }
     });
 }
@@ -661,7 +659,6 @@ function loadUVSitenData() {
 
 function updateUVData() {
     if (alreadyGotUVJson == true && alreadyGotUVSiteJson == true) {
-        getLocation();
         for (var i = 0; i < UVArray.length; i++) {
             var site = UVArray[i].SiteName ? UVArray[i].SiteName : "N/A";
             var uvi = UVArray[i].UVI ? UVArray[i].UVI : "N/A";
@@ -790,7 +787,6 @@ function loadAirPollutantSiteJsonData() {
 
 function updateAirPollutantData() {
     if (alreadyGotAirPollutantJson == true && alreadyGotAirPollutantSiteJson == true) {
-        getLocation();
         for (var i = 0; i < AirPollutantArray.length; i++) {
             var site = AirPollutantArray[i].SiteName ? AirPollutantArray[i].SiteName : "N/A";
             var place = AirPollutantArray[i].County ? AirPollutantArray[i].County : "N/A";
@@ -865,8 +861,6 @@ function updateRealTimeWeatherStatusByNodeJs() {
         var tempString = targetTemp.toString();
         document.getElementById("currentTemp").innerHTML = tempString;
         currentTemp = tempString + "°C";
-        
-        getLocation();
     }
 }
 
