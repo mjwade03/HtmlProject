@@ -391,6 +391,7 @@ function loadJsonpData2(targetUrl) {
                 updateAirPollutantData();
                 break;
         }
+        getLocation();
     });
 }
 
