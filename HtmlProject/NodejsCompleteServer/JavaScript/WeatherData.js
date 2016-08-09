@@ -451,6 +451,7 @@ function loadRealTimeWeatherStatusData() {
 
         realTimeWeatherStatusDataArray = obj;
         updateRealTimeWeatherStatus();
+        getLocation();
     });
 
 }
@@ -471,7 +472,7 @@ function updateRealTimeWeatherStatus() {
         }
         var tempString = targetTemp.toString();
         document.getElementById("currentTemp").innerHTML = tempString;
-        currentTemp = tempString + "°C";
+        currentTemp = tempString;
         alreadyGotRealTimeStatus = true;
     }
 
