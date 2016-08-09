@@ -5,8 +5,13 @@ function getRealTimeWeatherStatusData(response, httpRequestTimeout)
 {
     var http = require("http");
     var req = http.get('http://opendata.cwb.gov.tw/opendata/DIV2/O-A0003-001.xml', function (res) {
+        console.log("");
+        console.log("=================================================");
+        console.log('Response from realtime weather status request');
         console.log('Status: ' + res.statusCode);
         console.log('Headers: ' + JSON.stringify(res.headers));
+        console.log("=================================================");
+        console.log("");
         res.setEncoding('utf8');
         var resultString = "";
         res.on('data', function (body) {
@@ -48,17 +53,25 @@ function getRealTimeWeatherStatusData(response, httpRequestTimeout)
         });
     });
     req.on('error', function (e) {
-        // Get last available data from db
+        console.log("");
+        console.log("=================================================");
         console.log('getRealTimeWeatherStatusData problem with request: ' + e.message);
+        console.log("=================================================");
+        console.log("");
     });
 
     // 加入timeout的機制 若是time則嘗試從資料庫取得最後一筆更新的資料
     req.on('socket', function (socket) {
         socket.setTimeout(httpRequestTimeout);
         socket.on('timeout', function () {
+            console.log("");
+            console.log("=================================================");
             console.log('Time out, abort the real time weather status request and get data from local database');
+            console.log("=================================================");
+            console.log("");
             DBHelper.getDataFromDB(RealTimeWeatherStatusTableName, 'Time out', response);
             req.abort();
+            req.end();
         });
     });
 }

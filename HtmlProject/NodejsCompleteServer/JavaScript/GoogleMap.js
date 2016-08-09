@@ -88,7 +88,7 @@ function showAddressOfResult(result, marker) {
 function getLocation() {
     //alert(alreadyGetLocation + ":" + alreadyUpdateRealTimeStatus + ":" + alreadyGotUVJson + ":" + alreadyGotUVSiteJson + ":" + alreadyGotAirPollutantJson + ":" + alreadyGotAirPollutantSiteJson);
     if (alreadyGetLocation == false &&
-        alreadyUpdateRealTimeStatus == true &&
+        alreadyGotRealTimeStatus == true &&
         alreadyGotUVJson == true &&
         alreadyGotUVSiteJson == true &&
         alreadyGotAirPollutantJson == true &&
@@ -105,6 +105,10 @@ function getLocation() {
 function showPosition(position) {
     lat = position.coords.latitude;
     lon = position.coords.longitude;
+
+
+    getWeatherStatus(lon, lat);
+
     latlon = new google.maps.LatLng(lat, lon)
     getWeatherStatus(lon, lat);
     getAddress2(latlon);

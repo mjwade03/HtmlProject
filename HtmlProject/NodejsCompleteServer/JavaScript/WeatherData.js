@@ -16,7 +16,7 @@ var AirPollutantSiteArray;
 // 用於query目前即時的天氣資訊
 var queryRealTimeWeatherStatusUrl = 'http://opendata.cwb.gov.tw/opendata/DIV2/O-A0003-001.xml';
 var realTimeWeatherStatusDataArray;
-var alreadyUpdateRealTimeStatus = false;
+var alreadyGotRealTimeStatus = false;
 
 // 自訂的Node.js server
 var node_jsServerUrl = "http://127.0.0.1:3000/";
@@ -471,7 +471,7 @@ function updateRealTimeWeatherStatus() {
         var tempString = targetTemp.toString();
         document.getElementById("currentTemp").innerHTML = tempString;
         currentTemp = tempString + "°C";
-        alreadyUpdateRealTimeStatus = true;
+        alreadyGotRealTimeStatus = true;
         getLocation();
 
     }
@@ -634,6 +634,8 @@ function loadJsonpData3(targetData) {
                     if (arrayObject == undefined)
                         arrayObject = obj[0].cwbopendata;
                     realTimeWeatherStatusDataArray = arrayObject.location;
+                    alreadyGotRealTimeStatus = true;
+                    getLocation();
                     break;
                 default:
                     break;
@@ -694,7 +696,7 @@ function updateUVData() {
 
         }
         // setCurrentUVInfoTable(UVArray[0]);
-        getWeatherStatus(121.51715755462646 * 1, 25.04763902653048 * 1);
+        //getWeatherStatus(121.51715755462646 * 1, 25.04763902653048 * 1);
         //alreadyGotUVJson = false;
         //alreadyGotUVSiteJson = false;
     }
@@ -821,7 +823,7 @@ function updateAirPollutantData() {
             select.appendChild(option);
 
         }
-        getWeatherStatus(121.51715755462646 * 1, 25.04763902653048 * 1);
+        //getWeatherStatus(121.51715755462646 * 1, 25.04763902653048 * 1);
         // setCurrentAirPollutantInfoTable(AirPollutantArray[0]);
 
         //alreadyGotAirPollutantJson = false;
@@ -863,7 +865,7 @@ function updateRealTimeWeatherStatusByNodeJs() {
         var tempString = targetTemp.toString();
         document.getElementById("currentTemp").innerHTML = tempString;
         currentTemp = tempString + "°C";
-        alreadyUpdateRealTimeStatus = true;
+        
         getLocation();
     }
 }
@@ -919,38 +921,41 @@ function GetWeatherDataByNodeJs(cityId) {
         url: node_jsServerUrl + "WeatherReport" + "?targetCity=" + cityId,
         success: function (response) {
             var obj = JSON.parse(response);
-            var data = obj[0].children;
+            if (obj[0].children)
+            {
+                var data = obj[0].children;
 
-            // First time slot
-            document.getElementById("firstWeatherValidity").innerHTML = data[0].children[1].children[0].content;
-            document.getElementById("firstWeatherTemperature").innerHTML = data[0].children[3].children[0].content;
-            var imgSrc = data[0].children[5].children[1].attributes.src.split("/");
-            document.getElementById("firstWeatherStatus").src = weatherIconUrl + imgSrc[imgSrc.length - 2] + '/' + imgSrc[imgSrc.length - 1];
-            document.getElementById("firstWeatherStatus").title = data[0].children[5].children[1].attributes.title;
-            document.getElementById("firstWeatherComfort").innerHTML = data[0].children[7].children[0].content;
-            document.getElementById("firstWeatherRainPercentage").innerHTML = data[0].children[9].children[0].content;
+                // First time slot
+                document.getElementById("firstWeatherValidity").innerHTML = data[0].children[1].children[0].content;
+                document.getElementById("firstWeatherTemperature").innerHTML = data[0].children[3].children[0].content;
+                var imgSrc = data[0].children[5].children[1].attributes.src.split("/");
+                document.getElementById("firstWeatherStatus").src = weatherIconUrl + imgSrc[imgSrc.length - 2] + '/' + imgSrc[imgSrc.length - 1];
+                document.getElementById("firstWeatherStatus").title = data[0].children[5].children[1].attributes.title;
+                document.getElementById("firstWeatherComfort").innerHTML = data[0].children[7].children[0].content;
+                document.getElementById("firstWeatherRainPercentage").innerHTML = data[0].children[9].children[0].content;
 
-            // Second time slot
-            document.getElementById("secondWeatherValidity").innerHTML = data[1].children[1].children[0].content;
-            document.getElementById("secondWeatherTemperature").innerHTML = data[1].children[3].children[0].content;
-            imgSrc = data[1].children[5].children[1].attributes.src.split("/");
-            document.getElementById("secondWeatherStatus").src = weatherIconUrl + imgSrc[imgSrc.length - 2] + '/' + imgSrc[imgSrc.length - 1];
-            document.getElementById("secondWeatherStatus").title = data[1].children[5].children[1].attributes.title;
-            document.getElementById("secondWeatherComfort").innerHTML = data[1].children[7].children[0].content;
-            document.getElementById("secondWeatherRainPercentage").innerHTML = data[1].children[9].children[0].content;
+                // Second time slot
+                document.getElementById("secondWeatherValidity").innerHTML = data[1].children[1].children[0].content;
+                document.getElementById("secondWeatherTemperature").innerHTML = data[1].children[3].children[0].content;
+                imgSrc = data[1].children[5].children[1].attributes.src.split("/");
+                document.getElementById("secondWeatherStatus").src = weatherIconUrl + imgSrc[imgSrc.length - 2] + '/' + imgSrc[imgSrc.length - 1];
+                document.getElementById("secondWeatherStatus").title = data[1].children[5].children[1].attributes.title;
+                document.getElementById("secondWeatherComfort").innerHTML = data[1].children[7].children[0].content;
+                document.getElementById("secondWeatherRainPercentage").innerHTML = data[1].children[9].children[0].content;
 
-            // Third time slot
-            document.getElementById("thirdWeatherValidity").innerHTML = data[2].children[1].children[0].content;
-            document.getElementById("thirdWeatherTemperature").innerHTML = data[2].children[3].children[0].content;
-            imgSrc = data[2].children[5].children[1].attributes.src.split("/");
-            document.getElementById("thirdWeatherStatus").src = weatherIconUrl + imgSrc[imgSrc.length - 2] + '/' + imgSrc[imgSrc.length - 1];
-            document.getElementById("thirdWeatherStatus").title = data[2].children[5].children[1].attributes.title;
-            document.getElementById("thirdWeatherComfort").innerHTML = data[2].children[7].children[0].content;
-            document.getElementById("thirdWeatherRainPercentage").innerHTML = data[2].children[9].children[0].content;
+                // Third time slot
+                document.getElementById("thirdWeatherValidity").innerHTML = data[2].children[1].children[0].content;
+                document.getElementById("thirdWeatherTemperature").innerHTML = data[2].children[3].children[0].content;
+                imgSrc = data[2].children[5].children[1].attributes.src.split("/");
+                document.getElementById("thirdWeatherStatus").src = weatherIconUrl + imgSrc[imgSrc.length - 2] + '/' + imgSrc[imgSrc.length - 1];
+                document.getElementById("thirdWeatherStatus").title = data[2].children[5].children[1].attributes.title;
+                document.getElementById("thirdWeatherComfort").innerHTML = data[2].children[7].children[0].content;
+                document.getElementById("thirdWeatherRainPercentage").innerHTML = data[2].children[9].children[0].content;
 
-            // Fade in the table when data is ready
-            $("#WeatherStatusTable").fadeIn(1000);
-            $("#realTimeWeatherStatusTable").fadeIn(1000);
+                // Fade in the table when data is ready
+                $("#WeatherStatusTable").fadeIn(1000);
+                $("#realTimeWeatherStatusTable").fadeIn(1000);
+            }
         }
     });
 }
