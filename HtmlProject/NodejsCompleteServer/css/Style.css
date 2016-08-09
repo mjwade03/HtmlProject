@@ -16,16 +16,20 @@
   }
 }
 @media screen and (max-width:799px) {
-  nav li {
+  nav table {
     display: inline;
   }
+  h3{
+      visibility: hidden;
+  }
+
 }
 
-nav {
+/*nav {
     float: left;
     margin: 0;
     padding: 1em;
-}
+}*/
 
 article {
     margin-left: 170px;
