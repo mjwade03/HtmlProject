@@ -113,6 +113,14 @@ function showPosition(position) {
     getAddress2(latlon);
 }
 
+function showDefaultPosition(lat, lon) {
+
+    getWeatherStatus(lon, lat);
+
+    latlon = new google.maps.LatLng(lat, lon);
+    getAddress2(latlon);
+}
+
 function showError(error) {
     switch (error.code) {
         case error.PERMISSION_DENIED:
@@ -128,6 +136,7 @@ function showError(error) {
             alert("An unknown error occurred.");
             break;
     }
+    showDefaultPosition(25.04763902653048, 121.51715755462646);
 }
 
 //輸入地址取得位置，顯示地圖與資訊
