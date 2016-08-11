@@ -191,8 +191,52 @@ function setCookie(addr, avalue, exdays) {
     d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
     var expires = "expires=" + d.toUTCString();
     document.cookie = addr + "=" + avalue + "; " + expires;
-    alert("*" + avalue + "*紀錄成功!!!");
+    // alert("*" + avalue + "*紀錄成功!!!");
+    generate('success', avalue + ' - 紀錄成功!!!');
 }
+
+function generate(type, text) {
+    var n = noty({
+        text: text,
+        type: type,
+        dismissQueue: true,
+        timeout: 2000,
+        closeWith: ['click'],
+        layout: 'topCenter',
+        theme: 'relax',
+        maxVisible: 10
+    });
+    console.log('html: ' + n.options.id);
+}
+
+//function generate(type, text) {
+//    var n = noty({
+//        text: text,
+//        type: type,
+//        dismissQueue: true,
+//        timeout: 1000,
+//        layout: 'topCenter',
+//        closeWith: ['click'],
+//        theme: 'relax',
+//        maxVisible: 10,
+//        animation: {
+//            open: 'animated bounceInDown',
+//            close: 'animated bounceOutUp',
+//            easing: 'swing',
+//            speed: 500
+//        }
+//    });
+//    console.log('html: ' + n.options.id);
+//}
+
+//function generateAll() {
+//    generate('alert');
+//    generate('information');
+//    generate('error');
+//    generate('warning');
+//    generate('notification');
+//    generate('success');
+//}
 
 function getCookie(addr) {
     var address = addr + "=";
