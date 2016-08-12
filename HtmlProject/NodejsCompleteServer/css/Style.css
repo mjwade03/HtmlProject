@@ -5,7 +5,7 @@
     text-align: center;
 }
 
-@media screen and (min-width:900px) {
+@media screen and (min-width:1080px) {
   nav {
     float: left;
     width: 66%;
@@ -22,7 +22,7 @@
   }
   
 }
-@media screen and (max-width:899px) {
+@media screen and (max-width:1079px) {
   nav table {
     display: inline;
   }
