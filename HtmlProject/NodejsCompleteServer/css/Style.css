@@ -5,7 +5,7 @@
     text-align: center;
 }
 
-@media screen and (min-width:800px) {
+@media screen and (min-width:900px) {
   nav {
     float: left;
     width: 66%;
@@ -14,15 +14,40 @@
     margin-left: auto;
     height: 100%;
   }
+  #countyInformation{
+      float:left;
+  }
 }
-@media screen and (max-width:799px) {
+@media screen and (max-width:899px) {
   nav table {
     display: inline;
   }
   h3{
       visibility: hidden;
   }
+  #countyInformation{
+      float:none;
+  }
+}
+@media screen and (min-height:800px) {
+    #MainInfoDiv{
+        height:40vh;
 
+    }
+    #ReserverAreaDiv{
+        height:15vh;
+
+    }
+}
+@media screen and (max-height:799px) {
+        #MainInfoDiv{
+        height:auto;
+
+    }
+    #ReserverAreaDiv{
+        height:15vh;
+
+    }
 }
 
 /*nav {

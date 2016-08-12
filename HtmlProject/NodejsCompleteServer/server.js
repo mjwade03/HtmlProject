@@ -12,6 +12,9 @@ var LittleHelpData = require("./queryDataHelper/requestLittleHelperData");
 // Query來源為html的資料
 var WeatherReportData = require("./queryDataHelper/requestWeatherReportData");
 
+// Query來源為csv的資料
+var NearByITaiwanData = require("./queryDataHelper/requestNearByITaiwanData");
+
 // Declare express package
 var express = require('express');
 var app = express();
@@ -122,6 +125,20 @@ app.get('/WeatherReport', function (request, response) {
     console.log("");
     WeatherReportData.getWeatherReportData(response, targetCity, httpRequestTimeout);
     
+});
+
+// 查詢ITaiwan熱點
+app.get('/NearByITaiwan', function (request, response) {
+    response.writeHead(200, { "Access-Control-Allow-Origin": "*", "Content-Type": "text/html; charset=utf-8" });
+    console.log("");
+    console.log("=================================================");
+    console.log("Receive the request to query near by iTaiwan data");
+    //var targetCity = request.query.targetCity;
+    //console.log("With parameter: " + targetCity);
+    console.log("=================================================");
+    console.log("");
+    NearByITaiwanData.getNearByITaiwanData(response, httpRequestTimeout);
+
 });
 
 

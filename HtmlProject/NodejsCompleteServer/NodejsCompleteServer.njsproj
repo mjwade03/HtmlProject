@@ -41,6 +41,7 @@
     <Compile Include="queryDataHelper\requestRealTimeWeatherStatusData.js" />
     <Compile Include="queryDataHelper\requestUVData.js" />
     <Compile Include="queryDataHelper\requestUVSiteData.js" />
+    <Compile Include="queryDataHelper\requestNearByITaiwanData.js" />
     <Compile Include="queryDataHelper\requestWeatherReportData.js" />
     <Compile Include="server.js" />
     <Content Include="css\Style.css" />
@@ -60,12 +61,14 @@
     <Folder Include="typings\globals\express\" />
     <Folder Include="typings\globals\mongodb\" />
     <Folder Include="typings\globals\node\" />
+    <Folder Include="typings\globals\request\" />
     <Folder Include="typings\globals\xml2js\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="typings\globals\express\index.d.ts" />
     <TypeScriptCompile Include="typings\globals\mongodb\index.d.ts" />
     <TypeScriptCompile Include="typings\globals\node\index.d.ts" />
+    <TypeScriptCompile Include="typings\globals\request\index.d.ts" />
     <TypeScriptCompile Include="typings\globals\xml2js\index.d.ts" />
     <TypeScriptCompile Include="typings\index.d.ts" />
   </ItemGroup>

@@ -19,7 +19,7 @@ var realTimeWeatherStatusDataArray;
 var alreadyGotRealTimeStatus = false;
 
 // 自訂的Node.js server
-var node_jsServerUrl = "http://127.0.0.1:3000/";
+var node_jsServerUrl = "http://10.1.4.174:3000/";
 
 // 顯示天氣狀況的icon
 var weatherIconUrl = 'Image/WeatherIcon/';
@@ -533,7 +533,7 @@ function getWeatherStatus(currentLng, currentLat) {
         var UVGrepResult = $.grep(UVArray, function (e) { return e.SiteName == targetUVSiteName; });
         if (UVGrepResult.length > 0)
         {
-            setCurrentUVInfoTable(UVGrepResult[0]);
+            //setCurrentUVInfoTable(UVGrepResult[0]);
             document.getElementById("weatherUVLevel").innerHTML = getUVLevel(UVGrepResult[0].UVI);
             setTextColorByUVLevel(document.getElementById("weatherUVLevel"), UVGrepResult[0].UVI);
             currentUVStatus = getUVLevel(UVGrepResult[0].UVI);
@@ -567,7 +567,7 @@ function getWeatherStatus(currentLng, currentLat) {
         // Get the air pollutant status based on air pollutant site name
         var AirPollutantGrepResult = $.grep(AirPollutantArray, function (e) { return e.SiteName == targetAirPollutantSiteName; });
         if (AirPollutantGrepResult.length > 0) {
-            setCurrentAirPollutantInfoTable(AirPollutantGrepResult[0]);
+            //setCurrentAirPollutantInfoTable(AirPollutantGrepResult[0]);
             document.getElementById("weatherAirStatus").innerHTML = AirPollutantGrepResult[0].Status ? AirPollutantGrepResult[0].Status : "N/A";
             setTextColorByPSILevel(document.getElementById("weatherAirStatus"), AirPollutantGrepResult[0]["PSI"]);
 
@@ -688,11 +688,11 @@ function updateUVData() {
 
             //addNewUVData(site, uvi, publisher, place, longitudeWGS84, latitudeWGS84, longitudeTWD97, latitudeTW97, time);
 
-            var option = document.createElement("option");
-            option.text = "測站: " + site + ", 位於: " + place;
-            option.value = site;
-            var select = document.getElementById("UVSiteSelect");
-            select.appendChild(option);
+            //var option = document.createElement("option");
+            //option.text = "測站: " + site + ", 位於: " + place;
+            //option.value = site;
+            //var select = document.getElementById("UVSiteSelect");
+            //select.appendChild(option);
 
         }
         // setCurrentUVInfoTable(UVArray[0]);
@@ -815,11 +815,11 @@ function updateAirPollutantData() {
 
             // addNewAirPollutantTableData(site, place, psi, status, majorPollutant, longitudeTWD97, latitudeTWD97, time);
 
-            var option = document.createElement("option");
-            option.text = "測站: " + site + ", 位於: " + place;
-            option.value = site;
-            var select = document.getElementById("airPollutantSiteSelect");
-            select.appendChild(option);
+            //var option = document.createElement("option");
+            //option.text = "測站: " + site + ", 位於: " + place;
+            //option.value = site;
+            //var select = document.getElementById("airPollutantSiteSelect");
+            //select.appendChild(option);
 
         }
         //getWeatherStatus(121.51715755462646 * 1, 25.04763902653048 * 1);

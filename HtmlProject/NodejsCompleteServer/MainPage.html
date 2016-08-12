@@ -28,34 +28,36 @@
     <div>
         <button onclick="onClick()" hidden>Click</button>
         <nav>
-            <div style="padding-left:60px; padding-right:60px;">
-                <div valign="top" id="currentAddress" hidden>100台灣台北市中正區北平西路3號臺北車站</div>
-                <div valign="top" id="inLatLng" name="inLatLng" size="40" hidden></div>
+            <div id="WeatherInfoDiv" style="padding-left:60px; padding-right:60px;">
+
+
                 <div>
-                    <table style="height:400px;">
-                        <tr>
-                            <td style="padding-right:30px;">
-                                <div id="countyInformation" class="currentCountyField">臺北市</div>
-                            </td>
-                            <td>
-                                <table id="realTimeWeatherStatusTable" class="realTimeWeatherStatusTable">
-                                    <tr>
-                                        <th>溫度</th>
-                                        <th>紫外線</th>
-                                        <th>PM2.5</th>
-                                        <th>空氣品質</th>
-                                    </tr>
-                                    <tr>
-                                        <td id="currentTemp" style="color:red"></td>
-                                        <td id="weatherUVLevel" style="color:red"></td>
-                                        <td id="weatherPM25Level" style="color:red"></td>
-                                        <td id="weatherAirStatus" style="color:red"></td>
-                                    </tr>
-                                </table>
-                            </td>
-                        </tr>
-                    </table>
-                    <div style="height:400px;">
+                    <div id="MainInfoDiv" style="min-height:250px;">
+                        <div id="ReserverAreaDiv"></div>
+                        <div id="countyInformation" class="currentCountyField">臺北市</div>
+                        <table >
+                            <tr>
+                                <td>
+                                    <table id="realTimeWeatherStatusTable" class="realTimeWeatherStatusTable">
+                                        <tr>
+                                            <th>溫度</th>
+                                            <th>紫外線</th>
+                                            <th>PM2.5</th>
+                                            <th>空氣品質</th>
+                                        </tr>
+                                        <tr>
+                                            <td id="currentTemp" style="color:red"></td>
+                                            <td id="weatherUVLevel" style="color:red"></td>
+                                            <td id="weatherPM25Level" style="color:red"></td>
+                                            <td id="weatherAirStatus" style="color:red"></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div style="height:auto">
                         <div id="helperInformation" class="littleHelperField"> </div>
                         <div>
                             <table>
@@ -110,14 +112,12 @@
                     </div>
                 </div>
 
-                <!--紫外線測站:-->
-                <select id="UVSiteSelect" onchange="onSelectUVSiteChange()" hidden></select>
-                <!--空氣汙染測站:-->
+                <!--<select id="UVSiteSelect" onchange="onSelectUVSiteChange()" hidden></select>
+
                 <select id="airPollutantSiteSelect" onchange="onSelectAirPollutantSiteChange()" hidden></select>
                 <br />
                 <br />
                 <table hidden>
-                    <!--class="dataTable">-->
                     <tr>
 
                         <td valign="top">
@@ -173,7 +173,7 @@
                             </table>
                         </td>
                     </tr>
-                </table>
+                </table>-->
             </div>
         </nav>
         <section>
