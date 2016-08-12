@@ -17,6 +17,10 @@
   #countyInformation{
       float:left;
   }
+  #WeatherInfoDiv{
+      padding-left:60px; padding-right:60px;
+  }
+  
 }
 @media screen and (max-width:899px) {
   nav table {
@@ -27,6 +31,9 @@
   }
   #countyInformation{
       float:none;
+  }
+    #WeatherInfoDiv{
+      padding-left:10px; padding-right:10px;
   }
 }
 @media screen and (min-height:800px) {
