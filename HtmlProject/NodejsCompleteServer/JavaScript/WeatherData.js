@@ -753,7 +753,7 @@ function getPM2_5Level(PM2_5) {
     else if (PM2_5 >= 71)
         return "非常高";
     else
-        return "低";
+        return "N/A";
 }
 
 function setTextColorByPM2_5Level(element, PM2_5) {
@@ -762,7 +762,7 @@ function setTextColorByPM2_5Level(element, PM2_5) {
     else if (PM2_5 >= 54)
         element.style.color = "red";
     else
-        element.style.color = "green";
+        element.style.color = "black";
 }
 
 function setTextColorByPSILevel(element, PSI) {
