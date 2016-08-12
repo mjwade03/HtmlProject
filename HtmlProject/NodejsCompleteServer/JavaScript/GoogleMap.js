@@ -16,7 +16,7 @@
         //設定標註座標
         var currentLng = mylatlng.lng();
         var currentLat = mylatlng.lat();
-        document.getElementById('inLatLng').innerHTML = "經緯度: " + e.latLng;
+        //document.getElementById('inLatLng').innerHTML = "經緯度: " + e.latLng;
         getWeatherStatus(currentLng, currentLat);
         getAddress2(e.latLng);
     });
