@@ -23,7 +23,8 @@ AIzaSyDS7IojxtL7VgMq4UuPVhT0MSQUFXpf1ik
 3.MongoDB介紹 http://mongodbcanred.blogspot.tw/2015/01/mongodb.html
 4.MongoDB 快速入門筆記 http://andyyou.logdown.com/posts/177570-mongodb-notes
 5.MongoDB 基礎入門教學 https://blog.gtwang.org/programming/getting-started-with-mongodb-shell-1/
-
+6.10款非常棒的JavaScript消息通知插件 http://webres.wang/10-javascript-notification-plugins/
+7.動畫Animate.css http://daneden.github.io/animate.css/
 
 http://weather.json.tw/
 
