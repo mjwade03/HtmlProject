@@ -11,7 +11,7 @@
     "express": "4.14.0",
     "mongodb": "2.2.5",
     "noty": "2.3.8",
-    "animate": "1.0.0"
+    "animate": "1.0.0",
     "mongodb": "2.2.5",
     "iconv-lite": "0.4.13",
     "bufferhelper": "0.2.1",
