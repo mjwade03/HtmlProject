@@ -67,7 +67,7 @@ function getAddress2(latLng) {
                 showAddressOfResult(results[0], myMarker);
             }
         } else {
-            alert("Reverse Geocoding failed because: " + status);
+            generate('information', 'Reverse Geocoding failed because: ' + status);
         }
     });
 }
@@ -97,7 +97,7 @@ function getLocation() {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(showPosition, showError);
         } else {
-            alert("您的瀏覽器不支援定位服務");
+            generate('information', '您的瀏覽器不支援定位服務!');
         }
     }
 }
@@ -124,16 +124,16 @@ function showDefaultPosition(lat, lon) {
 function showError(error) {
     switch (error.code) {
         case error.PERMISSION_DENIED:
-            alert("User denied the request for Geolocation.");
+            generate('error', 'User denied the request for Geolocation.');
             break;
         case error.POSITION_UNAVAILABLE:
-            alert("Location information is unavailable.");
+            generate('error', 'Location information is unavailable.');
             break;
         case error.TIMEOUT:
-            alert("The request to get user location timed out.");
+            generate('error', 'The request to get user location timed out.');
             break;
         case error.UNKNOWN_ERROR:
-            alert("An unknown error occurred.");
+            generate('error', 'An unknown error occurred.');
             break;
     }
     showDefaultPosition(25.04763902653048, 121.51715755462646);
@@ -164,7 +164,7 @@ function ShowAddress() {
                     getWeatherStatus(currentLng, currentLat);
                 }
                 else {
-                    alert("Reverse Geocoding failed because: " + status);
+                    generate('error', 'Reverse Geocoding failed because: ' + status);
                 }
             }
             );
@@ -178,7 +178,7 @@ function saveAddress() {
         setCookie("address", address, 365);
     }
     else
-        alert("請輸入地點!!!");
+        generate('warning', '請輸入地點!!!');
 }
 
 function loadAddress() {
@@ -191,7 +191,6 @@ function setCookie(addr, avalue, exdays) {
     d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
     var expires = "expires=" + d.toUTCString();
     document.cookie = addr + "=" + avalue + "; " + expires;
-    // alert("*" + avalue + "*紀錄成功!!!");
     generate('success', avalue + ' - 紀錄成功!!!');
 }
 
@@ -259,5 +258,5 @@ function checkCookie() {
         document.getElementById('pac-input').value = address;
     }
     else
-        alert("無紀錄!!!");
+        generate('information', '無紀錄!!!');
 }
