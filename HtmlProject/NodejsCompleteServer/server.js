@@ -8,6 +8,7 @@ var AirPollutantDataSite = require("./queryDataHelper/requestAirPollutantSiteDat
 // Query來源為xml的資料
 var RealTimeWeatherStatusData = require("./queryDataHelper/requestRealTimeWeatherStatusData");
 var LittleHelpData = require("./queryDataHelper/requestLittleHelperData");
+var NearByAttractionData = require("./queryDataHelper/requestNearByAttraction");
 
 // Query來源為html的資料
 var WeatherReportData = require("./queryDataHelper/requestWeatherReportData");
@@ -127,18 +128,33 @@ app.get('/WeatherReport', function (request, response) {
     
 });
 
-// 查詢ITaiwan熱點
+// 根據傳入的經緯度查詢周邊的ITaiwan熱點
 app.get('/NearByITaiwan', function (request, response) {
     response.writeHead(200, { "Access-Control-Allow-Origin": "*", "Content-Type": "text/html; charset=utf-8" });
     console.log("");
     console.log("=================================================");
     console.log("Receive the request to query near by iTaiwan data");
-    //var targetCity = request.query.targetCity;
-    //console.log("With parameter: " + targetCity);
+    var targetLat = request.query.Lat;
+    var targetLon = request.query.Lon;
+    console.log("With parameter: " + targetLat + ", " + targetLon);
     console.log("=================================================");
     console.log("");
-    NearByITaiwanData.getNearByITaiwanData(response, httpRequestTimeout);
+    NearByITaiwanData.getNearByITaiwanData(response, targetLat, targetLon);
 
+});
+
+// 根據傳入的經緯度查詢周邊的景點
+app.get('/NearByAttraction', function (request, response) {
+    response.writeHead(200, { "Access-Control-Allow-Origin": "*", "Content-Type": "text/html; charset=utf-8" });
+    console.log("");
+    console.log("=================================================");
+    console.log("Receive the request to query near by attraction data");
+    var targetLat = request.query.Lat;
+    var targetLon = request.query.Lon;
+    console.log("With parameter: " + targetLat + ", " + targetLon);
+    console.log("=================================================");
+    console.log("");
+    NearByAttractionData.getNearByAttraction(response, targetLat, targetLon);
 });
 
 
@@ -188,3 +204,4 @@ app.use('/JavaScript', express.static(__dirname + '/JavaScript'));
 app.use('/Image', express.static(__dirname + '/Image'));
 app.use('/subPage', express.static(__dirname + '/subPage'));
 app.use('/Slide', express.static(__dirname + '/Slide'));
+app.use('/AdditionalFile', express.static(__dirname + '/AdditionalFile'));

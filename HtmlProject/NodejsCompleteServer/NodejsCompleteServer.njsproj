@@ -38,12 +38,15 @@
     <Compile Include="queryDataHelper\requestAirPollutantData.js" />
     <Compile Include="queryDataHelper\requestAirPollutantSiteData.js" />
     <Compile Include="queryDataHelper\requestLittleHelperData.js" />
+    <Compile Include="queryDataHelper\requestNearByAttraction.js" />
     <Compile Include="queryDataHelper\requestRealTimeWeatherStatusData.js" />
     <Compile Include="queryDataHelper\requestUVData.js" />
     <Compile Include="queryDataHelper\requestUVSiteData.js" />
     <Compile Include="queryDataHelper\requestNearByITaiwanData.js" />
     <Compile Include="queryDataHelper\requestWeatherReportData.js" />
     <Compile Include="server.js" />
+    <Content Include="AdditionalFile\hotspotlist.csv" />
+    <Content Include="AdditionalFile\special_poi_sec.xml" />
     <Content Include="css\Style.css" />
     <Content Include="subPage\HTML1.html" />
     <Content Include="MainPage.html" />
@@ -53,6 +56,7 @@
   <ItemGroup>
     <Folder Include="css\" />
     <Folder Include="JavaScript\" />
+    <Folder Include="AdditionalFile\" />
     <Folder Include="queryDataHelper\DBHelper\" />
     <Folder Include="subPage\" />
     <Folder Include="queryDataHelper\" />

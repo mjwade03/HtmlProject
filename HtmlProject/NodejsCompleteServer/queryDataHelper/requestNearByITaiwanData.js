@@ -2,79 +2,35 @@
 var DBHelper = require("./DBHelper/mongodHelper");
 var BufferHelper = require('bufferhelper');
 
-//function getNearByITaiwanData(response, httpRequestTimeout)
-//{
-//    var http = require("http");
-//    var req = http.get('http://itaiwan.gov.tw/func/hotspotlist.csv', function (res) {
-//        console.log("");
-//        console.log("=================================================");
-//        console.log('Response from near by iTaiwan request');
-//        console.log('Status: ' + res.statusCode);
-//        console.log('Headers: ' + JSON.stringify(res.headers));
-//        console.log("=================================================");
-//        console.log("");
-//        //res.setEncoding(nu);
-//        var bufferHelper = new BufferHelper();
-//        var resultString = "";
-//        res.on('data', function (body) {
-//            resultString = resultString + body;
-//            console.log('Receive data');
-//        });
-//        res.on('end', function () {
-//            console.log('Data ended');
-            
-//            var resultString2 = iconv.decode(new Buffer(resultString), "big5");
-//            var result = ConvertCSV2JsonObject(resultString2);
-//            var jsonString = JSON.stringify(result);
-//            // Response the data back to client
-//            if (response.connection) {
-//                response.write(jsonString);
-//                response.end();
-//            }
-//        });
-//    });
-//    req.on('error', function (e) {
-//        console.log("");
-//        console.log("=================================================");
-//        //console.log(WeatherReportTableName + targetCity, 'problem with request: ' + e.message);
-//        console.log("=================================================");
-//        console.log("");
-//    });
-
-//    // 加入timeout的機制 若是time則嘗試從資料庫取得最後一筆更新的資料
-//    req.on('socket', function (socket) {
-//        socket.setTimeout(httpRequestTimeout*100);
-//        socket.on('timeout', function () {
-//            console.log("");
-//            console.log("=================================================");
-//            console.log('Time out, abort the weather report request and get data from local database');
-//            console.log("=================================================");
-//            console.log("");
-//            //DBHelper.getDataFromDB(WeatherReportTableName + targetCity, 'Time out', response);
-//            req.abort();
-//            req.end();
-//        });
-//    });
-//}
-function getNearByITaiwanData(response, httpRequestTimeout)
+function getNearByITaiwanData(response, targetLat, targetLon)
 {
-    var iconv = require('iconv-lite');
-    var request = require('request');
-    request({ url: 'http://itaiwan.gov.tw/func/hotspotlist.csv', encoding: null }, function (err, res, body) {
-        if (!err && res.statusCode == 200) {
-            var str = iconv.decode(new Buffer(body), "big5");
-            var result = ConvertCSV2JsonObject(str);
-            var jsonString = JSON.stringify(result);
-            //console.log(str);
-            response.write(jsonString);
-            response.end();
-            
+    fs = require('fs')
+    fs.readFile('AdditionalFile/hotspotlist.csv', 'utf8', function (err, data) {
+        console.log(""); 
+        console.log("=================================================");
+        console.log('Response from near by iTaiwan hotspot request');
+        if (err) {            
+            console.log('Error happened when load local file: ' + err);
         }
-    });
+        else {
+            var resultString = data.replace(/\"/g, '');
+            var result = ConvertCSV2JsonObject(resultString, targetLat, targetLon);
+            console.log("There are " + result.length + " iTaiwan hot spot near by the request position");
+            var jsonString = JSON.stringify(result);
+            // Response the data back to client
+            if (response.connection) {
+                response.write(jsonString);
+                response.end();
+            }
+        }
+        console.log("=================================================");
+        console.log("");
+    });        
+    
 }
-function ConvertCSV2JsonObject(csvString)
+function ConvertCSV2JsonObject(csvString, targetLat, targetLon)
 {
-    var lines = csvString.split("\n");
+    var lines = csvString.split("\r\n");
 
     var result = [];
 
@@ -88,13 +44,15 @@ function ConvertCSV2JsonObject(csvString)
         for (var j = 0; j < headers.length; j++) {
             obj[headers[j]] = currentline[j];
         }
-
-        result.push(obj);
-
+        var currentLat = obj[headers[4]];
+        var currentLon = obj[headers[5]];
+        var distance = Math.abs(currentLat - targetLat) + Math.abs(currentLon - targetLon);
+        if (distance <= 0.005) {
+            obj.Distance = distance;
+            result.push(obj);
+        }
     }
-
-    //return result; //JavaScript object
-    return result; //JSON
+    return result;
 }
 
 exports.getNearByITaiwanData = getNearByITaiwanData;
