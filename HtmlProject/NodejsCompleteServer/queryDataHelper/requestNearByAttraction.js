@@ -30,7 +30,7 @@ function getNearByAttraction(response, targetLat, targetLon)
                         var currentLat = result.LIST.ITEM[index].PY[0];
                         var currentLon = result.LIST.ITEM[index].PX[0];
                         var distance = Math.abs(currentLat - targetLat) + Math.abs(currentLon - targetLon);
-                        if (distance < 0.5) {
+                        if (distance < 0.3) {
                             result.LIST.ITEM[index].Distance = distance;
                             nearAttractions.push(result.LIST.ITEM[index]);
                         }

@@ -61,6 +61,5 @@ function secondLevelPageLoad()
     var x = 0;
     getNearByITaiwanHotSpot(lon, lat);
     getNearByAttraction(lon, lat);
-    var x = 0;
-    x++;
+    initSubPageMap(lat, lon);
 }

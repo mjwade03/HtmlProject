@@ -30,6 +30,7 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="JavaScript\SubPageGoogleMap.js" />
     <Compile Include="JavaScript\GoogleMap.js" />
     <Compile Include="JavaScript\JavaScript.js" />
     <Compile Include="JavaScript\NearByData.js" />
