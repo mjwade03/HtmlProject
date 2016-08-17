@@ -1,4 +1,7 @@
-﻿function initMap() {
+﻿var currentLng;
+var currentLat;
+
+function initMap() {
     geocoder = new google.maps.Geocoder();
     myMap = new google.maps.Map(document.getElementById('my_map'), {
         center: { lat: 25.04763902653048, lng: 121.51715755462646 },
@@ -14,8 +17,8 @@
     google.maps.event.addListener(myMap, "click", function (e) {
         mylatlng = e.latLng;
         //設定標註座標
-        var currentLng = mylatlng.lng();
-        var currentLat = mylatlng.lat();
+        currentLng = mylatlng.lng();
+        currentLat = mylatlng.lat();
         //document.getElementById('inLatLng').innerHTML = "經緯度: " + e.latLng;
         getWeatherStatus(currentLng, currentLat);
         getAddress2(e.latLng);
@@ -105,20 +108,29 @@ function getLocation() {
 function showPosition(position) {
     lat = position.coords.latitude;
     lon = position.coords.longitude;
-
+    currentLat = lat;
+    currentLng = lon;
 
     getWeatherStatus(lon, lat);
 
     latlon = new google.maps.LatLng(lat, lon);
     getAddress2(latlon);
+
+
+    getNearByITaiwanHotSpot(lon, lat);
+    getNearByAttraction(lon, lat);
 }
 
 function showDefaultPosition(lat, lon) {
-
+    currentLat = lat;
+    currentLng = lon;
     getWeatherStatus(lon, lat);
 
     latlon = new google.maps.LatLng(lat, lon);
     getAddress2(latlon);
+
+    getNearByITaiwanHotSpot(lon, lat);
+    getNearByAttraction(lon, lat);
 }
 
 function showError(error) {

@@ -32,6 +32,7 @@
   <ItemGroup>
     <Compile Include="JavaScript\GoogleMap.js" />
     <Compile Include="JavaScript\JavaScript.js" />
+    <Compile Include="JavaScript\NearByData.js" />
     <Compile Include="JavaScript\WeatherData.js" />
     <Compile Include="mongodb.js" />
     <Compile Include="queryDataHelper\DBHelper\mongodHelper.js" />
@@ -43,6 +44,7 @@
     <Compile Include="queryDataHelper\requestUVData.js" />
     <Compile Include="queryDataHelper\requestUVSiteData.js" />
     <Compile Include="queryDataHelper\requestNearByITaiwanData.js" />
+    <Compile Include="queryDataHelper\requestOneWeekWeatherReportData.js" />
     <Compile Include="queryDataHelper\requestWeatherReportData.js" />
     <Compile Include="server.js" />
     <Content Include="AdditionalFile\hotspotlist.csv" />

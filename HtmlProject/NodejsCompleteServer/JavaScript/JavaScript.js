@@ -44,5 +44,23 @@ function load()
 }
 
 function onClick() {
-    window.location.assign("subPage/HTML1.html");
+    window.location.assign("subPage/HTML1.html?Lat=" + currentLat + "&Lon=" + currentLng);
+}
+
+function secondLevelPageLoad()
+{
+    var urlinfo = window.location.href;
+    var len = urlinfo.length;
+    var offset = urlinfo.indexOf("?");
+    var newsidinfo = urlinfo.substr(offset + 1, len);
+    var newsids = newsidinfo.split("&");
+    var newsid = newsids[1];
+
+    var lat = newsids[0].split("=")[1];
+    var lon = newsids[1].split("=")[1];
+    var x = 0;
+    getNearByITaiwanHotSpot(lon, lat);
+    getNearByAttraction(lon, lat);
+    var x = 0;
+    x++;
 }

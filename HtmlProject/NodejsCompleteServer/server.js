@@ -12,6 +12,7 @@ var NearByAttractionData = require("./queryDataHelper/requestNearByAttraction");
 
 // Query來源為html的資料
 var WeatherReportData = require("./queryDataHelper/requestWeatherReportData");
+var OneWeekWeatherReportData = require("./queryDataHelper/requestOneWeekWeatherReportData");
 
 // Query來源為csv的資料
 var NearByITaiwanData = require("./queryDataHelper/requestNearByITaiwanData");
@@ -126,6 +127,20 @@ app.get('/WeatherReport', function (request, response) {
     console.log("");
     WeatherReportData.getWeatherReportData(response, targetCity, httpRequestTimeout);
     
+});
+
+// 查詢目前以及之後兩個時段的天氣預報資料
+app.get('/OneWeekWeatherReport', function (request, response) {
+    response.writeHead(200, { "Access-Control-Allow-Origin": "*", "Content-Type": "text/html; charset=utf-8" });
+    console.log("");
+    console.log("=================================================");
+    console.log("Receive the request to query WeatherReport data");
+    var targetCity = request.query.targetCity;
+    console.log("With parameter: " + targetCity);
+    console.log("=================================================");
+    console.log("");
+    OneWeekWeatherReportData.getOneWeekWeatherReportData(response, targetCity, httpRequestTimeout);
+
 });
 
 // 根據傳入的經緯度查詢周邊的ITaiwan熱點
