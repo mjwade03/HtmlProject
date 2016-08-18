@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-signin-client_id" content="472317944794-q4c8382qgvl5dap4245udi6bb8flbhuv.apps.googleusercontent.com">
     <title>Map and weather information</title>
     <!--Script for google map-->
     <script async defer src="https://maps.google.com/maps/api/js?key=AIzaSyDS7IojxtL7VgMq4UuPVhT0MSQUFXpf1ik&libraries=places"></script>
@@ -17,6 +18,7 @@
     <script type="text/javascript" src="JavaScript/WeatherData.js"></script>
     <script type="text/javascript" src="JavaScript/GoogleMap.js"></script>
     <script type="text/javascript" src="JavaScript/NearByData.js"></script>
+    <script type="text/javascript" src="JavaScript/googleAcclogin.js"></script>
     <script type="text/javascript" src="JavaScript/noty/packaged/jquery.noty.packaged.min.js"></script>
     <link rel="stylesheet" href="css/Style.css" type="text/css">
     <link rel="stylesheet" href="css/animate.css" type="text/css">
@@ -29,6 +31,8 @@
     </header>-->
     <!--<form id="InformationForm">-->
     <div>
+        <div id="gSignIn"></div>
+        <div class="userContent"></div>
         <a href="javascript: void(0)" onclick="onClick()"  target="_parent" hidden>Near by information</a>
         <nav>
             <div id="WeatherInfoDiv" >
@@ -241,6 +245,7 @@
             <th>發布時間</th>
         </tr>
     </table>
+    <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
 
 </body>
 </html>
