@@ -82,7 +82,8 @@ function showAddressOfResult(result, marker) {
         '<b>溫度: </b>' + currentTemp + '<br>' +
         '<b>紫外線等級: </b>' + currentUVStatus + '<br>' +
         '<b>PM2.5等級: </b>' + cuuentPM2_5 + '<br>' +
-        '<b>空氣品質: </b>' + currentAirPollutantStatus;
+        '<b>空氣品質: </b>' + currentAirPollutantStatus + '<br><br>' +
+        '<a href="javascript: void(0)" onclick="onClick()"  target="_parent" style="font-size:150%;">附近資訊</a>';
     popup.setContent(popupContent);
     popup.open(myMap, marker);
 }
@@ -115,10 +116,7 @@ function showPosition(position) {
 
     latlon = new google.maps.LatLng(lat, lon);
     getAddress2(latlon);
-
-
-    getNearByITaiwanHotSpot(lon, lat);
-    getNearByAttraction(lon, lat);
+    
 }
 
 function showDefaultPosition(lat, lon) {

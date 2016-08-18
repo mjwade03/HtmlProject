@@ -44,7 +44,7 @@ function load()
 }
 
 function onClick() {
-    window.location.assign("subPage/HTML1.html?Lat=" + currentLat + "&Lon=" + currentLng);
+    window.location.assign("subPage/NearByInfoPage.html?Lat=" + currentLat + "&Lon=" + currentLng);
 }
 
 function secondLevelPageLoad()

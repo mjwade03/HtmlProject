@@ -58,6 +58,7 @@ function getRealTimeWeatherStatusData(response, httpRequestTimeout)
         console.log('getRealTimeWeatherStatusData problem with request: ' + e.message);
         console.log("=================================================");
         console.log("");
+        DBHelper.getDataFromDB(RealTimeWeatherStatusTableName, 'Socket error', response);
     });
 
     // 加入timeout的機制 若是time則嘗試從資料庫取得最後一筆更新的資料

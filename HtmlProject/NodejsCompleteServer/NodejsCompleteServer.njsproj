@@ -51,7 +51,7 @@
     <Content Include="AdditionalFile\hotspotlist.csv" />
     <Content Include="AdditionalFile\special_poi_sec.xml" />
     <Content Include="css\Style.css" />
-    <Content Include="subPage\HTML1.html" />
+    <Content Include="subPage\NearByInfoPage.html" />
     <Content Include="MainPage.html" />
     <Content Include="package.json" />
     <Content Include="README.md" />

@@ -38,6 +38,7 @@ function getUVData(response, httpRequestTimeout)
         console.log(UVTableName, 'problem with request: ' + e.message);
         console.log("=================================================");
         console.log("");
+        DBHelper.getDataFromDB(UVTableName, 'Socket error', response);
     });
 
     // 加入timeout的機制 若是time則嘗試從資料庫取得最後一筆更新的資料

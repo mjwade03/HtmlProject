@@ -12,7 +12,7 @@ function initSubPageMap(currentLat, currentLon) {
     });
     popup = new google.maps.InfoWindow();
 
-    setSubPageMarkerWithTimeoutAndImage(currentLat * 1, currentLon * 1, "Current position", "Current position", 'Image/you-are-here.png', 100, 50, 50, true);
+    setSubPageMarkerWithTimeoutAndImage(currentLat * 1, currentLon * 1, "Your position", "Your position", 'Image/you-are-here.png', 100, 50, 50, true);
 
     //setSubPageMarkerWithTimeout(currentLat * 1, currentLon * 1, "Current position", 200);
 }

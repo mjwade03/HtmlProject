@@ -34,7 +34,7 @@ function getNearByAttraction(lon, lat)
                     '<b>地址: </b> ' + NearByAttractionArray[index].ADD[0] + '<br>' +
                     '<b>開放時間: </b> ' + NearByAttractionArray[index].OPENTIME[0] + '<br><br>' +
                     NearByAttractionArray[index].DESCRIPTION[0];
-                setSubPageMarkerWithTimeoutAndImage(NearByAttractionArray[index].PY[0] * 1, NearByAttractionArray[index].PX[0] * 1, NearByAttractionArray[index].NAME[0], contentString, 'Image/attraction.png', index * 100, 30, 30, false);
+                setSubPageMarkerWithTimeoutAndImage(NearByAttractionArray[index].PY[0] * 1, NearByAttractionArray[index].PX[0] * 1, NearByAttractionArray[index].NAME[0], contentString, 'Image/attraction.png', index * 100, 50, 50, false);
             }
         }
     });

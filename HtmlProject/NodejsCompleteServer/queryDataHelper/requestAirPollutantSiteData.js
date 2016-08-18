@@ -38,6 +38,7 @@ function getAirPollutantSiteData(response, httpRequestTimeout)
         console.log('getAirPollutantSiteData, problem with request: ' + e.message);
         console.log("=================================================");
         console.log("");
+        DBHelper.getDataFromDB(AirPollutantSiteTableName, 'Socket error', response);          
     });
 
     // 加入timeout的機制 若是time則嘗試從資料庫取得最後一筆更新的資料
