@@ -14,7 +14,8 @@
     "animate": "1.0.0",
     "iconv-lite": "0.4.13",
     "bufferhelper": "0.2.1",
-    "request": "2.74.0"
+    "request": "2.74.0",
+    "jquery": "3.1.0"
   },
   "author": {
     "name": "eason"

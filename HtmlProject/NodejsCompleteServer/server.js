@@ -25,7 +25,7 @@ mongodb.open();
 
 
 // 提出http request去要資料的time out時間 以ms為單位
-var httpRequestTimeout = 2000;
+var httpRequestTimeout = 10;
 
 
 

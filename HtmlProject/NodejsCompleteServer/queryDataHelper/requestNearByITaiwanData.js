@@ -2,6 +2,8 @@
 var DBHelper = require("./DBHelper/mongodHelper");
 var BufferHelper = require('bufferhelper');
 
+var iTiwanDistance = 0.005;
+
 function getNearByITaiwanData(response, targetLat, targetLon)
 {
     fs = require('fs')
@@ -47,7 +49,7 @@ function ConvertCSV2JsonObject(csvString, targetLat, targetLon)
         var currentLat = obj[headers[4]];
         var currentLon = obj[headers[5]];
         var distance = Math.abs(currentLat - targetLat) + Math.abs(currentLon - targetLon);
-        if (distance <= 0.005) {
+        if (distance <= iTiwanDistance) {
             obj.Distance = distance;
             result.push(obj);
         }

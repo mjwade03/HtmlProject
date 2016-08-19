@@ -16,7 +16,7 @@ function getNearByITaiwanHotSpot(lon, lat)
                 var contentString = '<b>單位名稱: </b> ' + NearByHotSpotArray[index].Name + '<br>' +
                     '<b>地址: </b>' + NearByHotSpotArray[index].Address;
 
-                setSubPageMarkerWithTimeoutAndImage(NearByHotSpotArray[index].Lat, NearByHotSpotArray[index].Lon, NearByHotSpotArray[index].Name, contentString, 'Image/iTaiwan2.png', index * 100, 30, 30, false);      
+                setSubPageMarkerWithTimeoutAndImage(NearByHotSpotArray[index].Lat, NearByHotSpotArray[index].Lon, NearByHotSpotArray[index].Name, contentString, 'Image/iTaiwan2.png', index * 50, 30, 30, false);      
             }
         }
     });
@@ -30,11 +30,20 @@ function getNearByAttraction(lon, lat)
         success: function (response) {
             NearByAttractionArray = JSON.parse(response);
             for (var index = 0; index < NearByAttractionArray.length; index++) {
-                var contentString = '<b>景點名稱: </b> ' + NearByAttractionArray[index].NAME[0] + '<br>' +
+                var contentString = '<b style="color:red; font-size:150%;">' + NearByAttractionArray[index].NAME[0] + '</b>' + '<br>' +
+                    NearByAttractionArray[index].DESCRIPTION[0] + '<br><br>' +
+                    '<b style="color:blue; font-size:120%;">景點資訊</b><br>' +
                     '<b>地址: </b> ' + NearByAttractionArray[index].ADD[0] + '<br>' +
                     '<b>開放時間: </b> ' + NearByAttractionArray[index].OPENTIME[0] + '<br><br>' +
-                    NearByAttractionArray[index].DESCRIPTION[0];
-                setSubPageMarkerWithTimeoutAndImage(NearByAttractionArray[index].PY[0] * 1, NearByAttractionArray[index].PX[0] * 1, NearByAttractionArray[index].NAME[0], contentString, 'Image/attraction.png', index * 100, 50, 50, false);
+
+                    '<b style="color:blue; font-size:120%;">即時天氣資訊</b><br>' +
+                    '<b>溫度: </b> ' + NearByAttractionArray[index].Temperature + '<br>' +
+                    '<b>紫外線: </b> ' + getUVLevel(NearByAttractionArray[index].UVI) + '<br>' +
+                    '<b>PM2.5: </b> ' + getPM2_5Level(NearByAttractionArray[index].PM2_5) + '<br>' +
+                    '<b>空氣品質: </b> ' + NearByAttractionArray[index].AirStatus;
+                    
+                    
+                setSubPageMarkerWithTimeoutAndImage(NearByAttractionArray[index].PY[0] * 1, NearByAttractionArray[index].PX[0] * 1, NearByAttractionArray[index].NAME[0], contentString, 'Image/attraction.png', index * 50, 50, 50, false);
             }
         }
     });

@@ -22,6 +22,21 @@ function getDataFromDB(tableName, reasonToQueryFromDB, response) {
             }
         }
     });
+
+    // For test only
+    mongodb.find(tableName, "SiteName", "斗六", function (err, data)
+    {
+
+        if (data)
+        {
+            console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Find data in table start");
+            console.log(tableName);
+            console.log(data.SiteName);
+            console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Find data in table end");
+        }
+        
+
+    });
     console.log("=================================================");
     console.log("");
 }
@@ -34,5 +49,17 @@ function saveDataToDB(tableName, dataString)
     }
 }
 
+function getCompleteTableFromDB(tableName, callback)
+{
+    mongodb.getDBToData(tableName, callback);
+}
+function findSpecificDataInDB(tableName, fieldName, fieldValue, callback)
+{
+    mongodb.find(tableName, fieldName, fieldValue, callback);
+}
 exports.getDataFromDB = getDataFromDB;
 exports.saveDataToDB = saveDataToDB;
+exports.saveDataToDB = saveDataToDB;
+
+exports.getCompleteTableFromDB = getCompleteTableFromDB;
+exports.findSpecificDataInDB = findSpecificDataInDB;

@@ -66,6 +66,7 @@
     <Folder Include="typings\" />
     <Folder Include="typings\globals\" />
     <Folder Include="typings\globals\express\" />
+    <Folder Include="typings\globals\jquery\" />
     <Folder Include="typings\globals\mongodb\" />
     <Folder Include="typings\globals\node\" />
     <Folder Include="typings\globals\request\" />
@@ -73,6 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="typings\globals\express\index.d.ts" />
+    <TypeScriptCompile Include="typings\globals\jquery\index.d.ts" />
     <TypeScriptCompile Include="typings\globals\mongodb\index.d.ts" />
     <TypeScriptCompile Include="typings\globals\node\index.d.ts" />
     <TypeScriptCompile Include="typings\globals\request\index.d.ts" />
