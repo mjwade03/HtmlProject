@@ -1,0 +1,297 @@
+﻿header, footer {
+    padding: 1em;
+    color: purple;
+    clear: left;
+    text-align: center;
+}
+
+@media screen and (min-width:1000px) {
+  nav {
+    float: left;
+    width: 80%;
+  }
+  section {
+    margin-left: auto;
+    height: 100%;
+  }
+  #countyInformation{
+      float:left;
+  }
+  #WeatherInfoDiv{
+      padding-left:60px; padding-right:60px;
+  }
+  
+}
+@media screen and (max-width:999px) {
+  nav table {
+    display: inline;
+  }
+  h3{
+      visibility: hidden;
+  }
+  #countyInformation{
+      float:none;
+  }
+    #WeatherInfoDiv{
+      padding-left:10px; padding-right:10px;
+  }
+}
+@media screen and (min-height:800px) {
+    #MainInfoDiv{
+        height:40vh;
+
+    }
+    #ReserverAreaDiv{
+        height:15vh;
+
+    }
+}
+@media screen and (max-height:799px) {
+        #MainInfoDiv{
+        height:auto;
+
+    }
+    #ReserverAreaDiv{
+        height:15vh;
+
+    }
+}
+
+/*nav {
+    float: left;
+    margin: 0;
+    padding: 1em;
+}*/
+
+article {
+    margin-left: 170px;
+    border-left: 1px solid gray;
+    padding: 1em;
+    overflow: hidden;
+}
+
+/*table.dataTable,
+table.dataTable tr,
+table.dataTable td {
+    color: red;
+    font-weight: bold;
+    font-size:18px;
+    font-family:Microsoft JhengHei;
+    border: 1px solid black;
+    text-align: center;
+    border-collapse: collapse;
+
+}*/
+div.littleHelperField{
+    color:#434343;
+    font-family:Microsoft JhengHei;
+    font-size:16px;
+    font-weight:lighter;
+    line-height:2.0;
+}
+div.currentTempField{
+    font-size:60px;
+    font-weight: bold;
+    font-family:Microsoft JhengHei;
+    color:white;
+    text-shadow:3px 3px 3px #000000;
+    padding-top: 0px;
+}
+div.currentCountyField{
+    font-size:70px;
+    font-family:Microsoft JhengHei;
+    color:black;
+    padding-right:20px;
+    padding-left:0px;
+    padding-bottom:20px;
+    padding-top:10px;
+}
+div.reserveSpaceShort{
+    width:20px;
+
+}
+div.reserveSpaceLong{
+    height:300px;
+
+}
+div.dataTableBorder {
+    border:1pt solid rgba(80%,80%,80%,0.9);
+    border-radius: 5px;
+    display: inline-block;
+    background: rgba(0%,0%,0%,0.2);
+}
+
+/*Style of data table*/
+table.dataTable{
+    border-collapse:collapse;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    display:none;
+}
+table.dataTable tr:nth-child(odd){
+    height:10px;
+}
+table.dataTable tr:nth-child(even){
+    background-color: lightgray;
+}
+table.dataTable th {
+    font-size:16px;
+    font-weight:lighter;
+    font-family:Microsoft JhengHei;
+	padding:10px;
+	text-align: center;
+    color: black;
+}
+table.dataTable td {
+    font-size:16px;
+    font-weight:lighter;
+    font-family:Microsoft JhengHei;
+	padding:10px;
+    text-align: left;
+    color: black;
+}
+
+
+table.realTimeWeatherStatusTable,
+table.realTimeWeatherStatusTable tr,
+table.realTimeWeatherStatusTable th{
+    font-size:16px;
+    font-weight:lighter;
+    font-family:Microsoft JhengHei;
+    color: #828282;
+    text-align:left;
+    padding-right:30px;
+}
+table.realTimeWeatherStatusTable td {
+    font-size:40px;
+    font-family:Microsoft JhengHei;
+    text-align:left;
+    padding-right:30px;
+}
+
+#MainBody{
+    /*background-image:url(..//Image/01d29ccaf765eff5ce.jpg);
+    background-repeat:no-repeat;
+    background-size:cover;*/
+    background-color:#FCFAF3;
+}
+
+#InformationForm{
+    color: red;
+    font-weight: bold;
+    font-size:18px;
+    font-family:Microsoft JhengHei;
+}
+
+header.outset {border-style: outset;}
+
+img
+{
+
+  display:table-cell;
+  vertical-align:middle;
+  margin:auto;
+}
+
+.controls {
+  margin-top: 10px;
+  border: 1px solid transparent;
+  border-radius: 2px 0 0 2px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  height: 32px;
+  outline: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+#pac-input {
+  background-color: #fff;
+  font-family: Roboto;
+  font-size: 15px;
+  font-weight: 300;
+  margin-left: 12px;
+  padding: 0 11px 0 13px;
+  text-overflow: ellipsis;
+  width: 300px;
+}
+
+#pac-input:focus {
+  border-color: #4d90fe;
+}
+
+.pac-container {
+  font-family: Roboto;
+}
+
+#type-selector {
+  color: #fff;
+  background-color: #4d90fe;
+  padding: 5px 11px 0px 11px;
+}
+
+#type-selector label {
+  font-family: Roboto;
+  font-size: 13px;
+  font-weight: 300;
+}
+#my_map{
+    width: auto;
+    height: 800px;
+}
+
+.profile{
+    border: 3px solid #B7B7B7;
+    padding: 10px;
+    margin-top: 10px;
+    width: 350px;
+    background-color: #F7F7F7;
+    height: 160px;
+}
+.profile p{margin: 0px 0px 10px 0px;}
+.head{margin-bottom: 10px;}
+.head a{float: right;}
+.profile img{width: 100px;float: left;margin: 0px 10px 10px 0px;}
+.proDetails{float: left;}
+
+
+
+
+
+
+
+
+
+
+
+div + p {
+     color: red;
+} 
+
+/*
+  Hide radio button (the round disc)
+  we will use just the label to create pushbutton effect
+*/
+input[type=radio] {
+    display:none; 
+    margin:10px;
+}
+
+/*
+  Change the look'n'feel of labels (which are adjacent to radiobuttons).
+  Add some margin, padding to label
+*/
+input[type=radio] + label {
+    display:inline-block;
+    padding: 4px 12px;
+    background-color: #e7e7e7;
+    border-color: #ddd;
+}
+/*
+ Change background color for label next to checked radio button
+ to make it look like highlighted button
+*/
+input[type=radio]:checked + label { 
+   background-image: none;
+    background-color:#d0d0d0;
+}

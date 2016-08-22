@@ -50,6 +50,7 @@
     <Compile Include="server.js" />
     <Content Include="AdditionalFile\hotspotlist.csv" />
     <Content Include="AdditionalFile\special_poi_sec.xml" />
+    <Content Include="css\NearByInfoPageStyle.css" />
     <Content Include="css\Style.css" />
     <Content Include="subPage\NearByInfoPage.html" />
     <Content Include="MainPage.html" />

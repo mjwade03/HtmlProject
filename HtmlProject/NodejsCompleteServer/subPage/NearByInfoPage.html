@@ -18,7 +18,7 @@
     <script type="text/javascript" src="../JavaScript/SubPageGoogleMap.js"></script>
     <script type="text/javascript" src="../JavaScript/NearByData.js"></script>
     <script type="text/javascript" src="../JavaScript/noty/packaged/jquery.noty.packaged.min.js"></script>
-    <link rel="stylesheet" href="../css/Style.css" type="text/css">
+    <link rel="stylesheet" href="../css/NearByInfoPageStyle.css" type="text/css">
     <link rel="stylesheet" href="../css/animate.css" type="text/css">
 
 
@@ -51,7 +51,33 @@
         </table>
     </div>
 
+    <!--<table>
+        <tr>
+            <td >
+                <div id="my_map" ></div>
+            </td>
+            <td >
+                <div id="directions_panel"></div>
+            </td>
+        </tr>
+    </table>-->
 
-    <div id="my_map"></div>
+    <nav>
+        <div id="my_map"></div>
+    </nav>
+    <div style="width:auto;">
+        <div id="DirectionMethodDiv" style="display:none;font-family:'Microsoft JhengHei'; background-color:#e7e7e7;">
+            <input type="radio" id="drivingBtn" name="radios" value="DRIVING" onclick="onDirectiveTypeClick(this);" checked>
+            <label for="drivingBtn">開車</label>
+            <input type="radio" id="bicyclingBtn" name="radios" value="BICYCLING" onclick="onDirectiveTypeClick(this);" >
+            <label for="bicyclingBtn">自行車</label>
+            <input type="radio" id="transitBtn" name="radios" value="TRANSIT" onclick="onDirectiveTypeClick(this);">
+            <label for="transitBtn">大眾運輸</label> 
+            <input type="radio" id="walkingBtn" name="radios" value="WALKING" onclick="onDirectiveTypeClick(this);">
+            <label for="walkingBtn">步行</label>
+        </div>
+        <div id="emptyResultDiv"style="visibility:collapse;font-family:'Microsoft JhengHei'; font-size:150%; text-align:center; margin-top:10px;">查無路線</div>
+        <div id="directions_panel"></div>
+    </div>
 </body>
 </html>
