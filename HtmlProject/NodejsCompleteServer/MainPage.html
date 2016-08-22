@@ -13,12 +13,15 @@
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
     <script src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script src="https://plus.google.com/js/client:platform.js" async defer></script>
+    <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
 
     <script type="text/javascript" src="JavaScript/JavaScript.js"></script>
     <script type="text/javascript" src="JavaScript/WeatherData.js"></script>
     <script type="text/javascript" src="JavaScript/GoogleMap.js"></script>
     <script type="text/javascript" src="JavaScript/NearByData.js"></script>
     <script type="text/javascript" src="JavaScript/googleAcclogin.js"></script>
+    <script type="text/javascript" src="JavaScript/facebookAcclogin.js"></script>
     <script type="text/javascript" src="JavaScript/noty/packaged/jquery.noty.packaged.min.js"></script>
     <link rel="stylesheet" href="css/Style.css" type="text/css">
     <link rel="stylesheet" href="css/animate.css" type="text/css">
@@ -26,13 +29,35 @@
 
 
 <body id="MainBody" onload="load()" >
-    <!--<header>
-        <h1>紫外線&氣象站</h1>
-    </header>-->
+    <header>
+<!--        <h1>紫外線&氣象站</h1>-->
+        <!--<fb:login-button scope="public_profile,email" onlogin="checkLoginState();"/>-->
+        <!-- Container with the Sign-In button. -->
+        <!--<div id="gConnect" class="button">-->
+            <!--<button class="g-signin"
+                    data-scope="email"
+                    data-clientid="472317944794-q4c8382qgvl5dap4245udi6bb8flbhuv.apps.googleusercontent.com"
+                    data-callback="onSignInCallback"
+                    data-theme="dark"
+                    data-cookiepolicy="single_host_origin"></button>-->
+            <!-- Textarea for outputting data -->
+            <!--<div id="response" class="hide">
+                <textarea id="responseContainer" style="width:100%; height:150px"></textarea>
+            </div>-->
+        <!--</div>-->
+        <div class="userContent"></div>
+        <div id="SignIn">
+            <div id="googleSignIn">
+                <div id="gSignIn"></div>
+            </div>
+            <div id="facebookSignIn">
+                <div class="fb-login-button" data-max-rows="1" data-size="xlarge" data-show-faces="false" data-auto-logout-link="true" onlogin="checkLoginState();"></div>
+                <div id="status" />
+            </div>
+        </div>
+    </header>
     <!--<form id="InformationForm">-->
     <div>
-        <div id="gSignIn"></div>
-        <div class="userContent"></div>
         <a href="javascript: void(0)" onclick="onClick()"  target="_parent" hidden>Near by information</a>
         <nav>
             <div id="WeatherInfoDiv" >
@@ -245,7 +270,9 @@
             <th>發布時間</th>
         </tr>
     </table>
-    <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+    <footer>
+
+    </footer>
 
 </body>
 </html>
