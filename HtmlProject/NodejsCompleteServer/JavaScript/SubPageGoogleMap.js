@@ -40,6 +40,29 @@ function initSubPageMap(currentLat, currentLon) {
     setSubPageMarkerWithTimeoutAndImage(currentLat * 1, currentLon * 1, "Your position", "Your position", 'Image/you-are-here.png', 100, 50, 50, true);
 
     //setSubPageMarkerWithTimeout(currentLat * 1, currentLon * 1, "Current position", 200);
+
+    $("li").click(function (e) {
+        e.preventDefault();
+        $("li").removeClass("selected");
+        $(this).addClass("selected");
+        var value = $(this)[0].id;
+
+        switch (value) {
+            case "DRIVING":
+                currentDirectionsTravelMode = google.maps.DirectionsTravelMode.DRIVING;
+                break;
+            case "BICYCLING":
+                currentDirectionsTravelMode = google.maps.DirectionsTravelMode.BICYCLING;
+                break;
+            case "TRANSIT":
+                currentDirectionsTravelMode = google.maps.DirectionsTravelMode.TRANSIT;
+                break;
+            case "WALKING":
+                currentDirectionsTravelMode = google.maps.DirectionsTravelMode.WALKING;
+                break;
+        }
+        calcRoute(new google.maps.LatLng(srcLat, srcLng), currentTargetPosition, currentDirectionsTravelMode);
+    });
 }
 
 function calcRoute(pFrom, pEnd, targetTravelMode) {
@@ -54,8 +77,8 @@ function calcRoute(pFrom, pEnd, targetTravelMode) {
     directionsService.route(request, function (response, status) {
         if (status == google.maps.DirectionsStatus.OK) {
             directionsDisplay.setDirections(response);
-            document.getElementById('emptyResultDiv').style.visibility = 'collapse';
-            document.getElementById('directions_panel').style.visibility = 'visible';
+            document.getElementById('emptyResultDiv').style.display = 'none';
+            document.getElementById('directions_panel').style.display = 'block';
             //alert(directionsDisplay.getDirections().routes[0].legs[0].start_address);//起點地點：330台灣桃園縣桃園市興華路23號
             //alert(directionsDisplay.getDirections().routes[0].legs[0].end_address);		//alert(directionsDisplay.getDirections().routes[0].legs[0].distance.text);//24.8公里
             //alert(directionsDisplay.getDirections().routes[0].legs[0].duration.text);//31分鐘
@@ -66,8 +89,8 @@ function calcRoute(pFrom, pEnd, targetTravelMode) {
         }
         else
         {
-            document.getElementById('emptyResultDiv').style.visibility = 'visible';
-            document.getElementById('directions_panel').style.visibility = 'hidden';
+            document.getElementById('emptyResultDiv').style.display = 'block';
+            document.getElementById('directions_panel').style.display = 'none';
         }
     });
 
@@ -126,7 +149,7 @@ function setSubPageMarkerWithTimeoutAndImage(lat, lon, displayTitle, displayCont
             popup.open(myMap, this);
             $("#DirectionMethodDiv").fadeIn(1000);
 
-            document.getElementById('drivingBtn').checked = true;                                   
+            //document.getElementById('drivingBtn').checked = true;                                   
             currentTargetPosition = this.position;
             calcRoute(new google.maps.LatLng(srcLat, srcLng), this.position, google.maps.DirectionsTravelMode.DRIVING);
 
