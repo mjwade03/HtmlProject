@@ -2,7 +2,17 @@
     padding: 1em;
     color: purple;
     clear: left;
-    text-align: center;
+    text-align: left;
+}
+
+#googleSignIn{
+    float: left;
+}
+#facebookSignIn{
+    float: right;
+}
+#SignIn{
+    float: right;
 }
 
 @media screen and (min-width:900px) {
@@ -244,12 +254,12 @@ img
     border: 3px solid #B7B7B7;
     padding: 10px;
     margin-top: 10px;
-    width: 350px;
+    width: 250px;
     background-color: #F7F7F7;
-    height: 160px;
+    height: 80px;
 }
 .profile p{margin: 0px 0px 10px 0px;}
 .head{margin-bottom: 10px;}
 .head a{float: right;}
-.profile img{width: 100px;float: left;margin: 0px 10px 10px 0px;}
+.profile img{width: 50px;float: left;margin: 0px 10px 10px 0px;}
 .proDetails{float: left;}
