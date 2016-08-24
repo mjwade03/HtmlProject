@@ -176,7 +176,8 @@ function generateFinalData(response)
             {
                 var distance = Math.abs(currentLat - realTimeWeatherStatusArray[weatherIndex].lat[0] * 1) + Math.abs(currentLon - realTimeWeatherStatusArray[weatherIndex].lon[0] * 1);
                 if (distance < minDistance) {
-                    attractionArray[attractionIndex].Temperature = realTimeWeatherStatusArray[weatherIndex].weatherElement[4].elementValue[0].value[0];
+                    if (realTimeWeatherStatusArray[weatherIndex].weatherElement[4].elementValue[0].value[0] > 0)
+                        attractionArray[attractionIndex].Temperature = realTimeWeatherStatusArray[weatherIndex].weatherElement[4].elementValue[0].value[0];
                 }
             }
 
