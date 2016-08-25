@@ -187,9 +187,6 @@ app.get('/Slide', function (request, response) {
 
 // 紀錄登入資料
 app.post('/LoginData', function (request, response) {
-    //if (!request.body) return request.sendStatus(400);
-    //console.log('body: ' + request.body);
-    //GoogleAccountData.saveDataToDB("LoginData", request.body);
     var jsonString ="";
     request.on('data', function (chunk) {
         jsonString = jsonString + chunk;
@@ -203,7 +200,7 @@ app.post('/LoginData', function (request, response) {
         console.log("=================================================");
         console.log("");
         response.end('Test LoginData'); //作出回應
-        AccountData.saveDataToDB("LoginData", jsonString);
+        AccountData.loginDataToDB("LoginData", jsonString);
     });
 });
 

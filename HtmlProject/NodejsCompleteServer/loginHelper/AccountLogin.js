@@ -1,6 +1,6 @@
 ﻿var mongodb = require("../mongodb");
 
-function saveDataToDB(tableName, dataString) {
+function loginDataToDB(tableName, dataString) {
     if (dataString && dataString.length > 2) {
         var data = JSON.parse(dataString);
         var querykey = { 'id': data.id };
@@ -12,11 +12,14 @@ function saveDataToDB(tableName, dataString) {
             else {
                 mongodb.insert(tableName, JSON.parse(dataString));
             }
+            //紀錄最新登入者
+            var currentlogin = { 'currentUser': data.id };
         });
     }
 }
 
 
 
-exports.saveDataToDB = saveDataToDB;
+
+exports.loginDataToDB = loginDataToDB;
 

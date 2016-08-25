@@ -1,4 +1,6 @@
-  function statusChangeCallback(response) {
+﻿var loginuserdata;
+
+function statusChangeCallback(response) {
     console.log('statusChangeCallback');
     // The response object is returned with a status field that lets the
     // app know the current login status of the person.
@@ -12,11 +14,28 @@
       // The person is logged into Facebook, but not your app.
       document.getElementById('status').innerHTML = 'Please log ' +
         'into this app.';
+        generate('error', '登入失敗!!!');
     } else {
       // The person is not logged into Facebook, so we're not sure if
       // they are logged into this app or not.
       document.getElementById('status').innerHTML = 'Please log ' +
         'into Facebook.';
+        if (loginuserdata) {
+            loginuserdata.islogin = 'N';
+            // And POST send the resp over to the server
+            $.ajax({
+                type: 'POST',
+                url: node_jsServerUrl + "LoginData",
+                data: JSON.stringify(loginuserdata),
+                dataType: 'text',
+                success: function (data) {
+                    generate('success', 'Facebook 登出成功!!!');
+                    console.log('success');
+                    console.log(JSON.stringify(data));
+                },
+            });
+        }
+
         $('#gSignIn').slideDown('slow');
     }
   }
@@ -85,6 +104,7 @@ function SignInAPI() {
         post_data.id = response.id;
         post_data.name = response.name;
         post_data.email = response.email;
+        post_data.islogin = 'Y';
         // And POST send the resp over to the server
         $.ajax({
             type: 'POST',
@@ -92,8 +112,10 @@ function SignInAPI() {
             data: JSON.stringify(post_data),
             dataType: 'text',
             success: function (data) {
+                generate('success', 'Facebook 登入成功!!!');
                 console.log('success');
                 console.log(JSON.stringify(data));
+                loginuserdata = post_data;
             },
         });
 
@@ -108,10 +130,4 @@ function fbSignOut() {
             $('.userContent').html('');
         }
     });
-
-    //auth2.signOut().then(function () {
-    //    $('.userContent').html('');
-    //    $('#gSignIn').slideDown('slow');
-    //    $('#facebookSignIn').slideDown('slow');
-    //});
 }

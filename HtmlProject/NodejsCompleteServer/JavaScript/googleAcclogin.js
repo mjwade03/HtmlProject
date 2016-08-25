@@ -1,3 +1,4 @@
+﻿var loginuserdata;
 
 function onSignIn(googleUser) {
     var profile = googleUser.getBasicProfile();
@@ -31,6 +32,7 @@ function onSuccess(googleUser) {
             post_data.id = resp.id;
             post_data.name = resp.name.givenName;
             post_data.email = resp.emails[0].value;
+            post_data.islogin = 'Y';
             //var respjson = JSON.stringify(resp);
             // And POST send the resp over to the server
             $.ajax({
@@ -39,8 +41,10 @@ function onSuccess(googleUser) {
                 data: JSON.stringify(post_data),
                 dataType: 'text',
                 success: function (data) {
+                    generate('success', "Google+ 登入成功!!!");
                     console.log('success');
                     console.log(JSON.stringify(data));
+                    loginuserdata = post_data;
                 },
             });
         });
@@ -76,7 +80,7 @@ function onSuccess(googleUser) {
 }
 
 function onFailure(error) {
-    alert(error);
+    generate('error', error);
 }
 
 function renderButton() {
@@ -94,6 +98,18 @@ function renderButton() {
 function signOut() {
     var auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function () {
+        loginuserdata.islogin = 'N';
+        $.ajax({
+            type: 'POST',
+            url: node_jsServerUrl + "LoginData",
+            data: JSON.stringify(loginuserdata),
+            dataType: 'text',
+            success: function (data) {
+                generate('success', "Google+ 登出成功!!!");
+                console.log('success');
+            },
+        });
+
         $('.userContent').html('');
         $('#gSignIn').slideDown('slow');
         $('#facebookSignIn').slideDown('slow');
