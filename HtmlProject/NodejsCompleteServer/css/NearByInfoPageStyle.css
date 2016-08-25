@@ -14,13 +14,13 @@
     margin-left: auto;
     height: 100%;
   }
-  #countyInformation{
-      float:left;
+  #directions_panel{
+      height:700px;
+      overflow:scroll;
   }
-  #WeatherInfoDiv{
-      padding-left:60px; padding-right:60px;
+  #DirectionMethodDiv{
+      margin-top:-5px;
   }
-  
 }
 @media screen and (max-width:999px) {
   nav table {
@@ -29,11 +29,8 @@
   h3{
       visibility: hidden;
   }
-  #countyInformation{
-      float:none;
-  }
-    #WeatherInfoDiv{
-      padding-left:10px; padding-right:10px;
+  #DirectionMethodDiv{
+      margin-left:15px;
   }
 }
 @media screen and (min-height:800px) {
@@ -314,7 +311,7 @@ input[type=radio]:checked + label {
 .tabrow {
   text-align:left;
   list-style: none;
-  padding: 0;
+  padding-left: 10px;
   line-height: 35px;
   height: auto;
   overflow:auto;
