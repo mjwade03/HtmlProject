@@ -25,7 +25,7 @@ mongodb.open();
 
 
 // 提出http request去要資料的time out時間 以ms為單位
-var httpRequestTimeout = 10;
+var httpRequestTimeout = 2000;
 
 
 
@@ -204,7 +204,25 @@ app.get('/123456', function (request, response) { //我們要處理URL為 "/" �
     response.end('Test here 2'); //作出回應
 });
 
+app.post('/PostTest', function (request, response) { //我們要處理URL為 "/" 的HTTP GET請求
+    response.writeHead(200, { "Access-Control-Allow-Origin": "*", "Content-Type": "text/html; charset=utf-8" });
+    var jsonString = "";
+    request.on('data', function (chunk) {
+        jsonString = jsonString + chunk;
+    });
 
+    request.on('end', function () {
+        var x = 0;
+        x++;
+    });
+
+    console.log("");
+    console.log("=================================================");
+    console.log("Receive the request to query test data");
+    console.log("=================================================");
+    console.log("");
+    response.end('Test here 2'); //作出回應
+});
 
 
 // 將server開在3000 port上

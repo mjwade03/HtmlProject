@@ -127,8 +127,6 @@ function showDefaultPosition(lat, lon) {
     latlon = new google.maps.LatLng(lat, lon);
     getAddress2(latlon);
 
-    getNearByITaiwanHotSpot(lon, lat);
-    getNearByAttraction(lon, lat);
 }
 
 function showError(error) {
