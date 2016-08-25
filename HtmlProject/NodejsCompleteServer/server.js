@@ -23,6 +23,8 @@ var app = express();
 var mongodb = require("./mongodb");
 mongodb.open();
 
+// Login
+var AccountData = require("./loginHelper/AccountLogin");
 
 // 提出http request去要資料的time out時間 以ms為單位
 var httpRequestTimeout = 2000;
@@ -182,6 +184,29 @@ app.get('/Slide', function (request, response) {
     console.log("=================================================");
     console.log("");
 });
+
+// 紀錄登入資料
+app.post('/LoginData', function (request, response) {
+    //if (!request.body) return request.sendStatus(400);
+    //console.log('body: ' + request.body);
+    //GoogleAccountData.saveDataToDB("LoginData", request.body);
+    var jsonString ="";
+    request.on('data', function (chunk) {
+        jsonString = jsonString + chunk;
+    });
+
+    request.on('end', function () {
+        response.writeHead(200, { "Access-Control-Allow-Origin": "*", "Content-Type": "text/html; charset=utf-8" });
+        console.log("");
+        console.log("=================================================");
+        console.log("Receive the request to Login data");
+        console.log("=================================================");
+        console.log("");
+        response.end('Test LoginData'); //作出回應
+        AccountData.saveDataToDB("LoginData", jsonString);
+    });
+});
+
 
 // 保留做為測試用
 app.get('/test', function (request, response) { //我們要處理URL為 "/" 的HTTP GET請求
