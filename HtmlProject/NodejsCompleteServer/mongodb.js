@@ -109,6 +109,94 @@ function find(tbName, queryField, queryValue, callback) {
     });
 }
 
+function findField(tbName, queryField, callback) {
+    getConnection(function (err, db) {
+        if (!err) {
+            db.collection(tbName, function (err, collection) {
+                collection.findOne(queryField, function (err, item) {
+                    if (!err) {
+                        console.log(tbName + " find success!");
+                        callback(err, item);
+                    }
+                    else {
+                        console.log("TableName:" + tbName + "query:" + queryField + "is not Find!!!");
+                        console.log("ErrorMessage:" + err.message);
+                        callback(err, null);
+                    }
+                });
+            });
+        }
+        else
+            callback(err, null);
+    });
+}
+
+function findId(tbName, querykey, callback) {
+    getConnection(function (err, db) {
+        if (!err) {
+            db.collection(tbName, function (err, collection) {
+                //var query_doc = { 'id': queryValue };
+                collection.findOne(querykey, function (err, item) {
+                    if (!err) {
+                        console.log(tbName + " find success!");
+                        callback(err, item);
+                    }
+                    else {
+                        console.log("TableName:" + tbName + "query:" + querykey + "is not Find!!!");
+                        console.log("ErrorMessage:" + err.message);
+                        callback(err, null);
+                    }
+                });
+            });
+        }
+        else
+            callback(err, null);
+    });
+}
+
+function updateId(tbName, querykey, updata) {
+    getConnection(function (err, db) {
+        if (!err) {
+            db.collection(tbName, function (err, collection) {
+                if (!err) {
+                    //collection.update(updata);
+                    collection.update(querykey, updata, function (err, item) {
+                        if (!err) {
+                            console.log(tbName + " update success!");
+                        }
+                        else
+                            console.log("ErrorMessage:" + err.message);
+                    });
+                }
+                else {
+                    console.log("ErrorMessage:" + err.message);
+                }
+            });
+        }
+    });
+}
+
+function replaceId(tbName, querykey, updata) {
+    getConnection(function (err, db) {
+        if (!err) {
+            db.collection(tbName, function (err, collection) {
+                if (!err) {
+                    collection.replaceOne(querykey, updata, function (err, item) {
+                        if (!err) {
+                            console.log(tbName + " replace success!");
+                        }
+                        else
+                            console.log("ErrorMessage:" + err.message);
+                    });
+                }
+                else {
+                    console.log("ErrorMessage:" + err.message);
+                }
+            });
+        }
+    });
+}
+
 function findAll(tbName, callback) {
     getConnection(function (err, db) {
         if (!err) {
@@ -152,9 +240,13 @@ function getDBToData(tableName, callback) {
 
 exports.open = open;
 exports.insert = insert;
-exports.updata = update;
+exports.update = update;
+exports.updateId = updateId;
+exports.replaceId = replaceId;
 exports.remove = remove;
 exports.find = find;
+exports.findField = findField;
+exports.findId = findId;
 exports.findAll = findAll;
 exports.SetDataToDB = SetDataToDB;
 exports.getDBToData = getDBToData;

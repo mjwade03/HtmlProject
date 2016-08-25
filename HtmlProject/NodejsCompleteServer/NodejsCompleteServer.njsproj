@@ -30,6 +30,7 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="loginHelper\AccountLogin.js" />
     <Compile Include="JavaScript\SubPageGoogleMap.js" />
     <Compile Include="JavaScript\GoogleMap.js" />
     <Compile Include="JavaScript\JavaScript.js" />
@@ -61,11 +62,13 @@
     <Folder Include="css\" />
     <Folder Include="JavaScript\" />
     <Folder Include="AdditionalFile\" />
+    <Folder Include="loginHelper\" />
     <Folder Include="queryDataHelper\DBHelper\" />
     <Folder Include="subPage\" />
     <Folder Include="queryDataHelper\" />
     <Folder Include="typings\" />
     <Folder Include="typings\globals\" />
+    <Folder Include="typings\globals\body-parser\" />
     <Folder Include="typings\globals\express\" />
     <Folder Include="typings\globals\jquery\" />
     <Folder Include="typings\globals\mongodb\" />
@@ -74,6 +77,7 @@
     <Folder Include="typings\globals\xml2js\" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="typings\globals\body-parser\index.d.ts" />
     <TypeScriptCompile Include="typings\globals\express\index.d.ts" />
     <TypeScriptCompile Include="typings\globals\jquery\index.d.ts" />
     <TypeScriptCompile Include="typings\globals\mongodb\index.d.ts" />

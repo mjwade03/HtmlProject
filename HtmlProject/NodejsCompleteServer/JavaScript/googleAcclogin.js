@@ -1,3 +1,4 @@
+
 function onSignIn(googleUser) {
     var profile = googleUser.getBasicProfile();
     console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
@@ -25,7 +26,23 @@ function onSuccess(googleUser) {
             $('.userContent').html(profileHTML);
             $('#gSignIn').slideUp('slow');
             $('#facebookSignIn').slideUp('slow');
-            var respjson = JSON.stringify(resp);
+            // Build the post string from an object
+            var post_data = {};
+            post_data.id = resp.id;
+            post_data.name = resp.name.givenName;
+            post_data.email = resp.emails[0].value;
+            //var respjson = JSON.stringify(resp);
+            // And POST send the resp over to the server
+            $.ajax({
+                type: 'POST',
+                url: node_jsServerUrl + "LoginData",
+                data: JSON.stringify(post_data),
+                dataType: 'text',
+                success: function (data) {
+                    console.log('success');
+                    console.log(JSON.stringify(data));
+                },
+            });
         });
     });
 }

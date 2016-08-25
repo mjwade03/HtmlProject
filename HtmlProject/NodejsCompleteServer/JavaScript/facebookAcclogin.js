@@ -80,6 +80,23 @@ function SignInAPI() {
         console.log('Successful login for: ' + response.name);
         document.getElementById('status').innerHTML =
             'Thanks for logging in, ' + response.name + '!';
+
+        var post_data = {};
+        post_data.id = response.id;
+        post_data.name = response.name;
+        post_data.email = response.email;
+        // And POST send the resp over to the server
+        $.ajax({
+            type: 'POST',
+            url: node_jsServerUrl + "LoginData",
+            data: JSON.stringify(post_data),
+            dataType: 'text',
+            success: function (data) {
+                console.log('success');
+                console.log(JSON.stringify(data));
+            },
+        });
+
     });
 }
 
