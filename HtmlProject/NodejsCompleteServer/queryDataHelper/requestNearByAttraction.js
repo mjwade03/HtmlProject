@@ -87,14 +87,14 @@ function getPositionUV(response)
             var gotUVCount = 0;
             for (var index = 0; index < UVStatusArray.length; index++)
             {
-                DBHelper.findSpecificDataInDB("UV", "SiteName", UVStatusArray[index].SiteName, function (err, data)
+                DBHelper.findSpecificDataInDB("UV", "SiteName", UVStatusArray[index].SiteName, function (err, findData)
                 {
 
                     for (var i = 0; i < UVStatusArray.length; i++)
                     {
-                        if (UVStatusArray[i].SiteName == data.SiteName)
+                        if (UVStatusArray[i].SiteName == findData.SiteName)
                         {
-                            UVStatusArray[i].UVI = data.UVI;
+                            UVStatusArray[i].UVI = findData.UVI;
                             break;
                         }
                     }                    
@@ -122,12 +122,12 @@ function getPositionAirStatus(response)
             airStatusArray = JSON.parse(data);
             var gotAirCount = 0;
             for (var index = 0; index < airStatusArray.length; index++) {
-                DBHelper.findSpecificDataInDB("AirPollutant", "SiteName", airStatusArray[index].SiteName, function (err, data) {
+                DBHelper.findSpecificDataInDB("AirPollutant", "SiteName", airStatusArray[index].SiteName, function (err, findData) {
 
                     for (var i = 0; i < airStatusArray.length; i++) {
-                        if (airStatusArray[i].SiteName == data.SiteName) {
-                            airStatusArray[i].Status = data.Status;
-                            airStatusArray[i].PM2_5 = data.PM2_5;
+                        if (airStatusArray[i].SiteName == findData.SiteName) {
+                            airStatusArray[i].Status = findData.Status;
+                            airStatusArray[i].PM2_5 = findData.PM2_5;
                             break;
                         }
                     }
@@ -178,6 +178,7 @@ function generateFinalData(response)
                 if (distance < minDistance) {
                     if (realTimeWeatherStatusArray[weatherIndex].weatherElement[4].elementValue[0].value[0] > 0)
                         attractionArray[attractionIndex].Temperature = realTimeWeatherStatusArray[weatherIndex].weatherElement[4].elementValue[0].value[0];
+
                 }
             }
 
