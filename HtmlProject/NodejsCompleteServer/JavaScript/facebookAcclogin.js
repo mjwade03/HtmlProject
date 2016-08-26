@@ -22,6 +22,9 @@ function statusChangeCallback(response) {
         'into Facebook.';
         if (loginuserdata) {
             loginuserdata.islogin = 'N';
+            getDateTime(function (resp) {
+                loginuserdata.logoutTime = resp;
+            });
             // And POST send the resp over to the server
             $.ajax({
                 type: 'POST',
@@ -29,6 +32,7 @@ function statusChangeCallback(response) {
                 data: JSON.stringify(loginuserdata),
                 dataType: 'text',
                 success: function (data) {
+                    delCookie("currentUser");
                     generate('success', 'Facebook 登出成功!!!');
                     console.log('success');
                     console.log(JSON.stringify(data));
@@ -105,6 +109,9 @@ function SignInAPI() {
         post_data.name = response.name;
         post_data.email = response.email;
         post_data.islogin = 'Y';
+        getDateTime(function (resp) {
+            post_data.loginTime = resp;
+        });
         // And POST send the resp over to the server
         $.ajax({
             type: 'POST',
@@ -112,6 +119,7 @@ function SignInAPI() {
             data: JSON.stringify(post_data),
             dataType: 'text',
             success: function (data) {
+                setCookie("currentUser", post_data.id, 1);
                 generate('success', 'Facebook 登入成功!!!');
                 console.log('success');
                 console.log(JSON.stringify(data));

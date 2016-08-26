@@ -131,6 +131,34 @@ function findField(tbName, queryField, callback) {
     });
 }
 
+function findDatas(tbName, queryField, callback) {
+    getConnection(function (err, db) {
+        if (!err) {
+            db.collection(tbName, function (err, collection) {
+                collection.find(queryField, function (err, item) {
+                    if (!err) {
+                        console.log(tbName + " find success!");
+                        item.toArray(function (err, docs) {
+                            if (!err) {
+                                callback(err, docs);
+                            }
+                            else
+                                callback(err, null);
+                        });
+                    }
+                    else {
+                        console.log("TableName:" + tbName + "query:" + queryField + "is not Find!!!");
+                        console.log("ErrorMessage:" + err.message);
+                        callback(err, null);
+                    }
+                });
+            });
+        }
+        else
+            callback(err, null);
+    });
+}
+
 function findId(tbName, querykey, callback) {
     getConnection(function (err, db) {
         if (!err) {
@@ -246,6 +274,7 @@ exports.replaceId = replaceId;
 exports.remove = remove;
 exports.find = find;
 exports.findField = findField;
+exports.findDatas = findDatas;
 exports.findId = findId;
 exports.findAll = findAll;
 exports.SetDataToDB = SetDataToDB;

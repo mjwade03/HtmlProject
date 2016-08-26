@@ -33,6 +33,9 @@ function onSuccess(googleUser) {
             post_data.name = resp.name.givenName;
             post_data.email = resp.emails[0].value;
             post_data.islogin = 'Y';
+            getDateTime(function (resp) {
+                post_data.loginTime = resp;
+            });
             //var respjson = JSON.stringify(resp);
             // And POST send the resp over to the server
             $.ajax({
@@ -41,6 +44,7 @@ function onSuccess(googleUser) {
                 data: JSON.stringify(post_data),
                 dataType: 'text',
                 success: function (data) {
+                    setCookie("currentUser", post_data.id, 1);
                     generate('success', "Google+ 登入成功!!!");
                     console.log('success');
                     console.log(JSON.stringify(data));
@@ -99,12 +103,16 @@ function signOut() {
     var auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function () {
         loginuserdata.islogin = 'N';
+        getDateTime(function (resp) { 
+            loginuserdata.logoutTime = resp;
+        });
         $.ajax({
             type: 'POST',
             url: node_jsServerUrl + "LoginData",
             data: JSON.stringify(loginuserdata),
             dataType: 'text',
             success: function (data) {
+                delCookie("currentUser");
                 generate('success', "Google+ 登出成功!!!");
                 console.log('success');
             },
@@ -114,4 +122,15 @@ function signOut() {
         $('#gSignIn').slideDown('slow');
         $('#facebookSignIn').slideDown('slow');
     });
+}
+
+function getDateTime(callback) {
+    var timeDate = new Date();
+    var tMonth = (timeDate.getMonth() + 1) > 9 ? (timeDate.getMonth() + 1) : '0' + (timeDate.getMonth() + 1);
+    var tDate = timeDate.getDate() > 9 ? timeDate.getDate() : '0' + timeDate.getDate();
+    var tHours = timeDate.getHours() > 9 ? timeDate.getHours() : '0' + timeDate.getHours();
+    var tMinutes = timeDate.getMinutes() > 9 ? timeDate.getMinutes() : '0' + timeDate.getMinutes();
+    var tSeconds = timeDate.getSeconds() > 9 ? timeDate.getSeconds() : '0' + timeDate.getSeconds();
+    var now = timeDate.getFullYear() + '-' + tMonth + '-' + tDate + ' ' + tHours + ':' + tMinutes + ':' + tSeconds;
+    callback(now);
 }

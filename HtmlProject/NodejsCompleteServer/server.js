@@ -25,6 +25,7 @@ mongodb.open();
 
 // Login
 var AccountData = require("./loginHelper/AccountLogin");
+var Bookmark = require("./loginHelper/Bookmark");
 
 // 提出http request去要資料的time out時間 以ms為單位
 var httpRequestTimeout = 2000;
@@ -199,9 +200,57 @@ app.post('/LoginData', function (request, response) {
         console.log("Receive the request to Login data");
         console.log("=================================================");
         console.log("");
-        response.end('Test LoginData'); //作出回應
-        AccountData.loginDataToDB("LoginData", jsonString);
+        AccountData.loginDataToDB(response, "LoginData", jsonString);
+        //response.end('LoginData '); //作出回應
     });
+});
+
+// 紀錄喜愛地點資訊
+app.get('/AddLocationBookmark', function (request, response) {
+    response.writeHead(200, { "Access-Control-Allow-Origin": "*", "Content-Type": "text/html; charset=utf-8" });
+    console.log("");
+    console.log("=================================================");
+    console.log("Receive the request add location to bookmark");
+    var targetid = request.query.id;
+    var targetAddr = request.query.Addr;
+    var targetLat = request.query.Lat;
+    var targetLon = request.query.Lon;
+    console.log("With parameter: " + targetid + ", " + targetAddr + ", " + targetLat + ", " + targetLon);
+    console.log("=================================================");
+    console.log("");
+    Bookmark.addLocation(response, targetid, targetAddr, targetLat, targetLon);
+});
+
+// 移除喜愛地點資訊
+app.get('/RemoveLocationBookmark', function (request, response) {
+    response.writeHead(200, { "Access-Control-Allow-Origin": "*", "Content-Type": "text/html; charset=utf-8" });
+    console.log("");
+    console.log("=================================================");
+    console.log("Receive the request remove location to bookmark");
+    var targetid = request.query.id;
+    var targetAddr = request.query.Addr;
+    var targetLat = request.query.Lat;
+    var targetLon = request.query.Lon;
+    console.log("With parameter: " + targetid + ", " + targetAddr + ", " + targetLat + ", " + targetLon);
+    console.log("=================================================");
+    console.log("");
+    Bookmark.removeLocation(response, targetid, targetAddr, targetLat, targetLon);
+});
+
+// 取得喜愛地點資訊
+app.get('/GetLocationBookmarks', function (request, response) {
+    response.writeHead(200, { "Access-Control-Allow-Origin": "*", "Content-Type": "text/html; charset=utf-8" });
+    console.log("");
+    console.log("=================================================");
+    console.log("Receive the request to query bookmarks by id");
+    var targetid = request.query.id;
+    var targetAddr = request.query.Addr;
+    var targetLat = request.query.Lat;
+    var targetLon = request.query.Lon;
+    console.log("With parameter: " + targetid + ", " + targetAddr + ", " + targetLat + ", " + targetLon);
+    console.log("=================================================");
+    console.log("");
+    Bookmark.getLocationBookmark(response, targetid, targetAddr, targetLat, targetLon);
 });
 
 

@@ -1,5 +1,6 @@
 ﻿var currentLng;
 var currentLat;
+var currentAddr;
 
 function initMap() {
     geocoder = new google.maps.Geocoder();
@@ -78,12 +79,15 @@ function getAddress2(latLng) {
 // 設定 marker 的訊息泡泡
 function showAddressOfResult(result, marker) {
     myMap.setCenter(marker.getPosition());
+    currentAddr = result.formatted_address;
     var popupContent = '<b>地址: </b> ' + result.formatted_address + '<br>' +
         '<b>溫度: </b>' + currentTemp + '<br>' +
         '<b>紫外線等級: </b>' + currentUVStatus + '<br>' +
         '<b>PM2.5等級: </b>' + cuuentPM2_5 + '<br>' +
         '<b>空氣品質: </b>' + currentAirPollutantStatus + '<br><br>' +
-        '<a href="javascript: void(0)" onclick="onClick()"  target="_parent" style="font-size:150%;">附近資訊</a>';
+        '<a href="javascript: void(0)" onclick="onClick()"  target="_parent" style="font-size:150%;">附近資訊</a>' + '<br>' +
+        '<a href="javascript: void(0)" onclick="AddLocationBookmark()" target="_parent" style="font-size:120%;">★紀錄地點</a>' + '<br>' +
+        '<a href="javascript: void(0)" onclick="RemoveLocationBookmark()" target="_parent" style="font-size:120%;">★移除紀錄</a>';
     popup.setContent(popupContent);
     popup.open(myMap, marker);
 }
@@ -184,22 +188,64 @@ function saveAddress() {
     var address = document.getElementById('pac-input').value;
     if (address != "") {
         setCookie("address", address, 365);
+        generate('success', address + ' - 紀錄成功!!!');
     }
     else
         generate('warning', '請輸入地點!!!');
 }
 
+function AddLocationBookmark() {
+    var result = getCookie("currentUser");
+    if (result == "") {
+        result = "123456789";
+    }
+
+    $.ajax({
+        type: 'GET',
+        url: node_jsServerUrl + "AddLocationBookmark?id=" + result + "&Addr=" + currentAddr + "&Lat=" + currentLat + "&Lon=" + currentLng,
+        success: function (response) {
+            generate('success', currentAddr + ' - 紀錄成功!!!');
+        }
+    });
+}
+
+function RemoveLocationBookmark() {
+
+    var result = getCookie("currentUser");
+    if (result == "") {
+        result = "123456789";
+    }
+
+    $.ajax({
+        type: 'GET',
+        url: node_jsServerUrl + "RemoveLocationBookmark?id=" + result + "&Addr=" + currentAddr + "&Lat=" + currentLat + "&Lon=" + currentLng,
+        success: function (response) {
+            generate('success', currentAddr + ' - 移除紀錄成功!!!');
+        }
+    });
+}
+
 function loadAddress() {
-    checkCookie();
+    checkCookie("address");
+    var result = getCookie("currentUser");
+    if (result == "") {
+        result = "123456789";
+    }
+    $.ajax({
+        type: 'GET',
+        url: node_jsServerUrl + "GetLocationBookmarks?id=" + result + "&Addr=" + '' + "&Lat=" + '' + "&Lon=" + '',
+        success: function (response) {
+            generate('success', result + ' - 取得紀錄成功!!!');
+        }
+    });
     ShowAddress();
 }
 
-function setCookie(addr, avalue, exdays) {
+function setCookie(key, avalue, exdays) {
     var d = new Date();
     d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
     var expires = "expires=" + d.toUTCString();
-    document.cookie = addr + "=" + avalue + "; " + expires;
-    generate('success', avalue + ' - 紀錄成功!!!');
+    document.cookie = key + "=" + avalue + "; " + expires;
 }
 
 function generate(type, text) {
@@ -245,8 +291,8 @@ function generate(type, text) {
 //    generate('success');
 //}
 
-function getCookie(addr) {
-    var address = addr + "=";
+function getCookie(key) {
+    var address = key + "=";
     var ca = document.cookie.split(';');
     for (var i = 0; i < ca.length; i++) {
         var c = ca[i];
@@ -260,11 +306,19 @@ function getCookie(addr) {
     return "";
 }
 
-function checkCookie() {
-    var address = getCookie("address");
-    if (address != "") {
-        document.getElementById('pac-input').value = address;
+function checkCookie(key) {
+    var result = getCookie(key);
+    if (result != "") {
+        document.getElementById('pac-input').value = result;
     }
     else
         generate('information', '無紀錄!!!');
+}
+
+function delCookie(key)//删除cookie
+{
+    var exp = new Date();
+    exp.setTime(exp.getTime() - 1);
+    var cval = getCookie(key);
+    if (cval != null) document.cookie = key + "=" + cval + ";expires=" + exp.toGMTString();
 }

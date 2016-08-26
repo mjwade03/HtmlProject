@@ -36,6 +36,7 @@
     <Compile Include="JavaScript\JavaScript.js" />
     <Compile Include="JavaScript\NearByData.js" />
     <Compile Include="JavaScript\WeatherData.js" />
+    <Compile Include="loginHelper\Bookmark.js" />
     <Compile Include="mongodb.js" />
     <Compile Include="queryDataHelper\DBHelper\mongodHelper.js" />
     <Compile Include="queryDataHelper\requestAirPollutantData.js" />
