@@ -19,8 +19,8 @@ var realTimeWeatherStatusDataArray;
 var alreadyGotRealTimeStatus = false;
 
 // 自訂的Node.js server
-//var node_jsServerUrl = "http://127.0.0.1:3000/";
-var node_jsServerUrl = "http://10.1.4.174:3000/";
+var node_jsServerUrl = "http://127.0.0.1:3000/";
+//var node_jsServerUrl = "http://10.1.4.174:3000/";
 // 顯示天氣狀況的icon
 var weatherIconUrl = 'Image/WeatherIcon/';
 

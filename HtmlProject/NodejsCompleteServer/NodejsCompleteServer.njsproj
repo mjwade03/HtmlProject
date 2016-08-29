@@ -61,12 +61,14 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="css\" />
+    <Folder Include="Image\" />
     <Folder Include="JavaScript\" />
     <Folder Include="AdditionalFile\" />
     <Folder Include="loginHelper\" />
     <Folder Include="queryDataHelper\DBHelper\" />
     <Folder Include="subPage\" />
     <Folder Include="queryDataHelper\" />
+    <Folder Include="subPage\Image\" />
     <Folder Include="typings\" />
     <Folder Include="typings\globals\" />
     <Folder Include="typings\globals\body-parser\" />
