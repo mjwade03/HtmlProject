@@ -40,7 +40,7 @@ var currentAirPollutantStatus;
 var alreadyGetLocation = false;
 function load() {
 
-
+    alert(screen.width);
     loadUVJsonpData();
     loadUVSitenData();
     loadAirPollutantJsonData();
