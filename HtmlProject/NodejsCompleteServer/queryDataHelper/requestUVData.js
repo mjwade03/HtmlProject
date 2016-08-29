@@ -20,15 +20,19 @@ function getUVData(response, httpRequestTimeout)
         });
         res.on('end', function () {
             console.log('Data ended');
+            if (resultString.length > 10) {
+                // Write the data into db with table name
+                DBHelper.saveDataToDB(UVTableName, resultString);
 
-            // Write the data into db with table name
-            DBHelper.saveDataToDB(UVTableName, resultString);
-            
-            // Response the data back to client
-            if (response.connection)
+                // Response the data back to client
+                if (response.connection) {
+                    response.write(resultString);
+                    response.end();
+                }
+            }
+            else
             {
-                response.write(resultString);
-                response.end();
+                DBHelper.getDataFromDB(UVTableName, 'Data incomplete', response);
             }
         });
     });

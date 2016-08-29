@@ -29,18 +29,22 @@ function getRealTimeWeatherStatusData(response, httpRequestTimeout)
                 //console.log(result.cwbopendata.location);
                 if (result) {
                     var jsonString = JSON.stringify(result);
+                    if (jsonString.length > 10) {
+                        // Replace the dollar sign in json string
+                        var outString = jsonString.replace("$", "cwbversion");
 
-                    // Replace the dollar sign in json string
-                    var outString = jsonString.replace("$", "cwbversion");
+                        // Write the data into db with table name
+                        DBHelper.saveDataToDB(RealTimeWeatherStatusTableName, outString);
 
-                    // Write the data into db with table name
-                    DBHelper.saveDataToDB(RealTimeWeatherStatusTableName, outString);
-
-                    // Response the data back to client
-                    if (response.connection)
+                        // Response the data back to client
+                        if (response.connection) {
+                            response.write(outString);
+                            response.end();
+                        }
+                    }
+                    else
                     {
-                        response.write(outString);
-                        response.end();
+                        DBHelper.getDataFromDB(RealTimeWeatherStatusTableName, 'Data incomplete', response);
                     }
                 }
                 else {

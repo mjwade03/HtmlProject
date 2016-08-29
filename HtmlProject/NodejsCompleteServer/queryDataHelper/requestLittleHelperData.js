@@ -31,16 +31,21 @@ function getLittleHelperData(response, targetXml, httpRequestTimeout)
                 if (result) {
                     var jsonString = JSON.stringify(result);
 
-                    // Replace the dollar sign in json string
-                    var outString = jsonString.replace("$", "cwbversion");
-                    // Write the data into db with table name
-                    DBHelper.saveDataToDB(LittleHelperTableName + "_" + targetXml, outString);
-
-                    // Response the data back to client
-                    if (response.connection)
+                    if (jsonString.length > 10)
                     {
-                        response.write(outString);
-                        response.end();
+                        // Replace the dollar sign in json string
+                        var outString = jsonString.replace("$", "cwbversion");
+                        // Write the data into db with table name
+                        DBHelper.saveDataToDB(LittleHelperTableName + "_" + targetXml, outString);
+
+                        // Response the data back to client
+                        if (response.connection) {
+                            response.write(outString);
+                            response.end();
+                        }
+                    }
+                    else {
+                        DBHelper.getDataFromDB(LittleHelperTableName + "_" + targetXml, 'Data incomplete', response);
                     }
                 }
                 else

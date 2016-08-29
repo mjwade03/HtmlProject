@@ -21,16 +21,20 @@ function getUVSiteData(response, httpRequestTimeout)
         res.on('end', function () {
             console.log('Data ended');
 
-            // Write the data into db with table name
-            DBHelper.saveDataToDB(UVSiteTableName, resultString);
+            if (resultString.length > 10) {
+                // Write the data into db with table name
+                DBHelper.saveDataToDB(UVSiteTableName, resultString);
 
-            // Response the data back to client
-            if (response.connection)
-            {
-                response.write(resultString);
-                response.end();
+                // Response the data back to client
+                if (response.connection) {
+                    response.write(resultString);
+                    response.end();
+                }
             }
-
+            else
+            {
+                DBHelper.getDataFromDB(UVSiteTableName, 'Data incomplete', response);
+            }
         });
     });
     req.on('error', function (e) {

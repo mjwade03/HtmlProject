@@ -32,14 +32,19 @@ function getWeatherReportData(response, targetCity, httpRequestTimeout)
             if (json && json[0].children) {
                 var jsonString = JSON.stringify(json);
 
-                // Write the data into db with table name
-                DBHelper.saveDataToDB(WeatherReportTableName + targetCity, jsonString);
+                if (jsonString.length > 10) {
+                    // Write the data into db with table name
+                    DBHelper.saveDataToDB(WeatherReportTableName + targetCity, jsonString);
 
-                // Response the data back to client
-                if (response.connection)
+                    // Response the data back to client
+                    if (response.connection) {
+                        response.write(jsonString);
+                        response.end();
+                    }
+                }
+                else
                 {
-                    response.write(jsonString);
-                    response.end();
+                    DBHelper.getDataFromDB(WeatherReportTableName + targetCity, 'Data incomplete', response);
                 }
             }
             else {

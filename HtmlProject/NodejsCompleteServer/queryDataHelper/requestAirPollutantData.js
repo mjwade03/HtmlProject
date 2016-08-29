@@ -20,17 +20,21 @@ function getAirPollutantData(response, httpRequestTimeout)
         res.on('end', function () {
             console.log('Data ended');
 
-            // Replace the dot in json string
-            var outString = resultString.replace(/\PM2.5/g, 'PM2_5');
+            if (resultString.length > 10) {
+                // Replace the dot in json string
+                var outString = resultString.replace(/\PM2.5/g, 'PM2_5');
 
-            // Write the data into db with table name
-            DBHelper.saveDataToDB(AirPollutantTableName, outString);
+                // Write the data into db with table name
+                DBHelper.saveDataToDB(AirPollutantTableName, outString);
 
-            // Response the data back to client
-            if (response.connection)
-            {
-                response.write(outString);
-                response.end();
+                // Response the data back to client
+                if (response.connection) {
+                    response.write(outString);
+                    response.end();
+                }
+            }
+            else {
+                DBHelper.getDataFromDB(AirPollutantTableName, 'Data incomplete', response);
             }
 
         });

@@ -33,14 +33,19 @@ function getOneWeekWeatherReportData(response, targetCity, httpRequestTimeout)
             if (json && json[0].children) {
                 var jsonString = JSON.stringify(json);
 
-                // Write the data into db with table name
-                DBHelper.saveDataToDB(OneWeekWeatherReportTableName + targetCity, jsonString);
+                if (jsonString.length > 10) {
+                    // Write the data into db with table name
+                    DBHelper.saveDataToDB(OneWeekWeatherReportTableName + targetCity, jsonString);
 
-                // Response the data back to client
-                if (response.connection)
+                    // Response the data back to client
+                    if (response.connection) {
+                        response.write(jsonString);
+                        response.end();
+                    }
+                }
+                else
                 {
-                    response.write(jsonString);
-                    response.end();
+                    DBHelper.getDataFromDB(OneWeekWeatherReportTableName + targetCity, 'Data incomplete', response);
                 }
             }
             else {
