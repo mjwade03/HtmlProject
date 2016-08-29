@@ -1,6 +1,7 @@
 ﻿var currentLng;
 var currentLat;
 var currentAddr;
+var bookmarks;
 
 function initMap() {
     geocoder = new google.maps.Geocoder();
@@ -46,7 +47,8 @@ function initMap() {
             return;
         }
 
-        ShowAddress();
+        var address = document.getElementById('pac-input').value;
+        ShowAddress(address);
     });
     // checkCookie();
 }
@@ -80,16 +82,31 @@ function getAddress2(latLng) {
 function showAddressOfResult(result, marker) {
     myMap.setCenter(marker.getPosition());
     currentAddr = result.formatted_address;
-    var popupContent = '<b>地址: </b> ' + result.formatted_address + '<br>' +
-        '<b>溫度: </b>' + currentTemp + '<br>' +
-        '<b>紫外線等級: </b>' + currentUVStatus + '<br>' +
-        '<b>PM2.5等級: </b>' + cuuentPM2_5 + '<br>' +
-        '<b>空氣品質: </b>' + currentAirPollutantStatus + '<br><br>' +
-        '<a href="javascript: void(0)" onclick="onClick()"  target="_parent" style="font-size:150%;">附近資訊</a>' + '<br>' +
-        '<a href="javascript: void(0)" onclick="AddLocationBookmark()" target="_parent" style="font-size:120%;">★紀錄地點</a>' + '<br>' +
-        '<a href="javascript: void(0)" onclick="RemoveLocationBookmark()" target="_parent" style="font-size:120%;">★移除紀錄</a>';
-    popup.setContent(popupContent);
-    popup.open(myMap, marker);
+    //getbookmarks();
+    var isExist = checkLocation(currentAddr, function (resp) {
+        if (!resp)
+            var addpopupContent = '<a href="javascript: void(0)" onclick="AddLocationBookmark()" target="_parent" style="font-size:120%;">★紀錄地點</a>' + '<br>';
+        else
+            var addpopupContent = '<a href="javascript: void(0)" onclick="RemoveLocationBookmark()" target="_parent" style="font-size:120%;">★移除紀錄</a>';
+        var popupContent = '<b>地址: </b> ' + result.formatted_address + '<br>' +
+            '<b>溫度: </b>' + currentTemp + '<br>' +
+            '<b>紫外線等級: </b>' + currentUVStatus + '<br>' +
+            '<b>PM2.5等級: </b>' + cuuentPM2_5 + '<br>' +
+            '<b>空氣品質: </b>' + currentAirPollutantStatus + '<br><br>' +
+            '<a href="javascript: void(0)" onclick="onClick()"  target="_parent" style="font-size:150%;">附近資訊</a>' + '<br>' + addpopupContent;
+        popup.setContent(popupContent);
+        popup.open(myMap, marker);
+    });
+    //var popupContent = '<b>地址: </b> ' + result.formatted_address + '<br>' +
+    //    '<b>溫度: </b>' + currentTemp + '<br>' +
+    //    '<b>紫外線等級: </b>' + currentUVStatus + '<br>' +
+    //    '<b>PM2.5等級: </b>' + cuuentPM2_5 + '<br>' +
+    //    '<b>空氣品質: </b>' + currentAirPollutantStatus + '<br><br>' +
+    //    '<a href="javascript: void(0)" onclick="onClick()"  target="_parent" style="font-size:150%;">附近資訊</a>' + '<br>' +
+    //    '<a href="javascript: void(0)" onclick="AddLocationBookmark()" target="_parent" style="font-size:120%;">★紀錄地點</a>' + '<br>' +
+    //    '<a href="javascript: void(0)" onclick="RemoveLocationBookmark()" target="_parent" style="font-size:120%;">★移除紀錄</a>';
+    //popup.setContent(popupContent);
+    //popup.open(myMap, marker);
 }
 
 //定位
@@ -152,12 +169,11 @@ function showError(error) {
 }
 
 //輸入地址取得位置，顯示地圖與資訊
-function ShowAddress() {
-    var address = document.getElementById('pac-input').value;
-    if(address.length > 0){
+function ShowAddress(addr) {
+    if (addr.length > 0){
         if (geocoder) {
             geocoder.geocode({
-                'address': address
+                'address': addr
             }, function (results, status) {
                 myMarker.setMap(undefined);
                 if (status == google.maps.GeocoderStatus.OK) {
@@ -184,11 +200,22 @@ function ShowAddress() {
     }
 }
 
-function saveAddress() {
+function saveLocation() {
     var address = document.getElementById('pac-input').value;
     if (address != "") {
-        setCookie("address", address, 365);
-        generate('success', address + ' - 紀錄成功!!!');
+        var result = getCookie("currentUser");
+        if (result == "") {
+            result = "123456789";
+        }
+
+        $.ajax({
+            type: 'GET',
+            url: node_jsServerUrl + "AddLocationBookmark?id=" + result + "&Addr=" + currentAddr + "&Lat=" + currentLat + "&Lon=" + currentLng,
+            success: function (response) {
+                generate('success', currentAddr + ' - 紀錄成功!!!');
+                ShowAddress(currentAddr);
+            }
+        });
     }
     else
         generate('warning', '請輸入地點!!!');
@@ -205,6 +232,7 @@ function AddLocationBookmark() {
         url: node_jsServerUrl + "AddLocationBookmark?id=" + result + "&Addr=" + currentAddr + "&Lat=" + currentLat + "&Lon=" + currentLng,
         success: function (response) {
             generate('success', currentAddr + ' - 紀錄成功!!!');
+            ShowAddress(currentAddr);
         }
     });
 }
@@ -221,12 +249,45 @@ function RemoveLocationBookmark() {
         url: node_jsServerUrl + "RemoveLocationBookmark?id=" + result + "&Addr=" + currentAddr + "&Lat=" + currentLat + "&Lon=" + currentLng,
         success: function (response) {
             generate('success', currentAddr + ' - 移除紀錄成功!!!');
+            ShowAddress(currentAddr);
         }
     });
 }
 
-function loadAddress() {
-    checkCookie("address");
+function loadLocation() {
+    getbookmarks(function (err, results) {
+        if (results.length > 0) {
+            var data = results[results.length - 1];
+            document.getElementById('pac-input').value = data.Addr;
+            generate('success', data.Addr + ' - 載入成功!!!');
+            ShowAddress(data.Addr);
+        }
+        else
+            generate('information', '無紀錄!!!');
+    });
+
+    //var result = getCookie("currentUser");
+    //if (result == "") {
+    //    result = "123456789";
+    //}
+    //$.ajax({
+    //    type: 'GET',
+    //    url: node_jsServerUrl + "GetLocationBookmarks?id=" + result + "&Addr=" + '' + "&Lat=" + '' + "&Lon=" + '',
+    //    success: function (response) {
+    //        if (response && response.length > 2) {
+    //            generate('success', '取得紀錄成功!!!');
+    //            bookmarks = JSON.parse(response);
+    //            var data = bookmarks[bookmarks.length - 1];
+    //            document.getElementById('pac-input').value = data.Addr;
+    //            ShowAddress();
+    //        }
+    //        else
+    //            generate('information', '無紀錄!!!');
+    //    }
+    //});
+}
+
+function getbookmarks(callback) {
     var result = getCookie("currentUser");
     if (result == "") {
         result = "123456789";
@@ -235,10 +296,28 @@ function loadAddress() {
         type: 'GET',
         url: node_jsServerUrl + "GetLocationBookmarks?id=" + result + "&Addr=" + '' + "&Lat=" + '' + "&Lon=" + '',
         success: function (response) {
-            generate('success', result + ' - 取得紀錄成功!!!');
+            bookmarks = JSON.parse(response);
+            callback(null, bookmarks);
         }
     });
-    ShowAddress();
+}
+
+function checkLocation(addr, callback) {
+    var result = getCookie("currentUser");
+    if (result == "") {
+        result = "123456789";
+    }
+    $.ajax({
+        type: 'GET',
+        url: node_jsServerUrl + "GetLocationBookmarks?id=" + result + "&Addr=" + addr + "&Lat=" + '' + "&Lon=" + '',
+        success: function (response) {
+            if (response && response.length > 2) {
+                callback(true);
+            }
+            else
+                callback(false);
+        }
+    });
 }
 
 function setCookie(key, avalue, exdays) {
@@ -248,39 +327,39 @@ function setCookie(key, avalue, exdays) {
     document.cookie = key + "=" + avalue + "; " + expires;
 }
 
+//function generate(type, text) {
+//    var n = noty({
+//        text: text,
+//        type: type,
+//        dismissQueue: true,
+//        timeout: 2000,
+//        closeWith: ['click'],
+//        layout: 'topCenter',
+//        theme: 'relax',
+//        maxVisible: 10
+//    });
+//    console.log('html: ' + n.options.id);
+//}
+
 function generate(type, text) {
     var n = noty({
         text: text,
         type: type,
         dismissQueue: true,
         timeout: 2000,
-        closeWith: ['click'],
         layout: 'topCenter',
+        closeWith: ['click'],
         theme: 'relax',
-        maxVisible: 10
+        maxVisible: 10,
+        animation: {
+            open: 'animated bounceInDown',
+            close: 'animated bounceOutUp',
+            easing: 'swing',
+            speed: 500
+        }
     });
     console.log('html: ' + n.options.id);
 }
-
-//function generate(type, text) {
-//    var n = noty({
-//        text: text,
-//        type: type,
-//        dismissQueue: true,
-//        timeout: 1000,
-//        layout: 'topCenter',
-//        closeWith: ['click'],
-//        theme: 'relax',
-//        maxVisible: 10,
-//        animation: {
-//            open: 'animated bounceInDown',
-//            close: 'animated bounceOutUp',
-//            easing: 'swing',
-//            speed: 500
-//        }
-//    });
-//    console.log('html: ' + n.options.id);
-//}
 
 //function generateAll() {
 //    generate('alert');
