@@ -19,9 +19,7 @@ var dataSource;
 var ishttps = 'https:' == document.location.protocol ? true : false;
 
 function load()
-{    
-
-
+{
     if (ishttps) {
         console.log("This page running in https");
     } else {

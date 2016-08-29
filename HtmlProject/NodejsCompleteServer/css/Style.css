@@ -67,6 +67,127 @@
     }
 }
 
+@media screen and (max-width:349px) {
+
+    .realTimeWeatherStatusTable th{
+        font-size:12px;
+        font-weight:lighter;
+        font-family:Microsoft JhengHei;
+        color: #828282;
+        text-align:left;
+        padding-right:20px;
+
+    }
+    .realTimeWeatherStatusTable td {
+        font-size:18px;
+        font-family:Microsoft JhengHei;
+        text-align:left;
+        padding-right:20px;
+
+    }
+    .dataTable th {
+        font-size:12px;
+        font-weight:lighter;
+        font-family:Microsoft JhengHei;
+        padding:8px;
+        text-align: center;
+        color: black;
+
+    }
+    .dataTable td {
+        font-size:12px;
+        font-weight:lighter;
+        font-family:Microsoft JhengHei;
+        padding:8px;
+        text-align: left;
+        color: black;
+
+    }
+    .littleHelperField{
+        font-size:12px;
+    }
+}
+@media screen and (max-width:399px) and (min-width:350px) {
+
+    .realTimeWeatherStatusTable th{
+        font-size:14px;
+        font-weight:lighter;
+        font-family:Microsoft JhengHei;
+        color: #828282;
+        text-align:left;
+        padding-right:24px;
+
+    }
+    .realTimeWeatherStatusTable td {
+        font-size:24px;
+        font-family:Microsoft JhengHei;
+        text-align:left;
+        padding-right:24px;
+
+    }
+    .dataTable th {
+        font-size:14px;
+        font-weight:lighter;
+        font-family:Microsoft JhengHei;
+        padding:8px;
+        text-align: center;
+        color: black;
+
+    }
+    .dataTable td {
+        font-size:14px;
+        font-weight:lighter;
+        font-family:Microsoft JhengHei;
+        padding:8px;
+        text-align: left;
+        color: black;
+
+    }
+    .littleHelperField{
+        font-size:14px;
+    }
+}
+@media screen and (min-width:400px) {
+    .realTimeWeatherStatusTable th{
+        font-size:16px;
+        font-weight:lighter;
+        font-family:Microsoft JhengHei;       
+        color: #828282;
+        text-align:left;
+        padding-right:30px;
+
+    }
+    .realTimeWeatherStatusTable td {
+        font-size:40px;
+        font-family:Microsoft JhengHei;
+        text-align:left;
+        padding-right:30px;
+
+    }
+    .dataTable th {
+        font-size:16px;
+        font-weight:lighter;
+        font-family:Microsoft JhengHei;
+        padding:10px;
+        text-align: center;
+        color: black;
+
+    }
+    .dataTable td {
+        font-size:16px;
+        font-weight:lighter;
+        font-family:Microsoft JhengHei;
+        padding:10px;
+        text-align: left;
+        color: black;
+
+    }
+    .littleHelperField{
+        font-size:16px;
+    }
+}
+
+
 /*nav {
     float: left;
     margin: 0;
@@ -80,22 +201,9 @@ article {
     overflow: hidden;
 }
 
-/*table.dataTable,
-table.dataTable tr,
-table.dataTable td {
-    color: red;
-    font-weight: bold;
-    font-size:18px;
-    font-family:Microsoft JhengHei;
-    border: 1px solid black;
-    text-align: center;
-    border-collapse: collapse;
-
-}*/
 div.littleHelperField{
     color:#434343;
     font-family:Microsoft JhengHei;
-    font-size:16px;
     font-weight:lighter;
     line-height:2.0;
 }
@@ -145,7 +253,7 @@ table.dataTable tr:nth-child(odd){
 table.dataTable tr:nth-child(even){
     background-color: lightgray;
 }
-table.dataTable th {
+/*table.dataTable th {
     font-size:16px;
     font-weight:lighter;
     font-family:Microsoft JhengHei;
@@ -160,10 +268,10 @@ table.dataTable td {
 	padding:10px;
     text-align: left;
     color: black;
-}
+}*/
 
 
-table.realTimeWeatherStatusTable,
+/*table.realTimeWeatherStatusTable,
 table.realTimeWeatherStatusTable tr,
 table.realTimeWeatherStatusTable th{
     font-size:16px;
@@ -178,7 +286,7 @@ table.realTimeWeatherStatusTable td {
     font-family:Microsoft JhengHei;
     text-align:left;
     padding-right:30px;
-}
+}*/
 
 #MainBody{
     /*background-image:url(..//Image/01d29ccaf765eff5ce.jpg);
