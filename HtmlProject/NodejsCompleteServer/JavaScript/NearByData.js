@@ -40,7 +40,11 @@ function getNearByAttraction(lon, lat)
                     '<b>溫度: </b> ' + NearByAttractionArray[index].Temperature + '<br>' +
                     '<b>紫外線: </b> ' + getUVLevel(NearByAttractionArray[index].UVI) + '<br>' +
                     '<b>PM2.5: </b> ' + getPM2_5Level(NearByAttractionArray[index].PM2_5) + '<br>' +
-                    '<b>空氣品質: </b> ' + NearByAttractionArray[index].AirStatus;
+                    '<b>空氣品質: </b> ' + NearByAttractionArray[index].AirStatus + '<br>' +
+                    "<a target='_parent' style='font-size:120%;' href='javascript: void(0)' onclick=\"AddBookmark('" +
+                    NearByAttractionArray[index].NAME[0] + ',' + NearByAttractionArray[index].PY[0] * 1 + ',' + NearByAttractionArray[index].PX[0] * 1 + ',' +
+                    NearByAttractionArray[index].Temperature + ',' + getUVLevel(NearByAttractionArray[index].UVI) + ',' +
+                    getPM2_5Level(NearByAttractionArray[index].PM2_5) + ',' + NearByAttractionArray[index].AirStatus + "')\">★紀錄地點</a>" + '<br>';
                     
                     
                 setSubPageMarkerWithTimeoutAndImage(NearByAttractionArray[index].PY[0] * 1, NearByAttractionArray[index].PX[0] * 1, NearByAttractionArray[index].NAME[0], contentString, 'Image/attraction.png', index * 50, 50, 50, false);
@@ -74,6 +78,50 @@ function getNearByBookMarks() {
     });
 }
 
+function checkLocation1(NearByAttraction, callback) {
+    var result = getCookie("currentUser");
+    if (result == "") {
+        result = "123456789";
+    }
+    $.ajax({
+        type: 'GET',
+        url: node_jsServerUrl + "GetLocationBookmarks?id=" + result + "&Addr=" + NearByAttraction.ADD[0] + "&Lat=" + NearByAttraction.PY[0] * 1 + "&Lon=" + NearByAttraction.PX[0] * 1,
+        success: function (response) {
+            if (response && response.length > 2) {
+                callback(true, NearByAttraction);
+            }
+            else
+                callback(false, NearByAttraction);
+        }
+    });
+}
+
+function AddBookmark(currentData) {
+    var result = getCookie("currentUser");
+    if (result == "") {
+        result = "123456789";
+    }
+    var dataArray = currentData.split(",");
+
+    $.ajax({
+        type: 'GET',
+        url: node_jsServerUrl + "AddLocationBookmark?id=" + result + "&Addr=" + dataArray[0] + "&Lat=" + dataArray[1] + "&Lon=" + dataArray[2],
+        success: function (response) {
+            generate('success', dataArray[0] + ' - 紀錄成功!!!');
+            //ShowAddress(dataArray[0]);
+            var contentString = '<b>地點: </b> ' + dataArray[0] + '<br>' +
+                '<b style="color:blue; font-size:120%;">即時天氣資訊</b><br>' +
+                '<b>溫度: </b> ' + dataArray[3] + '<br>' +
+                '<b>紫外線: </b> ' + dataArray[4] + '<br>' +
+                '<b>PM2.5: </b> ' + dataArray[5] + '<br>' +
+                '<b>空氣品質: </b> ' + dataArray[6] + '<br>' +
+                "<a target='_parent' style='font-size:120%;' href='javascript: void(0)' onclick=\"RemoveBookmark('" + dataArray[0] + "')\">★移除紀錄</a>";
+
+            setSubPageMarkerWithTimeoutAndImage(dataArray[1], dataArray[2], dataArray[0], contentString, 'Image/Favorites-icon.png', 1000, 30, 30, false);
+        }
+    });
+}
+
 function RemoveBookmark(addr) {
 
     var result = getCookie("currentUser");
@@ -85,7 +133,7 @@ function RemoveBookmark(addr) {
         type: 'GET',
         url: node_jsServerUrl + "RemoveLocationBookmark?id=" + result + "&Addr=" + addr + "&Lat=" + '' + "&Lon=" + '',
         success: function (response) {
-            generate('success', currentAddr + ' - 移除紀錄成功!!!');
+            generate('success', addr + ' - 移除紀錄成功!!!');
             currentMarker.setMap(undefined);
 
             directionsDisplay.set('directions', null);

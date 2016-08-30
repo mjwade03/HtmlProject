@@ -131,6 +131,7 @@ function setSubPageMarkerWithTimeoutAndImage(lat, lon, displayTitle, displayCont
             position: myLatlng,
             title: displayTitle,
             icon: resizeImage,
+            Draggable: true,
             buborek: displayContent 
         });
 

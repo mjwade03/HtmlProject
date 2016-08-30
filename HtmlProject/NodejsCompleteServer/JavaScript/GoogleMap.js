@@ -170,7 +170,7 @@ function showError(error) {
 
 //輸入地址取得位置，顯示地圖與資訊
 function ShowAddress(addr) {
-    if (addr.length > 0){
+    if (addr && addr.length > 0){
         if (geocoder) {
             geocoder.geocode({
                 'address': addr
