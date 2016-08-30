@@ -1,5 +1,6 @@
 ﻿var srcLng;
 var srcLat;
+var currentMarker;
 
 var directionsDisplay;
 var directionsService = new google.maps.DirectionsService();
@@ -148,7 +149,7 @@ function setSubPageMarkerWithTimeoutAndImage(lat, lon, displayTitle, displayCont
             popup.setContent(this.buborek);
             popup.open(myMap, this);
             $("#DirectionMethodDiv").fadeIn(1000);
-
+            currentMarker = this;
             //document.getElementById('drivingBtn').checked = true;                                   
             currentTargetPosition = this.position;
             calcRoute(new google.maps.LatLng(srcLat, srcLng), this.position, google.maps.DirectionsTravelMode.DRIVING);

@@ -86,7 +86,8 @@ function RemoveBookmark(addr) {
         url: node_jsServerUrl + "RemoveLocationBookmark?id=" + result + "&Addr=" + addr + "&Lat=" + '' + "&Lon=" + '',
         success: function (response) {
             generate('success', currentAddr + ' - 移除紀錄成功!!!');
-            ShowAddress(currentAddr);
+            currentMarker.setMap(undefined);
+            //ShowAddress(currentAddr);
         }
     });
 }
