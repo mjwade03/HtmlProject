@@ -59,7 +59,7 @@ function getLocationBookmark(response, targetid, targetAddr, targetLat, targetLo
         }
         else
             response.write("");
-        response.end("getLocationBookmark Finished!");
+        response.end();
     });
 }
 
