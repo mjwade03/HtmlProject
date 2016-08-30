@@ -48,3 +48,22 @@ function getNearByAttraction(lon, lat)
         }
     });
 }
+
+function getNearByBookMarks() {
+    var result = getCookie("currentUser");
+    if (result == "") {
+        result = "123456789";
+    }
+    $.ajax({
+        type: 'GET',
+        url: node_jsServerUrl + "GetLocationBookmarks?id=" + result + "&Addr=" + '' + "&Lat=" + '' + "&Lon=" + '',
+        success: function (response) {
+            bookmarks = JSON.parse(response);
+            for (var index = 0; index < bookmarks.length; index++) {
+                var contentString = '<b>地點: </b> ' + bookmarks[index].Addr + '<br>';
+
+                setSubPageMarkerWithTimeoutAndImage(bookmarks[index].Lat, bookmarks[index].Lon, bookmarks[index].Addr, contentString, 'Image/Favorites-icon.png', index * 50, 30, 30, false);
+            }
+        }
+    });
+}

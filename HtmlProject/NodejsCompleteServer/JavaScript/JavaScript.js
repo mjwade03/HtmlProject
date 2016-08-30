@@ -59,5 +59,6 @@ function secondLevelPageLoad()
     var x = 0;
     getNearByITaiwanHotSpot(lon, lat);
     getNearByAttraction(lon, lat);
+    getNearByBookMarks();
     initSubPageMap(lat, lon);
 }
