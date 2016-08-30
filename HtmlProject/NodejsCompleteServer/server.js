@@ -26,6 +26,7 @@ mongodb.open();
 // Login
 var AccountData = require("./loginHelper/AccountLogin");
 var Bookmark = require("./loginHelper/Bookmark");
+var BookmarksData = require("./queryDataHelper/requestBookMarksData");
 
 // 提出http request去要資料的time out時間 以ms為單位
 var httpRequestTimeout = 2000;
@@ -251,6 +252,22 @@ app.get('/GetLocationBookmarks', function (request, response) {
     console.log("=================================================");
     console.log("");
     Bookmark.getLocationBookmark(response, targetid, targetAddr, targetLat, targetLon);
+});
+
+// 取得附近喜愛地點資訊
+app.get('/GetNearLocationBookmarks', function (request, response) {
+    response.writeHead(200, { "Access-Control-Allow-Origin": "*", "Content-Type": "text/html; charset=utf-8" });
+    console.log("");
+    console.log("=================================================");
+    console.log("Receive the request to query bookmarks by id");
+    var targetid = request.query.id;
+    var targetAddr = request.query.Addr;
+    var targetLat = request.query.Lat;
+    var targetLon = request.query.Lon;
+    console.log("With parameter: " + targetid + ", " + targetAddr + ", " + targetLat + ", " + targetLon);
+    console.log("=================================================");
+    console.log("");
+    BookmarksData.getBookmarks(response, targetid, targetAddr, targetLat, targetLon);
 });
 
 

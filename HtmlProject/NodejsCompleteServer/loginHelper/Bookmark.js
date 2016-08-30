@@ -2,12 +2,15 @@
 var tableName = "Bookmark";
 
 function addLocation(response, targetid, targetAddr, targetLat, targetLon) {
-    var data = {
-        id : targetid,
-        Addr: targetAddr,
-        Lat: targetLat,
-        Lon: targetLon
-    };
+    var data = {};
+    if (targetid)
+        data.id = targetid;
+    if (targetAddr)
+        data.Addr = targetAddr;
+    if (targetLat)
+        data.Lat = targetLat;
+    if (targetLon)
+        data.Lon = targetLon;
     
     var querykey = { 'Addr': data.Addr };
     mongodb.findField(tableName, querykey, function (err, item) {
@@ -23,12 +26,15 @@ function addLocation(response, targetid, targetAddr, targetLat, targetLon) {
 }
 
 function removeLocation(response, targetid, targetAddr, targetLat, targetLon) {
-    var data = {
-        id: targetid,
-        Addr: targetAddr,
-        Lat: targetLat,
-        Lon: targetLon
-    };
+    var data = {};
+    if (targetid)
+        data.id = targetid;
+    if (targetAddr)
+        data.Addr = targetAddr;
+    if (targetLat)
+        data.Lat = targetLat;
+    if (targetLon)
+        data.Lon = targetLon;
     var querykey = data;
     mongodb.remove(tableName, querykey);
     response.end('RemoveLocation Finished!');

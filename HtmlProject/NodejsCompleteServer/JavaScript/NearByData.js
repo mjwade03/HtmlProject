@@ -56,14 +56,38 @@ function getNearByBookMarks() {
     }
     $.ajax({
         type: 'GET',
-        url: node_jsServerUrl + "GetLocationBookmarks?id=" + result + "&Addr=" + '' + "&Lat=" + '' + "&Lon=" + '',
+        url: node_jsServerUrl + "GetNearLocationBookmarks?id=" + result + "&Addr=" + '' + "&Lat=" + '' + "&Lon=" + '',
         success: function (response) {
             bookmarks = JSON.parse(response);
             for (var index = 0; index < bookmarks.length; index++) {
-                var contentString = '<b>地點: </b> ' + bookmarks[index].Addr + '<br>';
+                var contentString = '<b>地點: </b> ' + bookmarks[index].Addr + '<br>'+
+                '<b style="color:blue; font-size:120%;">即時天氣資訊</b><br>' +
+                    '<b>溫度: </b> ' + bookmarks[index].Temperature + '<br>' +
+                    '<b>紫外線: </b> ' + getUVLevel(bookmarks[index].UVI) + '<br>' +
+                    '<b>PM2.5: </b> ' + getPM2_5Level(bookmarks[index].PM2_5) + '<br>' +
+                    '<b>空氣品質: </b> ' + bookmarks[index].AirStatus + '<br>' +
+                    "<a target='_parent' style='font-size:120%;' href='javascript: void(0)' onclick=\"RemoveBookmark('" + bookmarks[index].Addr + "')\">★移除紀錄</a>";
 
                 setSubPageMarkerWithTimeoutAndImage(bookmarks[index].Lat, bookmarks[index].Lon, bookmarks[index].Addr, contentString, 'Image/Favorites-icon.png', index * 50, 30, 30, false);
             }
         }
     });
 }
+
+function RemoveBookmark(addr) {
+
+    var result = getCookie("currentUser");
+    if (result == "") {
+        result = "123456789";
+    }
+
+    $.ajax({
+        type: 'GET',
+        url: node_jsServerUrl + "RemoveLocationBookmark?id=" + result + "&Addr=" + addr + "&Lat=" + '' + "&Lon=" + '',
+        success: function (response) {
+            generate('success', currentAddr + ' - 移除紀錄成功!!!');
+            ShowAddress(currentAddr);
+        }
+    });
+}
+

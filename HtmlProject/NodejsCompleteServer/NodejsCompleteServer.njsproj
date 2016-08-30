@@ -41,6 +41,7 @@
     <Compile Include="queryDataHelper\DBHelper\mongodHelper.js" />
     <Compile Include="queryDataHelper\requestAirPollutantData.js" />
     <Compile Include="queryDataHelper\requestAirPollutantSiteData.js" />
+    <Compile Include="queryDataHelper\requestBookMarksData.js" />
     <Compile Include="queryDataHelper\requestLittleHelperData.js" />
     <Compile Include="queryDataHelper\requestNearByAttraction.js" />
     <Compile Include="queryDataHelper\requestRealTimeWeatherStatusData.js" />
