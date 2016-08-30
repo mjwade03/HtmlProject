@@ -21,9 +21,9 @@ function onSuccess(googleUser) {
         });
         //Display the user details
         request.execute(function (resp) {
-            var profileHTML = '<div class="profile"><div class="head">Welcome '+resp.name.givenName+'! <a href="javascript:void(0);" onclick="signOut();">Sign out</a></div>';
+            var profileHTML = '<div class="profile"><div class="head">Welcome '+resp.name.givenName+'! <img src="' + resp.image.url + '"/><a href="javascript:void(0);" onclick="signOut();">Sign out</a></div>';
             //profileHTML += '<img src="'+resp.image.url+'"/><div class="proDetails"><p>'+resp.displayName+'</p><p>'+resp.emails[0].value+'</p><p>'+resp.gender+'</p><p>'+resp.id+'</p><p><a href="'+resp.url+'">View Google+ Profile</a></p></div></div>';
-            profileHTML += '<img src="' + resp.image.url + '"/><div class="proDetails"><p>' + resp.displayName + '</p><p>' + resp.emails[0].value + '</p></div></div>';
+            // profileHTML += '<img src="' + resp.image.url + '"/><div class="proDetails"><p>' + resp.displayName + '</p><p>' + resp.emails[0].value + '</p></div></div>';
             $('.userContent').html(profileHTML);
             $('#gSignIn').slideUp('slow');
             $('#facebookSignIn').slideUp('slow');
