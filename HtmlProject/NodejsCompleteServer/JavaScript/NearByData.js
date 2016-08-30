@@ -87,6 +87,10 @@ function RemoveBookmark(addr) {
         success: function (response) {
             generate('success', currentAddr + ' - 移除紀錄成功!!!');
             currentMarker.setMap(undefined);
+
+            directionsDisplay.set('directions', null);
+            document.getElementById('DirectionMethodDiv').style.display = 'none';
+
             //ShowAddress(currentAddr);
         }
     });

@@ -87,23 +87,23 @@ function getPositionUV(response)
             var gotUVCount = 0;
             for (var index = 0; index < UVStatusArray.length; index++)
             {
+                UVStatusArray[index].UVI = "N/A";
                 DBHelper.findSpecificDataInDB("UV", "SiteName", UVStatusArray[index].SiteName, function (err, findData)
                 {
-
-                    for (var i = 0; i < UVStatusArray.length; i++)
+                    if (findData)
                     {
-                        if (UVStatusArray[i].SiteName == findData.SiteName)
-                        {
-                            UVStatusArray[i].UVI = findData.UVI;
-                            break;
-                        }
-                    }                    
+                        for (var i = 0; i < UVStatusArray.length; i++) {
+                            if (UVStatusArray[i].SiteName == findData.SiteName) {
+                                UVStatusArray[i].UVI = findData.UVI;
+                                break;
+                            }
+                        }                        
 
+
+                    }
                     gotUVCount++;
-
                     // To make sure all the UV array have been processed
-                    if (gotUVCount == UVStatusArray.length)
-                    {
+                    if (gotUVCount == UVStatusArray.length) {
                         alreadyGotUVStatus = true;
                         generateFinalData(response);
                     }
@@ -122,13 +122,17 @@ function getPositionAirStatus(response)
             airStatusArray = JSON.parse(data);
             var gotAirCount = 0;
             for (var index = 0; index < airStatusArray.length; index++) {
+                airStatusArray[index].Status = "N/A";
+                airStatusArray[index].PM2_5 = "N/A";
                 DBHelper.findSpecificDataInDB("AirPollutant", "SiteName", airStatusArray[index].SiteName, function (err, findData) {
 
-                    for (var i = 0; i < airStatusArray.length; i++) {
-                        if (airStatusArray[i].SiteName == findData.SiteName) {
-                            airStatusArray[i].Status = findData.Status;
-                            airStatusArray[i].PM2_5 = findData.PM2_5;
-                            break;
+                    if (findData) {
+                        for (var i = 0; i < airStatusArray.length; i++) {
+                            if (airStatusArray[i].SiteName == findData.SiteName) {
+                                airStatusArray[i].Status = findData.Status;
+                                airStatusArray[i].PM2_5 = findData.PM2_5;
+                                break;
+                            }
                         }
                     }
 
