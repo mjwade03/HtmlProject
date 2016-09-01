@@ -6,15 +6,24 @@ var NearByAttractionArray;
 
 function getNearByITaiwanHotSpot(lon, lat)
 {
+    var result = getCookie("currentUser");
+    if (result == "") {
+        result = "123456789";
+    }
     $.ajax({
         type: 'GET',
-        url: node_jsServerUrl + "NearByITaiwan?Lat=" + lat + "&Lon=" + lon,
+        url: node_jsServerUrl + "NearByITaiwan?id=" + result + "&Lat=" + lat + "&Lon=" + lon,
         success: function (response) {
             NearByHotSpotArray = JSON.parse(response);
             for (var index = 0; index < NearByHotSpotArray.length; index++)
             {
                 var contentString = '<b>單位名稱: </b> ' + NearByHotSpotArray[index].Name + '<br>' +
-                    '<b>地址: </b>' + NearByHotSpotArray[index].Address;
+                    '<b>地址: </b>' + NearByHotSpotArray[index].Address + '<br>';
+                if (NearByHotSpotArray[index].isBookmark)
+                    contentString += "<a target='_parent' style='font-size:120%;' href='javascript: void(0)' onclick=\"RemoveBookmark('" + NearByHotSpotArray[index].Name + ',' + false + "')\">★移除紀錄</a>";
+                else
+                    contentString += "<a target='_parent' style='font-size:120%;' href='javascript: void(0)' onclick=\"AddITaiwanBookmark('" +
+                        NearByHotSpotArray[index].Name + ',' + NearByHotSpotArray[index].Lat + ',' + NearByHotSpotArray[index].Lon + "')\">★紀錄地點</a>" + '<br>';
 
                 setSubPageMarkerWithTimeoutAndImage(NearByHotSpotArray[index].Lat, NearByHotSpotArray[index].Lon, NearByHotSpotArray[index].Name, contentString, 'Image/iTaiwan2.png', index * 50, 30, 30, false, false);      
             }
@@ -102,6 +111,40 @@ function checkLocation1(addr, lat, lon, callback) {
     });
 }
 
+function AddITaiwanBookmark(currentData) {
+    var result = getCookie("currentUser");
+    if (result == "") {
+        result = "123456789";
+    }
+    var dataArray = currentData.split(",");
+    $.ajax({
+        type: 'GET',
+        url: node_jsServerUrl + "AddLocationBookmark?id=" + result + "&Addr=" + dataArray[0] + "&Lat=" + dataArray[1] + "&Lon=" + dataArray[2],
+        success: function (response) {
+            generate('success', dataArray[0] + ' - 紀錄成功!!!');
+            var contentString = '<b>地點: </b> ' + dataArray[0] + '<br>' +
+                "<a target='_parent' style='font-size:120%;' href='javascript: void(0)' onclick=\"RemoveBookmark('" + dataArray[0] + "')\">★移除紀錄</a>";
+
+            setSubPageMarkerWithTimeoutAndImage(dataArray[1], dataArray[2], dataArray[0], contentString, 'Image/Favorites-icon.png', 1000, 30, 30, false, true);
+
+            for (var index = 0; index < NearByHotSpotArray.length; index++) {
+                if (dataArray[0] == NearByHotSpotArray[index].Name) {
+                    var contentString = '<b>單位名稱: </b> ' + NearByHotSpotArray[index].Name + '<br>' +
+                        '<b>地址: </b>' + NearByHotSpotArray[index].Address + '<br>';
+
+                    NearByHotSpotArray[index].isBookmark = true;
+                    contentString += "<a target='_parent' style='font-size:120%;' href='javascript: void(0)' onclick=\"RemoveBookmark('" + NearByHotSpotArray[index].Name + ',' + false + "')\">★移除紀錄</a>";
+
+                    currentMarker.setMap(undefined);
+                    setSubPageMarkerWithTimeoutAndImage(NearByHotSpotArray[index].Lat, NearByHotSpotArray[index].Lon, NearByHotSpotArray[index].Name, contentString, 'Image/iTaiwan2.png', index * 50, 30, 30, false, false);      
+
+                    break;
+                }
+            }
+        }
+    });
+}
+
 function AddAttractionBookmark(currentData) {
     var result = getCookie("currentUser");
     if (result == "") {
@@ -171,6 +214,19 @@ function RemoveBookmark(currentData) {
                         bookmarkMarkerArray.splice(index, 1);
                         break;
                     }
+                }
+            }
+            for (var index = 0; index < NearByHotSpotArray.length; index++) {
+                if (currentMarker.title == NearByHotSpotArray[index].Name) {
+                    var contentString = '<b>單位名稱: </b> ' + NearByHotSpotArray[index].Name + '<br>' +
+                        '<b>地址: </b>' + NearByHotSpotArray[index].Address + '<br>';
+                    NearByHotSpotArray[index].isBookmark = true;
+                    contentString += "<a target='_parent' style='font-size:120%;' href='javascript: void(0)' onclick=\"AddITaiwanBookmark('" +
+                        NearByHotSpotArray[index].Name + ',' + NearByHotSpotArray[index].Lat + ',' + NearByHotSpotArray[index].Lon + "')\">★紀錄地點</a>" + '<br>';
+
+                    currentMarker.setMap(undefined);
+                    setSubPageMarkerWithTimeoutAndImage(NearByHotSpotArray[index].Lat, NearByHotSpotArray[index].Lon, NearByHotSpotArray[index].Name, contentString, 'Image/iTaiwan2.png', index * 50, 30, 30, false, false);
+                    break;
                 }
             }
             for (var index = 0; index < NearByAttractionArray.length; index++) {

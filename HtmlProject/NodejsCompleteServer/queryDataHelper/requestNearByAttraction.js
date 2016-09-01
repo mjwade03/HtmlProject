@@ -194,6 +194,7 @@ function generateFinalData(response)
         alreadyGotRealTimeWeatherStatus = false;
         alreadyGotUVStatus = false;
         alreadyGotAirStatus = false;
+        alreadtGotBookmarkData = false;
 
         for (var attractionIndex = 0; attractionIndex < attractionArray.length; attractionIndex++) {
             var currentLat = attractionArray[attractionIndex].PY[0] * 1;
