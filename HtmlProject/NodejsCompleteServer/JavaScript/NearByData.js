@@ -16,7 +16,7 @@ function getNearByITaiwanHotSpot(lon, lat)
                 var contentString = '<b>單位名稱: </b> ' + NearByHotSpotArray[index].Name + '<br>' +
                     '<b>地址: </b>' + NearByHotSpotArray[index].Address;
 
-                setSubPageMarkerWithTimeoutAndImage(NearByHotSpotArray[index].Lat, NearByHotSpotArray[index].Lon, NearByHotSpotArray[index].Name, contentString, 'Image/iTaiwan2.png', index * 50, 30, 30, false);      
+                setSubPageMarkerWithTimeoutAndImage(NearByHotSpotArray[index].Lat, NearByHotSpotArray[index].Lon, NearByHotSpotArray[index].Name, contentString, 'Image/iTaiwan2.png', index * 50, 30, 30, false, false);      
             }
         }
     });
@@ -24,9 +24,13 @@ function getNearByITaiwanHotSpot(lon, lat)
 
 function getNearByAttraction(lon, lat)
 {
+    var result = getCookie("currentUser");
+    if (result == "") {
+        result = "123456789";
+    }
     $.ajax({
         type: 'GET',
-        url: node_jsServerUrl + "NearByAttraction?Lat=" + lat + "&Lon=" + lon,
+        url: node_jsServerUrl + "NearByAttraction?id=" + result + "&Lat=" + lat + "&Lon=" + lon,
         success: function (response) {
             NearByAttractionArray = JSON.parse(response);
             for (var index = 0; index < NearByAttractionArray.length; index++) {
@@ -40,14 +44,16 @@ function getNearByAttraction(lon, lat)
                     '<b>溫度: </b> ' + NearByAttractionArray[index].Temperature + '<br>' +
                     '<b>紫外線: </b> ' + getUVLevel(NearByAttractionArray[index].UVI) + '<br>' +
                     '<b>PM2.5: </b> ' + getPM2_5Level(NearByAttractionArray[index].PM2_5) + '<br>' +
-                    '<b>空氣品質: </b> ' + NearByAttractionArray[index].AirStatus + '<br>' +
-                    "<a target='_parent' style='font-size:120%;' href='javascript: void(0)' onclick=\"AddBookmark('" +
+                    '<b>空氣品質: </b> ' + NearByAttractionArray[index].AirStatus + '<br>';
+                if (NearByAttractionArray[index].isBookmark)
+                    contentString += "<a target='_parent' style='font-size:120%;' href='javascript: void(0)' onclick=\"RemoveBookmark('" + NearByAttractionArray[index].NAME[0] + ',' + false + "')\">★移除紀錄</a>";
+                else
+                    contentString += "<a target='_parent' style='font-size:120%;' href='javascript: void(0)' onclick=\"AddAttractionBookmark('" +
                     NearByAttractionArray[index].NAME[0] + ',' + NearByAttractionArray[index].PY[0] * 1 + ',' + NearByAttractionArray[index].PX[0] * 1 + ',' +
                     NearByAttractionArray[index].Temperature + ',' + getUVLevel(NearByAttractionArray[index].UVI) + ',' +
                     getPM2_5Level(NearByAttractionArray[index].PM2_5) + ',' + NearByAttractionArray[index].AirStatus + "')\">★紀錄地點</a>" + '<br>';
-                    
-                    
-                setSubPageMarkerWithTimeoutAndImage(NearByAttractionArray[index].PY[0] * 1, NearByAttractionArray[index].PX[0] * 1, NearByAttractionArray[index].NAME[0], contentString, 'Image/attraction.png', index * 50, 50, 50, false);
+
+                setSubPageMarkerWithTimeoutAndImage(NearByAttractionArray[index].PY[0] * 1, NearByAttractionArray[index].PX[0] * 1, NearByAttractionArray[index].NAME[0], contentString, 'Image/attraction.png', index * 50, 50, 50, false, false);
             }
         }
     });
@@ -70,33 +76,33 @@ function getNearByBookMarks() {
                     '<b>紫外線: </b> ' + getUVLevel(bookmarks[index].UVI) + '<br>' +
                     '<b>PM2.5: </b> ' + getPM2_5Level(bookmarks[index].PM2_5) + '<br>' +
                     '<b>空氣品質: </b> ' + bookmarks[index].AirStatus + '<br>' +
-                    "<a target='_parent' style='font-size:120%;' href='javascript: void(0)' onclick=\"RemoveBookmark('" + bookmarks[index].Addr + "')\">★移除紀錄</a>";
+                    "<a target='_parent' style='font-size:120%;' href='javascript: void(0)' onclick=\"RemoveBookmark('" + bookmarks[index].Addr + ',' + true + ',' + "Bookmark" + "')\">★移除紀錄</a>";
 
-                setSubPageMarkerWithTimeoutAndImage(bookmarks[index].Lat, bookmarks[index].Lon, bookmarks[index].Addr, contentString, 'Image/Favorites-icon.png', index * 50, 30, 30, false);
+                setSubPageMarkerWithTimeoutAndImage(bookmarks[index].Lat, bookmarks[index].Lon, bookmarks[index].Addr, contentString, 'Image/Favorites-icon.png', index * 50, 30, 30, false, true);
             }
         }
     });
 }
 
-function checkLocation1(NearByAttraction, callback) {
+function checkLocation1(addr, lat, lon, callback) {
     var result = getCookie("currentUser");
     if (result == "") {
         result = "123456789";
     }
     $.ajax({
         type: 'GET',
-        url: node_jsServerUrl + "GetLocationBookmarks?id=" + result + "&Addr=" + NearByAttraction.ADD[0] + "&Lat=" + NearByAttraction.PY[0] * 1 + "&Lon=" + NearByAttraction.PX[0] * 1,
+        url: node_jsServerUrl + "GetLocationBookmarks?id=" + result + "&Addr=" + addr + "&Lat=" + lat + "&Lon=" + lon,
         success: function (response) {
             if (response && response.length > 2) {
-                callback(true, NearByAttraction);
+                callback(true);
             }
             else
-                callback(false, NearByAttraction);
+                callback(false);
         }
     });
 }
 
-function AddBookmark(currentData) {
+function AddAttractionBookmark(currentData) {
     var result = getCookie("currentUser");
     if (result == "") {
         result = "123456789";
@@ -108,7 +114,6 @@ function AddBookmark(currentData) {
         url: node_jsServerUrl + "AddLocationBookmark?id=" + result + "&Addr=" + dataArray[0] + "&Lat=" + dataArray[1] + "&Lon=" + dataArray[2],
         success: function (response) {
             generate('success', dataArray[0] + ' - 紀錄成功!!!');
-            //ShowAddress(dataArray[0]);
             var contentString = '<b>地點: </b> ' + dataArray[0] + '<br>' +
                 '<b style="color:blue; font-size:120%;">即時天氣資訊</b><br>' +
                 '<b>溫度: </b> ' + dataArray[3] + '<br>' +
@@ -117,29 +122,84 @@ function AddBookmark(currentData) {
                 '<b>空氣品質: </b> ' + dataArray[6] + '<br>' +
                 "<a target='_parent' style='font-size:120%;' href='javascript: void(0)' onclick=\"RemoveBookmark('" + dataArray[0] + "')\">★移除紀錄</a>";
 
-            setSubPageMarkerWithTimeoutAndImage(dataArray[1], dataArray[2], dataArray[0], contentString, 'Image/Favorites-icon.png', 1000, 30, 30, false);
+            setSubPageMarkerWithTimeoutAndImage(dataArray[1], dataArray[2], dataArray[0], contentString, 'Image/Favorites-icon.png', 1000, 30, 30, false, true);
+            for (var index = 0; index < NearByAttractionArray.length; index++) {
+                if (dataArray[0] == NearByAttractionArray[index].NAME[0]) {
+                    var contentString = '<b style="color:red; font-size:150%;">' + NearByAttractionArray[index].NAME[0] + '</b>' + '<br>' +
+                        NearByAttractionArray[index].DESCRIPTION[0] + '<br><br>' +
+                        '<b style="color:blue; font-size:120%;">景點資訊</b><br>' +
+                        '<b>地址: </b> ' + NearByAttractionArray[index].ADD[0] + '<br>' +
+                        '<b>開放時間: </b> ' + NearByAttractionArray[index].OPENTIME[0] + '<br><br>' +
+
+                        '<b style="color:blue; font-size:120%;">即時天氣資訊</b><br>' +
+                        '<b>溫度: </b> ' + NearByAttractionArray[index].Temperature + '<br>' +
+                        '<b>紫外線: </b> ' + getUVLevel(NearByAttractionArray[index].UVI) + '<br>' +
+                        '<b>PM2.5: </b> ' + getPM2_5Level(NearByAttractionArray[index].PM2_5) + '<br>' +
+                        '<b>空氣品質: </b> ' + NearByAttractionArray[index].AirStatus + '<br>';
+                    NearByAttractionArray[index].isBookmark = true;
+                    contentString += "<a target='_parent' style='font-size:120%;' href='javascript: void(0)' onclick=\"RemoveBookmark('" + NearByAttractionArray[index].NAME[0] + ',' + false + "')\">★移除紀錄</a>";
+
+                    currentMarker.setMap(undefined);
+                    setSubPageMarkerWithTimeoutAndImage(NearByAttractionArray[index].PY[0] * 1, NearByAttractionArray[index].PX[0] * 1, NearByAttractionArray[index].NAME[0], contentString, 'Image/attraction.png', index * 50, 50, 50, false, false);
+
+                    break;
+                }
+            }
         }
     });
 }
 
-function RemoveBookmark(addr) {
+function RemoveBookmark(currentData) {
 
     var result = getCookie("currentUser");
     if (result == "") {
         result = "123456789";
     }
+    var dataArray = currentData.split(",");
 
     $.ajax({
         type: 'GET',
-        url: node_jsServerUrl + "RemoveLocationBookmark?id=" + result + "&Addr=" + addr + "&Lat=" + '' + "&Lon=" + '',
+        url: node_jsServerUrl + "RemoveLocationBookmark?id=" + result + "&Addr=" + dataArray[0] + "&Lat=" + '' + "&Lon=" + '',
         success: function (response) {
-            generate('success', addr + ' - 移除紀錄成功!!!');
-            currentMarker.setMap(undefined);
+            generate('success', dataArray[0] + ' - 移除紀錄成功!!!');
+            if (dataArray[1] == true)
+                currentMarker.setMap(undefined);
+            else {
+                for (var index = 0; index < bookmarkMarkerArray.length; index++) {
+                    if (bookmarkMarkerArray[index].title == dataArray[0]) {
+                        bookmarkMarkerArray[index].setMap(undefined);
+                        bookmarkMarkerArray.splice(index, 1);
+                        break;
+                    }
+                }
+            }
+            for (var index = 0; index < NearByAttractionArray.length; index++) {
+                if (currentMarker.title == NearByAttractionArray[index].NAME[0]) {
+                    var contentString = '<b style="color:red; font-size:150%;">' + NearByAttractionArray[index].NAME[0] + '</b>' + '<br>' +
+                        NearByAttractionArray[index].DESCRIPTION[0] + '<br><br>' +
+                        '<b style="color:blue; font-size:120%;">景點資訊</b><br>' +
+                        '<b>地址: </b> ' + NearByAttractionArray[index].ADD[0] + '<br>' +
+                        '<b>開放時間: </b> ' + NearByAttractionArray[index].OPENTIME[0] + '<br><br>' +
+
+                        '<b style="color:blue; font-size:120%;">即時天氣資訊</b><br>' +
+                        '<b>溫度: </b> ' + NearByAttractionArray[index].Temperature + '<br>' +
+                        '<b>紫外線: </b> ' + getUVLevel(NearByAttractionArray[index].UVI) + '<br>' +
+                        '<b>PM2.5: </b> ' + getPM2_5Level(NearByAttractionArray[index].PM2_5) + '<br>' +
+                        '<b>空氣品質: </b> ' + NearByAttractionArray[index].AirStatus + '<br>';
+                    NearByAttractionArray[index].isBookmark = true;
+                    contentString += "<a target='_parent' style='font-size:120%;' href='javascript: void(0)' onclick=\"AddAttractionBookmark('" +
+                        NearByAttractionArray[index].NAME[0] + ',' + NearByAttractionArray[index].PY[0] * 1 + ',' + NearByAttractionArray[index].PX[0] * 1 + ',' +
+                        NearByAttractionArray[index].Temperature + ',' + getUVLevel(NearByAttractionArray[index].UVI) + ',' +
+                        getPM2_5Level(NearByAttractionArray[index].PM2_5) + ',' + NearByAttractionArray[index].AirStatus + "')\">★紀錄地點</a>" + '<br>';
+
+                    currentMarker.setMap(undefined);
+                    setSubPageMarkerWithTimeoutAndImage(NearByAttractionArray[index].PY[0] * 1, NearByAttractionArray[index].PX[0] * 1, NearByAttractionArray[index].NAME[0], contentString, 'Image/attraction.png', index * 50, 50, 50, false, false);
+                    break;
+                }
+            }
 
             directionsDisplay.set('directions', null);
             document.getElementById('DirectionMethodDiv').style.display = 'none';
-
-            //ShowAddress(currentAddr);
         }
     });
 }

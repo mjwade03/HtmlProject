@@ -4,23 +4,28 @@ var BufferHelper = require('bufferhelper');
 var $ = require("jquery");
 
 var attractionArray;
+var bookmarkArray;
 var realTimeWeatherStatusArray;
 var UVStatusArray;
 var airStatusArray;
 
 var alreadtGotAttractionData = false;
+var alreadtGotBookmarkData = false;
 var alreadyGotRealTimeWeatherStatus = false;
 var alreadyGotUVStatus = false;
 var alreadyGotAirStatus = false;
+var alreadyGotid;
 
 var attractionDistance = 0.3;
 
-function getNearByAttraction(response, targetLat, targetLon) {
+function getNearByAttraction(response, targetid, targetLat, targetLon) {
 
     // Trigger to get current weather status from database
+    getBookmarks(response, targetid);
     getPositionTemp(response, targetLat, targetLon);
     getPositionUV(response, targetLat, targetLon);
     getPositionAirStatus(response, targetLat, targetLon);
+    alreadyGotid = targetid;
 
     // Trigger to get all attraction location
     fs = require('fs')
@@ -64,6 +69,25 @@ function getNearByAttraction(response, targetLat, targetLon) {
         }
     });
 }
+
+function getBookmarks(response, targetid) {
+
+    // Trigger to get all bookmarks location
+    var tableName = "Bookmark";
+    var data = {};
+    if (targetid)
+        data.id = targetid;
+    var querykey = data;
+    DBHelper.getLocationBookmark(tableName, querykey, function (err, item) {
+        if (!err && item != null) {
+            console.log(item);
+            bookmarkArray = item;
+            alreadtGotBookmarkData = true;
+            generateFinalData(response);
+        }
+    });
+}
+
 function getPositionTemp(response)
 {
     DBHelper.getCompleteTableFromDB("RealTimeWeatherStatus", function (err, data)
@@ -157,7 +181,9 @@ function generateFinalData(response)
         alreadyGotRealTimeWeatherStatus == true &&
         alreadyGotUVStatus == true &&
         alreadyGotAirStatus == true &&
+        alreadtGotBookmarkData == true &&
         attractionArray &&
+        bookmarkArray &&
         realTimeWeatherStatusArray &&
         UVStatusArray &&
         airStatusArray
@@ -169,15 +195,13 @@ function generateFinalData(response)
         alreadyGotUVStatus = false;
         alreadyGotAirStatus = false;
 
-        for (var attractionIndex = 0; attractionIndex < attractionArray.length; attractionIndex++)
-        {
+        for (var attractionIndex = 0; attractionIndex < attractionArray.length; attractionIndex++) {
             var currentLat = attractionArray[attractionIndex].PY[0] * 1;
             var currentLon = attractionArray[attractionIndex].PX[0] * 1;
 
             // Find the nearest real time weather status site and keep the data to attraction array
             var minDistance = 999999;
-            for (var weatherIndex = 0; weatherIndex < realTimeWeatherStatusArray.length; weatherIndex++)
-            {
+            for (var weatherIndex = 0; weatherIndex < realTimeWeatherStatusArray.length; weatherIndex++) {
                 var distance = Math.abs(currentLat - realTimeWeatherStatusArray[weatherIndex].lat[0] * 1) + Math.abs(currentLon - realTimeWeatherStatusArray[weatherIndex].lon[0] * 1);
                 if (distance < minDistance) {
                     if (realTimeWeatherStatusArray[weatherIndex].weatherElement[4].elementValue[0].value[0] > 0)
@@ -188,11 +212,9 @@ function generateFinalData(response)
 
             // Find the nearest UVI site and keep the data to attraction array
             minDistance = 999999;
-            for (var UVIndex = 0; UVIndex < UVStatusArray.length; UVIndex++)
-            {
+            for (var UVIndex = 0; UVIndex < UVStatusArray.length; UVIndex++) {
                 var distance = Math.abs(currentLat - UVStatusArray[UVIndex].TWD97Lat * 1) + Math.abs(currentLon - UVStatusArray[UVIndex].TWD97Lon * 1);
-                if (distance < minDistance)
-                {
+                if (distance < minDistance) {
                     attractionArray[attractionIndex].UVI = UVStatusArray[UVIndex].UVI
                 }
             }
@@ -206,8 +228,12 @@ function generateFinalData(response)
                     attractionArray[attractionIndex].PM2_5 = airStatusArray[airIndex].PM2_5;
                 }
             }
-
-
+            for (var bkIndex = 0; bkIndex < bookmarkArray.length; bkIndex++) {
+                if (bookmarkArray[bkIndex].Addr == attractionArray[attractionIndex].NAME[0]) {
+                    attractionArray[attractionIndex].isBookmark = true;
+                    break;
+                }
+            }
         }
 
         // Serialize the object to json string

@@ -34,10 +34,6 @@ function getBookmarks(response, targetid, targetAddr, targetLat, targetLon) {
     mongodb.findDatas(tableName, querykey, function (err, item) {
         if (!err && item != null) {
             console.log(item);
-            //var bookmarks = [];
-            //for (var i in item) {
-            //    bookmarks.push([item[i]]);
-            //}
             bookmarkArray = item;
             alreadtGotBookmarkData = true;
             generateFinalData(response);
@@ -167,8 +163,7 @@ function generateFinalData(response) {
                     bookmarkArray[bookmarkIndex].PM2_5 = airStatusArray[airIndex].PM2_5;
                 }
             }
-
-
+            bookmarkArray[bookmarkIndex].isBookmark = true;
         }
 
         // Serialize the object to json string

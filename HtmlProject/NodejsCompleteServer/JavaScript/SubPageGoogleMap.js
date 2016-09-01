@@ -5,6 +5,7 @@ var currentMarker;
 var directionsDisplay;
 var directionsService = new google.maps.DirectionsService();
 var oldDirections = [];
+var bookmarkMarkerArray = [];
 var currentDirections = null;
 var currentDirectionsTravelMode = google.maps.DirectionsTravelMode.DRIVING;
 var currentTargetPosition;
@@ -119,7 +120,7 @@ function setSubPageMarkerWithTimeout(lat, lon, displayContent, timeout) {
 
 }
 
-function setSubPageMarkerWithTimeoutAndImage(lat, lon, displayTitle, displayContent, image, timeout, iconWidth, iconHeight, openPopUp) {
+function setSubPageMarkerWithTimeoutAndImage(lat, lon, displayTitle, displayContent, image, timeout, iconWidth, iconHeight, openPopUp, isbookmark) {
 
     window.setTimeout(function () {
         var resizeImage = {
@@ -137,6 +138,8 @@ function setSubPageMarkerWithTimeoutAndImage(lat, lon, displayTitle, displayCont
 
         // To add the marker to the map, call setMap();
         marker.setMap(myMap);
+        if (isbookmark == true)
+            bookmarkMarkerArray.push(marker);
 
         if (openPopUp == true)
         {
