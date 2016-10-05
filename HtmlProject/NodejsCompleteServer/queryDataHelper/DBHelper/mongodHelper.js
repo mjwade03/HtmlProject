@@ -57,9 +57,22 @@ function findSpecificDataInDB(tableName, fieldName, fieldValue, callback)
 {
     mongodb.find(tableName, fieldName, fieldValue, callback);
 }
+
+function getLocationBookmark(tableName, querykey, callback) {
+    mongodb.findDatas(tableName, querykey, function (err, item) {
+        if (!err && item != null) {
+            console.log(item);
+            callback(err, item);
+        }
+        else
+            callback(err, null);
+    });
+}
+
 exports.getDataFromDB = getDataFromDB;
 exports.saveDataToDB = saveDataToDB;
 exports.saveDataToDB = saveDataToDB;
 
 exports.getCompleteTableFromDB = getCompleteTableFromDB;
 exports.findSpecificDataInDB = findSpecificDataInDB;
+exports.getLocationBookmark = getLocationBookmark;

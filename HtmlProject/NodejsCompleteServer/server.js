@@ -153,12 +153,13 @@ app.get('/NearByITaiwan', function (request, response) {
     console.log("");
     console.log("=================================================");
     console.log("Receive the request to query near by iTaiwan data");
+    var targetid = request.query.id;
     var targetLat = request.query.Lat;
     var targetLon = request.query.Lon;
     console.log("With parameter: " + targetLat + ", " + targetLon);
     console.log("=================================================");
     console.log("");
-    NearByITaiwanData.getNearByITaiwanData(response, targetLat, targetLon);
+    NearByITaiwanData.getNearByITaiwanData(response, targetid, targetLat, targetLon);
 
 });
 
@@ -168,12 +169,13 @@ app.get('/NearByAttraction', function (request, response) {
     console.log("");
     console.log("=================================================");
     console.log("Receive the request to query near by attraction data");
+    var targetid = request.query.id;
     var targetLat = request.query.Lat;
     var targetLon = request.query.Lon;
     console.log("With parameter: " + targetLat + ", " + targetLon);
     console.log("=================================================");
     console.log("");
-    NearByAttractionData.getNearByAttraction(response, targetLat, targetLon);
+    NearByAttractionData.getNearByAttraction(response, targetid, targetLat, targetLon);
 });
 
 
