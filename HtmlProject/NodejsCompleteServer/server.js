@@ -179,7 +179,7 @@ app.get('/NearByAttraction', function (request, response) {
 
 // 投影片
 app.get('/Slide', function (request, response) {
-    response.sendFile(__dirname + '/Slide/天氣概況綜合資訊站.pptx');
+    response.sendFile(__dirname + '/Slide/天氣概況綜合資訊站 - 3rd stage.pptx');
     console.log("");
     console.log("=================================================");
     console.log("Receive the request to show slide");
